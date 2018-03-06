@@ -1,0 +1,17 @@
+- groups.each do |group|
+  .col-md-6
+    .clearfix
+    .media.media_bordered
+      .media-left
+        = link_to(image_tag(group.image.url, class: 'media-object', style: 'width: 80px; height: 80px;'), dashboard_user_group_path(group))
+      .media-body
+        .row
+          .col-sm-8
+            .media-heading
+              = link_to(group.name, dashboard_user_group_path(group))
+            %p
+              = group.description.truncate(100)  
+          .col-sm-4.text-right
+            %br
+            = link_to('Join', send_request_dashboard_user_group_path(group), class: 'btn btn-primary ujs_success_hide', remote: true) if !group.is_member?(current_user.id) && !group.request_sent?(current_user.id)
+            = content_tag :span, 'Request Sent', class: 'btn btn-default disabled' if group.request_sent?(current_user.id)

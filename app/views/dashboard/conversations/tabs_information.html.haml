@@ -1,0 +1,41 @@
+- key = Time.current.to_i.to_s
+%ul.nav.nav-tabs{:role => "tablist"}
+  = content_tag :li, link_to('Messages', "#conversation_messages_tab_#{key}", data:{toggle: 'tab', url: url_for(action: :recent_messages, format: :json)}, :role => "tab"), class: 'tab_messages'
+  = content_tag :li, link_to("Active (#{@qty_friends})", "#conversation_actives_tab_#{key}", data:{toggle: 'tab'}, :role => "tab"), class: 'tab_friends'
+  -#= content_tag :li, link_to('Chat Groups', "#conversation_groups_tab_#{key}", data:{toggle: 'tab', url: url_for(action: :index, format: :json)}, :role => "tab"), class: 'tab_groups'
+  = content_tag :li, link_to('Chat Groups', "#tab_group_conversations_#{key}", data:{toggle: 'tab'}, :role => "tab"), class: 'tab_all_groups'
+.tab-content
+  .tab-pane.tab_messages_content{role: "tabpanel", id: "conversation_messages_tab_#{key}"}
+    .messages_list.empty_msg_panel{'data-empty-msg' => 'There are no messages.'}<
+      = render template: 'dashboard/conversations/recent_messages', locals: {messages: @messages}
+      
+  .tab-pane.tab_friends_content{role: "tabpanel", id: "conversation_actives_tab_#{key}"}
+    .bold.margin_bottom10.margin_top10 Active Users (#{@qty_friends})
+    .online_friends_list.empty_msg_panel{'data-empty-msg' => 'There are no online friends.'}<
+      - if !@friends.any?
+        You have no friends online.
+        %br
+        = link_to 'Make more friends', suggested_friends_dashboard_users_path, remote: true, class: 'ujs_link_modal', 'data-modal-title' => 'Suggested Friends', 'data-disable-with' => button_spinner
+      = render template: 'dashboard/conversations/online_friends', locals:{users: @friends}
+      = view_more_button(url_for(action: :online_friends)) if @qty_friends > @friends.count
+      
+    %hr.sm
+    .bold.margin_bottom10 Interesting Discussions going on:
+    .public_open_list.empty_msg_panel{'data-empty-msg' => 'There are no available discussion groups.'}<
+      = render template: 'dashboard/conversations/list', locals:{groups: @my_public_conversations.limit(4), is_mine: true}
+      = view_more_button(url_for(action: :list, kind: :open, format: :html)) if @my_public_conversations.count > 4
+      
+  -#.tab-pane.tab_groups_content{role: "tabpanel", id: "conversation_groups_tab_#{key}"}
+  -#  .conversations_list
+    -#  here group conversations
+
+  .tab-pane.tab_group_conversations{role: "tabpanel", id: "tab_group_conversations_#{key}"}
+    .group_conversations_list
+      = render template: 'dashboard/conversations/list', locals:{groups: @group_conversations.limit(4), is_mine: true}
+      = view_more_button(url_for(action: :list, kind: :open_all, format: :html)) if @group_conversations.count > 4
+      
+    %hr.sm
+    .bold.margin_bottom10 Chat groups you don't belong to:
+    .public_closed_list.empty_msg_panel{'data-empty-msg' => 'There are no available discussion groups.'}<
+      = render template: 'dashboard/conversations/list', locals:{groups: @public_conversations.limit(4), is_mine: false}
+      = view_more_button(url_for(action: :list, kind: :closed, format: :html)) if @public_conversations.count > 4

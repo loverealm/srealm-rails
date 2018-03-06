@@ -1,0 +1,12 @@
+- btn_class = (btn_class rescue '')
+.suggested-user
+  .media
+    .media-left
+      = user_avatar_widget(user, 30)
+    .media-body
+      .row
+        .col-sm-8.padding_right0
+          .media-heading.ellipsis
+            = link_to_user(user, {class: ''})
+        .col-sm-4.text-right
+          = user.decorate.the_follow_link(extra_class: btn_class)

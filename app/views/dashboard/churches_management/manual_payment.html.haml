@@ -1,0 +1,43 @@
+= form_for @church.payments.manual.new, url: url_for(action: :manual_payment), remote: true, method: :post, html: {class: 'ujs_modal_success ujs_hide_modal hook_caller validate', 'data-callback' => 'ChurchManagement.manual_payment'} do |f|
+  .form-group
+    = f.label :amount, 'Amount (*)'
+    .input-group
+      = f.number_field :amount, class: 'form-control required text-left', placeholder: 'Enter Amount', min: 10
+      %span.input-group-addon= I18n.translate('number.currency.format.unit')
+  
+  .form-group
+    = f.label :goal, 'Type (*)'
+    = f.select :goal, UserGroup::PAYMENT_GOALS.invert, {}, class: 'required form-control'
+
+  .others_tpl
+    .form-group
+      = f.label :payment_at, 'Paid at (*)'
+      = date_picker_input time: true, time_settings: {maxDate: 'now'} do
+        = f.text_field :payment_at, class: 'required form-control required'
+  
+  .pledge_tpl
+    .form-group
+      %label.radio-inline
+        = radio_button_tag :paid, 'yes', true, class: 'paid_radio'
+        Paid
+      %label.radio-inline
+        = radio_button_tag :paid, 'no', false, class: 'paid_radio'
+        Yet to pay
+        
+    .form-group.payment_at_tpl
+      = f.label :payment_at, 'Paid at (*)'
+      = date_picker_input time: true, time_settings: {maxDate: 'now'} do
+        = f.text_field :payment_at, class: 'required form-control required'
+
+    .form-group.payment_in_tpl
+      = f.label :payment_in, 'Pay in (*)'
+      = date_picker_input time_settings: {minDate: 'now'} do
+        = f.text_field :payment_in, class: 'required form-control required'
+  
+
+  .form-group
+    = f.label :user_id, 'Member'
+    = f.select :user_id, '', {}, class: 'form-control hook_caller', 'data-callback' => 'Common.user_autocomplete', 'data-allowClear' => true, 'data-url' => get_users_dashboard_search_index_path(user_group_id: @church.id, kind: 'group_members'), placeholder: 'Type here to search members...'      
+
+  .text-center
+    = button_tag 'Save Payment', class: ' btn btn-primary', 'data-disable-with' => button_spinner

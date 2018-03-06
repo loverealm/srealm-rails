@@ -1,0 +1,129 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "user_credits",
+  "apis": [
+    {
+      "path": "/api/v2/pub/user_credits/used_credits",
+      "operations": [
+        {
+          "summary": "Return the list of transactions made using credits",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserCredits#used_credits",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_credits/buy_credits",
+      "operations": [
+        {
+          "summary": "Buy credits to be used in some payments: Sample pay sms",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "amount",
+              "type": "integer",
+              "description": "Amount of credits to buy (GH¢1.00 = 1Credit)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "payment_method",
+              "type": "string",
+              "description": "Payment method: paypal|stripe|rave (PAYMENT PARAMS)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "stripe_token",
+              "type": "string",
+              "description": "Stripe payment token (required if stripe method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "stripe_transaction_id",
+              "type": "string",
+              "description": "Stripe transaction ID (required if stripe method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "paypal_token",
+              "type": "string",
+              "description": "Paypal payment token (required if paypal method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "rave_token",
+              "type": "string",
+              "description": "Rave payment token (required if rave method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "save_card",
+              "type": "boolean",
+              "description": "Permit to save current transaction card token to be used it in the future. Only for Rave, Stripe",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "payment_card_id",
+              "type": "integer",
+              "description": "Permit to pay using saved card token. Get list of saved cards here: GET /api/v2/pub/user_finances/cards",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserCredits#buy_credits",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_credits",
+      "operations": [
+        {
+          "summary": "Return the list of payments done to get credits",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserCredits#index",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

@@ -1,0 +1,26 @@
+.modal-title Redeem Pledge
+= form_tag url_for(), method: :post, class: 'ujs_hide_modal hook_caller', 'data-callback' => 'MyFinances.ask_pledge_form', remote: true do
+  %p 
+    Your pledge to <b>#{@payment.payable.name}</b> 
+    - if @payment.payment_in == Date.today
+      is due today.
+    - elsif @payment.payment_in == 1.day.from_now.to_date
+      is due tomorrow.
+    - elsif @payment.payment_in < Date.today
+      was due #{l @payment.payment_in, format: :short}.
+    - else
+      will due #{l @payment.payment_in, format: :short}.
+    Do you want to pay now?
+  .text-center.btns
+    = link_to 'Yes', url_for(action: :redeem_pledge, id: @payment), remote: true, class: 'ujs_link_modal ujs_hide_modal btn underline', 'data-disable-with' => button_spinner
+    = link_to 'No', url_for(action: :redeem_pledge, id: @payment), remote: true, class: 'btn_no btn underline'
+    = link_to 'I Already Paid via an alternate method', url_for(action: :delete_pledge, id: @payment), method: :delete, 'data-confirm' => "Are you sure you already redeemed your pledge to #{@payment.payable.name} via an alternate method?", remote: true, class: 'ujs_hide_modal btn underline', 'data-disable-with' => button_spinner
+    
+  .hidden.reschedule_panel
+    .form-group
+      %label Reminder date
+      = date_picker_input time_settings: {'minDate' => 1.day.from_now.to_date.to_s} do
+        = text_field_tag :payment_in, '', class: 'form-control required'
+    
+    .text-center
+      = button_tag 'Reschedule', class: 'btn btn-primary', 'data-disable-with' => button_spinner

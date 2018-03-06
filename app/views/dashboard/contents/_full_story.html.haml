@@ -1,0 +1,14 @@
+:ruby
+  set_meta_tags og: {
+    title: @content.title,
+    type: 'article',
+    image: @content.image.url(:full),
+    description: shortik(@content.description, 140)
+  }
+
+= render layout: 'full_content', locals:{content: @content} do
+  .content-body
+    .content-image
+      = image_tag(@content.image.url(:full))
+    .content-text
+      = raw @content.decorate.the_body

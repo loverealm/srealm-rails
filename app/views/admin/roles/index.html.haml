@@ -1,0 +1,39 @@
+.hook_caller{'data-callback' => 'admin_users_list_page'}
+  %h1 Users List
+  .row
+    .col-md-6
+      = search_form_for @q, url: url_for(action: :index) do |f|
+        .input-group
+          = f.search_field :full_name_or_email_cont, class: 'form-control', placeholder: 'Type here to filter...'
+          %span.input-group-btn
+            = button_tag 'Filter', class: 'btn btn-default'
+
+  %table.table{id: 'users_list_table'}
+    %thead
+      %tr
+        %th #
+        %th Full Name
+        %th Email
+        %th Country
+        %th Regis. at
+        %th Last visit
+        %th Sign in count
+        %th= sort_link(@q, :roles, 'Roles')
+        %th
+    %tbody
+      - @users.each do |user|
+        %tr{'data-id' => user.id, id: "user_row_#{user.id}"}
+          %td= user.id
+          %td= user.full_name
+          %td= user.email
+          %td= user.country
+          %td= l user.created_at, format: :short
+          %td
+            - if user.last_sign_in_at
+              = time_ago_in_words(user.last_sign_in_at)
+              &nbsp;ago
+          %td= user.sign_in_count
+          %td.roles= user.the_roles.join(', ')
+          %td= link_to 'Edit Roles', url_for(action: :edit, id: user), class: 'btn btn-xs btn-default ujs_link_modal', 'data-modal-title' => "Edit Roles for #{user.full_name(false)}", remote: true, 'data-disable-with' => button_spinner
+
+  = paginate @users

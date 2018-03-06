@@ -1,0 +1,5 @@
+= form_tag url_for(action: :pay), authenticity_token: true, class: 'ujs_hide_modal validate', remote: true do
+  = hidden_field_tag 'amount', @promotion.budget
+  .form-group
+    %label Amount: #{number_to_currency(@promotion.budget)}
+  = render 'dashboard/payments/form', recurring: false, card_label: 'Pay and Publish'

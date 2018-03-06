@@ -1,0 +1,45 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "notifications",
+  "apis": [
+    {
+      "path": "/api/v2/pub/notifications/unread_count",
+      "operations": [
+        {
+          "summary": "Return the quantity of unread notifications for current user",
+          "nickname": "Api::V2::Pub::Notifications#unread_count",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/notifications",
+      "operations": [
+        {
+          "summary": "Return list of notifications",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page in pagination",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Notifications#index",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

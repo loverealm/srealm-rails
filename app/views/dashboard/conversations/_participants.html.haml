@@ -1,0 +1,26 @@
+- is_admin = conversation.is_admin?(current_user.id)
+- participants.each do |participant|
+  - _is_admin = conversation.is_admin?(participant.id)
+  .list-group-item{class: ('list-group-item-info' if _is_admin) }
+    .row
+      .col.col-xs-2.overflow_hidden
+        = user_avatar_widget(participant, 30, participant.member_at)
+      .col.col-xs-8.name
+        = participant.full_name(true, participant.member_at)
+      .col.col-xs-2.actions
+        - if participant != current_user
+          .dropdown
+            %a.dropdown-toggle.btn.btn-sm{"data-toggle" => "dropdown", :title => "Member Options", id: "conversation_member_#{participant.id}_options"}
+              %i.glyphicon.glyphicon-cog
+            %ul.dropdown-menu.pull-right{"aria-labelledby" => "conversation_member_#{participant.id}_options"}
+              = content_tag :li, link_to('Send Message', start_conversation_dashboard_conversations_path(user_id: participant.id), class: 'ujs_start_conversation ujs_hide_modal', 'data-disable-with' => button_spinner, remote: true)
+              - if is_admin
+                %li.separator
+                = content_tag :li, link_to('Ban Member', url_for(action: :ban_member, user_id: participant.id), method: :delete, class: 'ujs_success_remove', remote: true, data:{closest_remove: '.list-group-item', disable_with: button_spinner('Loading...'), confirm: "Are you sure you want to ban this member \"#{participant.full_name(false, participant.member_at)}\"?"}) unless conversation.is_private?
+                = content_tag :li, link_to('Delete Member', url_for(action: :del_member, user_id: participant.id), method: :delete, class: 'ujs_success_remove', remote: true, data:{closest_remove: '.list-group-item', disable_with: button_spinner('Loading...'), confirm: "Are you sure you want to delete this member \"#{participant.full_name(false, participant.member_at)}\"?"})
+                = content_tag :li, link_to('Make Admin', url_for(action: :toggle_admin, user_id: participant.id, flag: true), method: :post, class: 'make_admin', remote: true, data:{confirm: 'Are you sure you want to make as admin this member?', disable_with: button_spinner('Loading...')}), class: "#{'hidden' if _is_admin}"
+                = content_tag :li, link_to('Cancel Admin', url_for(action: :toggle_admin, user_id: participant.id, flag: false), method: :post, class: 'unmake_admin', remote: true, data:{confirm: 'Are you sure you want to cancel admin role of this member?', disable_with: button_spinner('Loading...')}), class: "#{'hidden' unless _is_admin}"
+                  
+              
+                  
+= view_more_button(url_for(action: :participants, page: participants.next_page, format: :html)) if participants.next_page

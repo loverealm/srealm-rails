@@ -1,0 +1,12 @@
+= render layout: 'public_activity/layout', locals: {activity: activity} do
+  .media-left= user_avatar_widget activity.owner, 50, activity.created_at
+  .media-body
+    .media-heading
+    .notification-text
+      It is #{link_to_user(activity.owner, {time: activity.created_at, ownerize: true, mark: false, params: {birthday: true}})} birthday today.
+      = link_to "Wish #{activity.owner.sex == 0 ? 'him' : 'her'} a happy birthday!", user_profile_url(activity.owner, activity.created_at, {birthday: true})
+      = image_tag 'cake.jpg', style: 'height: 35px'
+  .media-right.small
+    %time.nowrap
+      = time_ago_in_words(activity.created_at)
+      &nbsp;ago

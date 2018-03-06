@@ -1,0 +1,17 @@
+= form_tag url_for(action: :donation), remote: true, method: :post, authenticity_token: true, class: 'validate hook_caller ujs_success_replace', 'data-callback' => 'Appointment:donation_form' do
+  .text-center.bold.margin_bottom10 How much do you want to give to your counselor for their time?
+  .p{style: 'max-width: 320px; margin: auto;'}
+    .step.step1
+      .form-group
+        .input-group
+          = text_field_tag :amount, '', class: 'required number form-control input-lg', min: 10, placeholder: 'Enter Amount'
+          %span.input-group-addon= I18n.translate('number.currency.format.unit')
+      
+      .form-group.text-center
+        = link_to 'Complete Order', '#', class: 'btn btn-primary next_btn'
+    
+    .step.step2.hidden
+      = render 'dashboard/payments/form', save_card: true, recurring: false
+      
+    .form-group.text-center.small.margin_top5
+      = link_to 'Skip', home_path, class: 'btn underline'

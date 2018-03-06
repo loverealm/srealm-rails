@@ -1,0 +1,69 @@
+.finish_registration_panel.panel.hook_caller{'data-callback' => 'User.welcome_form'}
+  .panel-heading.text-center
+    = link_to image_tag('logo-simple.png'), root_path
+  
+  .row
+    .col-md-8.col-md-offset-2
+      .w.post_relative
+        .file_upload_btn= current_user.the_edit_avatar_form label: 'Select File', btn_class: 'btn-default btn-bordered'
+        
+  = form_for current_user, url: url_for(action: :save_finish_registration), method: :post, html: {class: ' validate panel-body'} do |f|
+    = render 'shared/form_error', model: current_user
+    #carousel-finish-registration.carousel.slide.overflow_hidden{"data-ride" => "carousel", 'data-interval' => 'false'}
+      .carousel-inner.overflow_visible{:role => "listbox"}
+        .item.step1{class: "active"}
+          .step_number.text-gray.bold STEP 1 OF 2
+          %h2 What are you interested in?
+          .text-gray Choose Topics what are you Interested in. These may be issues you're struggling with or general topics you love. 
+          .hash_tags
+            - Setting.get_setting_as_list(:default_hash_tags).each do |tag|
+              %label
+                = check_box_tag('tags[]', tag, current_user.hash_tags.find_by_name(tag).present?)
+                %span.ellipsis= tag.sub('#', '')
+              
+          %br
+          %br
+          .text-center
+            %h4 CANT FIND A TOPIC?
+            .form-group
+              - tags = current_user.hash_tags.exclude(Setting.get_setting_as_list(:default_hash_tags)).pluck(:name)
+              .p{style: 'max-width: 50%; margin: auto;'}
+                = select_tag :custom_tags, options_for_select(tags, tags), placeholder: 'Add Custom Topics', class: 'hook_caller', multiple: true, 'data-callback' => 'Common.tags_autocomplete' 
+          .next_btn.pull-right
+            %a.disabled.btn.btn-primary{"data-slide" => "next", :href => "#carousel-finish-registration", :role => "button", style: 'width: 150px;'} Continue
+            
+        .item.step2{class: ""}
+          .row
+            .col-md-8.col-md-offset-2
+              .step_number.text-gray.bold STEP 2 OF 2
+              %h2 Complete your profile
+              .media
+                .media-left
+                  = image_tag current_user.avatar.url(:square), class: 'media-object current-user-avatar', style: 'height: 120px;'
+                .media-body
+                  %p Upload your profile picture
+
+              .form-group.margin_top20
+                = f.select :country, ISO3166::Country.all.map{|c| "<option data-code='#{c.country_code}' #{'selected' if c.alpha2 == current_user.country} value='#{c.alpha2}'>#{c.name}</option>"}.join('').html_safe, {include_blank: 'SELECT YOUR COUNTRY'}, class: "hook_caller form-control required country_sel", 'data-placeholder' => 'Select country', 'data-callback' => 'Common.select2'
+                
+              .form-group
+                .row
+                  .col-sm-3
+                    = f.text_field :country_code, class: 'form-control', value: current_user.phone_number.to_s.split(' ').first, placeholder: 'Country Code'
+                  .col-sm-9.padding_left0
+                    = f.text_field :phone_number, class: 'form-control', value: current_user.phone_number.to_s.split(' ').last, placeholder: 'Phone number'
+              
+              .form-group.clearfix
+                .pull-left{style: 'width: 55%'}= f.select :sex, options_for_select(User::SEX.invert, current_user.sex), {include_blank: 'GENDER'}, class: 'form-control required hook_caller', 'data-callback' => 'Common.select2'
+                .pull-right{style: 'width: 40%;'}
+                  = date_picker_input do
+                    = f.text_field :birthdate, class: 'required form-control', placeholder: 'BIRTHDAY'
+    
+              .form-group
+                = f.text_area :biography, class: 'form-control required', placeholder: 'TELL US A SHORT INFO ABOUT YOU', rows: 6 
+          
+          %p= button_tag 'Sign Up', style: 'width: 150px;', class: 'btn btn-primary pull-right', 'data-disable-with' => button_spinner        
+        
+    %p.margin_top20.text-center
+      By Signing up you agree to our #{link_to 'Terms of Service', '/home/terms', class: 'underline'} and #{link_to 'Privacy Policy', '/home/privacy_policy', class: 'underline'}
+    

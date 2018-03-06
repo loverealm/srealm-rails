@@ -1,0 +1,14 @@
+.row
+  .col-md-6.col-md-offset-3
+    .signup-form.panel
+      .panel-heading.border_bottom.bold Resend confirmation instructions
+      .panel-body
+        = form_for resource, url: confirmation_path(resource_name), html:{class: 'validate', method: :post} do |f|
+          = render 'shared/form_error', model: resource
+
+          .form-group
+            = f.email_field :email, class: 'required form-control', placeholder: 'Email', autofocus: true
+
+          .clearfix
+            = button_tag 'Submit', class: 'btn btn-primary pull-left', style: 'width: 50%;'
+            = link_to 'Log in', session_path(:user), class: 'pull-right btn underline'

@@ -1,0 +1,6 @@
+= simple_form_for content, url: dashboard_contents_path, remote: true, input_html: { id: 'new_post_status' } do |f|
+  = f.input_field :owner_id, as: :hidden
+  = f.input_field :user_group_id, as: :hidden
+  = f.input_field :content_type, as: :hidden, value: 'story'
+  = f.input :title, label: false, placeholder: "Story Title", required: true, maxlength: 150
+  = f.input :description, label: false, placeholder: params[:post_placeholder] || 'Tell the world what God has done for you…', required: true

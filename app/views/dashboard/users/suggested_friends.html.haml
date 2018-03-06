@@ -1,0 +1,13 @@
+.content-with-sidebar.row
+  .col-md-9.suggested-friends-page.hook_caller{'data-callback' => 'FriendSuggestionsManager:init', 'data-url'=> url_for(action: :suggested_friends), 'data-total-pages' => @users.total_pages}
+    .panel
+      .panel-body
+        %h1 Suggested Friends
+        %hr 
+        = render 'suggested_friends', users: @users
+  
+  - prepend_content = capture do
+    .panel
+      .panel-body.text-center
+        = link_to 'Edit Preferences', my_preferences_edit_dashboard_users_path, class: 'btn ujs_link_modal btn-primary', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title'=> 'Edit Preferences'
+  = render 'dashboard/contents/sidebar', prepend_content: prepend_content        

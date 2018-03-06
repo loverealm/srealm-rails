@@ -1,0 +1,36 @@
+- range = 7.days.ago.beginning_of_day..Time.current
+%p Hi #{@user.first_name}
+%p Listed below is the weekly (#{7.days.ago.to_date.to_s(:eng_human)} - #{Date.today.to_s(:eng_human)}) summary data for your Church/Groups on LoveRealm:
+
+- @groups.each do |group| payments = group.payments.completed.where(created_at: range);
+  %p
+    %strong= group.name
+    %br
+    %span Total Members: #{group.user_relationships.count}
+    %br
+    %span New members added this week: #{group.user_relationships.where(created_at: range).count}
+    %br
+    %span Total Revenue this week: #{payments.sum(:amount)}
+    %br
+    - UserGroup::PAYMENT_GOALS.each do |key, label|
+      %span #{label}: #{payments.where(goal: key).sum(:amount)}
+      %br
+    %span Weekly Attendance (System): #{group.user_group_attendances.where(created_at: range).count}
+    %span Weekly Attendance (Manual): #{group.user_group_manual_values.attendances.where(created_at: range).sum(:value)}
+    %br
+    %span Number of New converts: #{group.user_group_converts.where(created_at: range).count}
+    %br
+    %span Number of members baptized: #{group.user_baptised_relationships.where(baptised_at: range).count}
+    %br
+    %span Number of Messages sent to members: #{group.broadcast_messages.sms.where(created_at: range).sum('broadcast_messages.qty_sms_sent')}
+    %br
+    %span You can view more information about your #{group.the_group_label} by Logging on to your #{link_to 'dashboard', dashboard_user_group_churches_management_index_url(group)}
+    %br
+ 
+%p 
+  Kind Regards,
+  %br
+  The Team at #{link_to "LoveRealm", root_url}
+
+= email_copyright(@user)
+      

@@ -1,0 +1,19 @@
+%p Dear #{@user.first_name},
+%p Your #{@appointment.is_video? ? 'video' : 'walk in'} counseling appointment request has been rescheduled by the Counselor.
+%p 
+  %strong Scheduled for: 
+  %span #{I18n.l @appointment.schedule_for, format: :long}
+%p
+  %strong Rescheduled for: 
+  %span #{I18n.l @appointment.re_schedule_for, format: :long}
+- unless @appointment.is_video?
+  %p
+    %strong Location: 
+    %span #{@appointment.location}
+    %br
+    = (link_to 'See Map', "https://www.google.com/maps/place/#{@appointment.latitude}+#{@appointment.longitude}/@#{@appointment.latitude},#{@appointment.longitude},17z") if @appointment.latitude
+  
+%p Please feel free to accept or cancel the appointment.  
+%br
+%p Kind Regards,
+%p The #{link_to 'LoveRealm', root_url} team

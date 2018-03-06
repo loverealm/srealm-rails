@@ -1,0 +1,9 @@
+- grouped_activities.each do |date, acts|
+  .notification-group-date
+    = date.strftime '%d %B %Y'
+  
+  .notification-group.row{'data-date' => date}
+    = render_activity acts
+
+- if activities.next_page
+  = view_more_button(url_for(page: activities.next_page), ' btn btn-primary inview_click')

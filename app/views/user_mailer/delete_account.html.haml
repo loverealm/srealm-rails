@@ -1,0 +1,17 @@
+%h2 Hi #{@user.full_name(false)},
+
+%p
+  We received your request to delete your account of our platform. If you requested this action, please click the link below to delete your account.
+%p
+  = link_to(@url, @url)
+%p 
+  %small Note: This link will be available for 3 days.
+
+%p
+%div.regards
+  Kind Regards,
+  .ceo
+    Dr.Ansong CEO
+  .company
+    LoveRealm Inc
+

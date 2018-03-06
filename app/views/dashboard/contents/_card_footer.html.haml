@@ -1,0 +1,20 @@
+.content-links.small.text-gray.clearfix
+  .reactions.hidden.pull-left.ellipsis{style: 'max-width: 80%;'}
+    - qty_voters = 10
+    - ['love', 'pray', 'amen', 'angry', 'sad', 'wow'].each do |_key|
+      - tooltip = content.voters_for(_key).limit(qty_voters).where.not(id: current_user).map{|u| u.full_name(false, u.voted_at) }.join(', ')
+      = link_to '', likes_dashboard_content_path(content, kind: _key), class: "#{_key} reaction_icon ujs_link_modal custom_tooltip", remote: true, data: {'modal-title' => "#{_key.titleize} Reactions", 'disable-with' => button_spinner(''), reaction: _key.titleize, tooltip: tooltip, ujs_qty: content.send("cached_#{_key}")}
+      
+    = link_to likes_dashboard_content_path(content), class: 'ujs_link_modal text-gray btn-xs btn ujs_qty_checker', style: 'display: initial;', remote: true, 'data-disable-with' => button_spinner('Loading...'), title: 'Users who reacted to this post' do
+      %span.count.votes_count
+        = content.the_total_votes
+      
+  .pull-left
+    &nbsp;&middot;&nbsp;    
+    = link_to '#', class: 'text-gray btn btn-xs', 'onclick' => '$(this).closest(".content").find(".content-action.comment-action").click(); return false;' do
+      %span.count.comments_count
+        = content.comments_count
+      Comments
+.content-footer.clearfix
+  = render partial: 'dashboard/contents/actions', locals: { content: content }
+= render partial: 'dashboard/contents/card_comments', locals: { content: content }

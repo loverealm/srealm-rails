@@ -1,0 +1,45 @@
+- @content ||= current_user.contents.new
+- if current_user.prevent_posting?
+  .alert.alert-danger.skip_dismiss.margin_top0 You were blocked for posting until #{I18n.l(current_user.prevent_posting_until || Time.current, format: :short)}
+- else
+  - can_livevideo = @content.user_group_id && @content.user_group.is_admin?(current_user.id)
+  #profile_new_post_panel.profile-options.hook_caller.panel.padding10{'data-callback' => 'ContentEditor:init_editor_tabs'}
+    %a.btn.close_content_form
+      %span.glyphicon.glyphicon-remove-circle
+    .profile-options-panels.clearfix
+      .col-avatar
+        = user_avatar_widget(current_user, 45, :now)
+      .col-form
+        .option-panel.status-panel.validating-form{'style' => 'display: block;'}
+          = render partial: 'dashboard/contents/status_form', locals: { content: @content }
+        .option-panel.picture-panel.validating-form
+          = render partial: 'dashboard/contents/image_form', locals: { content: @content }
+        .option-panel.question-panel.validating-form
+          = render partial: 'dashboard/contents/question_form', locals: { content: @content }
+        .option-panel.story-panel.validating-form
+          = render partial: 'dashboard/contents/story_form', locals: { content: @content }
+        .option-panel.prayer-panel.validating-form
+          = render partial: 'dashboard/contents/pray_form', locals: { content: @content }
+  
+    .profile-options-buttons
+      .btn-tabs
+        %a.btn.btn-sm.btn-active{"data-toggle-panel" => "status-panel", :href => "#"} Status
+        - if can_livevideo
+          = link_to '<i class="fa fa-calendar"></i> Event'.html_safe, new_dashboard_user_group_event_path(user_group_id: @content.user_group_id), class: 'btn btn-sm notab ujs_link_modal ujs_eval', 'data-ujs-eval' => "$('#content-form-backdrop').trigger('click')", title: 'Create new event', remote: true, data: {disable_with: button_spinner, modal_size: 'modal-lg'}
+        %a.btn.btn-sm{"data-toggle-panel" => "prayer-panel", :href => "#"} Prayer Request
+        %a.btn.btn-sm{"data-toggle-panel" => "picture-panel", :href => "#"}
+          %i.fa.fa-camera
+          Media
+        %a.btn.btn-sm.hidden{"data-toggle-panel" => "donate-panel", :href => "#"}
+          %i.fa.fa-dollar
+          Donate
+        .dropdown.more_items.hidden
+          %a.btn.btn-sm.dropdown-toggle.notab{"aria-expanded" => "true", "data-toggle" => "dropdown", :href => "#"}= '&nbsp;<i class="fa fa-angle-double-right"></i>&nbsp;'.html_safe
+          %ul.dropdown-menu
+        = link_to '<i class="fa fa-question-circle"></i> Ask a Question'.html_safe, '#', class: 'btn btn-sm', "data-toggle-panel" => "question-panel"
+        - if can_livevideo
+          = link_to '<i class="fa fa-video-camera"></i> Live Video'.html_safe, new_live_video_dashboard_contents_path(user_group_id: @content.user_group_id), class: 'btn btn-sm notab ujs_link_modal', title: 'Live Video', remote: true, data: {disable_with: button_spinner, modal_size: 'modal-lg full'}
+      .submit-btn-panel
+        = link_to 'Submit', 'javascript:void()', class: 'btn btn-primary excluded submit-form', 'data-disable-with' => button_spinner('Submitting...')
+  
+  #content-form-backdrop          

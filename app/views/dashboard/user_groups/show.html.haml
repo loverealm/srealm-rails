@@ -1,0 +1,90 @@
+#user_group_view.hook_caller{'data-callback' => 'UserGroupPage:init'}
+  .row.content-with-sidebar
+    #sidebar.sidebar.col-md-3{style: 'padding-left: 15px;'}
+      .panel
+        .panel-body.margin_bottom0
+          %h5.text-center.bold Donate to #{@group.the_group_label}
+          = form_tag url_for(action: :try_donation), method: :get, class: 'ujs_link_modal validate margin_bottom0', 'data-modal-title' => 'Payment Information', remote: true do
+            - if @group.is_verified?
+              .form-group
+                .input-group
+                  = number_field_tag :amount, '', class: 'form-control required text-center', min: 10, placeholder: 'Enter Amount'
+                  %span.input-group-addon= I18n.translate('number.currency.format.unit')
+              .text-center
+                = button_tag 'Give', class: 'btn btn-primary btn-sm', 'data-disable-with' => button_spinner
+            - elsif @group.user_id == current_user.id
+              .alert.alert-danger.skip_dismiss.alert-xs= link_to 'Verify group to start receiving payments', verify_dashboard_user_group_path(@group), class: 'underline', remote: true, 'data-disable-with' => button_spinner
+                  
+      .panel.panel-transparent
+        .panel-heading
+          .panel-title Upcoming Events
+        .panel-body.empty_msg_panel{'data-empty-msg'=> 'There are no upcoming events'}<
+          - events = @group.events.upcoming
+          - events.limit(1).decorate.each do |event|
+            = event.the_widget({class: 'media_bordered margin_bottom0', photo: true, attend_right: false})
+          = view_all_button(list_dashboard_user_group_events_path(user_group_id: @group), {modal_size: 'modal-lg', modal_title: 'Upcoming Events'}) if events.count > 1
+
+      - if @group.support_meetings?
+        .panel.panel-transparent
+          .panel-heading
+            .panel-title #{@group.the_group_label} Schedule
+          .panel-body
+            - @group.meetings.limit(5).decorate.each do |meeting|
+              = meeting.the_widget({class: 'media_bordered'})
+          
+    .col-md-9
+      - if params[:extra_action] == 'open_payment' # auto open the payment link (TODO: this link should be visible in sidebar)
+        #user_group_payment_link.hidden= @group.decorate.the_payment_link
+        - content_for :script do
+          :javascript
+            $('#user_group_payment_link a').click()
+            
+      #group_header.panel
+        .banner{style: "background-image: url(#{@group.banner.url});"}
+          .white_panel
+            - if can? :modify, @group
+              = form_tag(url_for(action: :save_image), multipart: true, remote: true, data: { type: :json }, class: 'inline banner_form reset_on_success ujs_filestyle', 'data-disable-with' => button_spinner('Uploading...'), style: 'vertical-align: middle; margin: 0;') do
+                = file_field_tag :banner, required: true, class: 'filestyle', 'data-buttonText' => 'Change Photo', 'data-buttonBefore'=> true, 'data-buttonName' => 'btn-sm', 'data-icon' => false, 'data-input'=>'false', 'onChange'=>'$(this).closest(\'form\').submit();', 'data-badge'=>'false', accept: file_upload_image_formats
+              |
+              = link_to "Manage your #{@group.the_group_label}", dashboard_user_group_churches_management_index_path(@group), class: 'btn btn-sm', title: "#{@group.the_group_label} Management Area"
+              |
+            = link_to('About', url_for(action: :about), class: 'btn btn-sm ujs_link_modal', remote: true, 'data-disable-with' => 'Loading...', 'data-modal-title'=>"#{@group.the_kind} Information")
+            
+          -#.row.text-white.panel_info.hidden
+          -#  .col-left.col-md-6
+          -#    = image_tag(@group.image.url, class: 'image')
+          -#    %h3.title
+          -#      = @group.name
+          -#    .privacy.text-left
+          -#      = raw @group.the_privacy  
+          -#
+          -#  .col-right.col-md-6
+          -#    = link_to 'Join Group', url_for(action: :send_request), class: 'btn btn-default btn-xs', remote: true, 'data-disable-with' => button_spinner('Loading...') if can? :join, @group
+          -#    = link_to 'Leave Group', url_for(action: :leave_group), class: 'btn btn-default btn-xs', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-confirm' => 'Are you sure you want to leave this group?' if @group.is_member?(current_user.id)   
+          -#    = link_to 'Edit Group', url_for(action: :edit), class: 'btn btn-default btn-xs ujs_link_modal', title: 'Edit Group', remote: true, 'data-disable-with'=>button_spinner('Loading...') if can? :modify, @group
+                  
+        .text-center 
+          %h3.text-red.inline{style: 'vertical-align: sub;' } 
+            = @group.name
+          &nbsp; &nbsp; &nbsp;
+          = link_to 'Join', url_for(action: :send_request), class: 'btn btn-primary btn-xs', remote: true, 'data-disable-with' => button_spinner('Loading...') if can? :join, @group
+          = link_to 'Leave', url_for(action: :leave_group), class: 'btn btn-primary btn-xs', 'data-disable-with' => button_spinner('Loading...'), 'data-confirm' => 'Are you sure you want to leave this group?' if @group.is_member?(current_user.id)
+          = link_to 'Delete Group', url_for(action: :destroy), method: :delete, class: 'btn btn-danger btn-xs btn-bordered', 'data-confirm' => "Are you sure you want to delete this #{@group.the_group_label}?" if @group.user_id == current_user.id
+        
+        .text-center.text-gray
+          = @group.the_kind
+          &nbsp;
+          = link_to url_for(action: :members), class: 'ujs_link_modal text-gray', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title'=>'Members List' do
+            = number_to_human(@group.members.count)
+            Members
+          
+        .top-members.text-center.margin_top10{style: 'letter-spacing: 12px;'}
+          - @group.members.most_active.limit(7).decorate.each do |_user|
+            = user_avatar_widget(_user, 60, nil, {class: 'inline'})
+          = link_to '+', url_for(action: :add_members), remote: true, 'data-disable-with' => button_spinner(''), class: 'ujs_link_modal avatar_widget inline add_member_btn avatar_image', title: 'Add Members'  if can? :modify, @group
+
+      #content_feed
+        = render 'dashboard/users/profile_options' if can? :post, @group
+        #contents
+          = render partial: 'dashboard/contents/list', locals: {contents: @contents}
+          

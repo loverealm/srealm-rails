@@ -1,0 +1,43 @@
+%h1 Payments List
+.row.margin_bottom10
+  = search_form_for @q, url: url_for(p: :p) do |f|
+    .col-md-3.padding_right0
+      = select_tag :filter_payments, options_for_select({transferred: 'Transferred Payments', no_transferred: 'No Transferred Payments'}.invert, params[:filter_payments]), include_blank: 'All Payments', class: 'form-control'
+    .col-md-4.padding_left0
+      .input-group
+        = f.search_field :user_full_name_or_user_email_cont, class: 'form-control', placeholder: 'Type here to filter by payer\'s name, email...'
+        %span.input-group-btn
+          = button_tag 'Filter', class: 'btn btn-default'
+
+%table.table
+  %thead
+    %tr
+      %th #
+      %th Full Name
+      %th Amount
+      %th Payment kind
+      %th Payment method
+      %th Paid at
+      %th Transferred at
+      %th
+  %tbody
+    - @payments.each do |payment|
+      %tr
+        %td= payment.id
+        %td= payment.user.full_name
+        %td= number_to_currency payment.amount
+        %td= payment.goal.to_s.titleize
+        %td= payment.payment_kind.to_s.titleize
+        %td= l payment.payment_at, format: :short
+        %td= l payment.transferred_at, format: :short if payment.transferred_at
+        %td
+          = dropdown_builder right: true do
+            = content_tag :li, link_to('<i class="fa fa-lock"></i> Mark as transferred'.html_safe, url_for(action: :mark_as_transferred, id: payment), method: :put, 'data-disable-with' => button_spinner, 'data-confirm' => 'Are you sure you want to MARK as confirmed this payment?', remote: true, class: 'ujs_expression', 'data-ujs-expression' => "closest('li').hide().next().show()"), class: "#{'hidden' if payment.transferred_at?}"
+            = content_tag :li, link_to('<i class="fa fa-unlock"></i> Unmark transferred'.html_safe, url_for(action: :unmark_transferred, id: payment), method: :delete, 'data-disable-with' => button_spinner, 'data-confirm' => 'Are you sure you want to UNMARK as confirmed this payment?', remote: true, class: 'ujs_expression', 'data-ujs-expression' => "closest('li').hide().prev().show()"), class: "#{'hidden' unless payment.transferred_at?}"
+
+.row
+  .col-md-8
+    = paginate @payments
+  .col-md-4.text-right
+    %span Total amount: <strong> #{number_to_currency @payments.sum(:amount)} </strong>
+    %span | Total payments: <strong> #{@payments.total_count} </strong>

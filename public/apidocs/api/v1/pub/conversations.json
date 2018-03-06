@@ -1,0 +1,179 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "conversations",
+  "apis": [
+    {
+      "path": "/api/v1/pub/conversations/create_group",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "group_title",
+              "type": "string",
+              "description": "Title for conversation group",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "participants",
+              "type": "array",
+              "description": "Array of participant user ids (User ids)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "image",
+              "type": "file",
+              "description": "Group Photo",
+              "required": false
+            }
+          ],
+          "notes": "Create a new conversation group",
+          "nickname": "Api::V1::Pub::Conversations#create_group",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/conversations/start_conversation",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID with whom current user want to start conversation",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "default_message",
+              "type": "text",
+              "description": "Default message text used on create conversation",
+              "required": false
+            }
+          ],
+          "notes": "Return an exist conversation between current_user and user_id, if it does not exist will create one and return it",
+          "nickname": "Api::V1::Pub::Conversations#start_conversation",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/conversations/{id}/update_group",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "group_title",
+              "type": "string",
+              "description": "Title for conversation group",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "participants",
+              "type": "array",
+              "description": "Array of participant user ids (User ids)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "admin_ids",
+              "type": "array",
+              "description": "Array of admin participant user ids who are the administrators from current conversation",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "image",
+              "type": "file",
+              "description": "Group Photo",
+              "required": false
+            }
+          ],
+          "notes": "Update a specific conversation group",
+          "nickname": "Api::V1::Pub::Conversations#update_group",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/conversations/{id}/join_conversation",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_ids",
+              "type": "array",
+              "description": "Array of ids of new user participants",
+              "required": true
+            }
+          ],
+          "notes": "Join a new participant to a specific conversation group",
+          "nickname": "Api::V1::Pub::Conversations#join_conversation",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/conversations/{id}/leave_conversation",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            }
+          ],
+          "notes": "Leave specific conversation group",
+          "nickname": "Api::V1::Pub::Conversations#leave_conversation",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/conversations/{id}/destroy_group",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation to delete",
+              "required": true
+            }
+          ],
+          "notes": "Destroy a specific conversation group",
+          "nickname": "Api::V1::Pub::Conversations#destroy_group",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

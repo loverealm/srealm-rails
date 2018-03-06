@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+    img { max-width: 100%; }
+    .body{ font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
+    p, ul {
+      margin-bottom: 20px;
+      font-weight: normal;
+      font-size:14px;
+    }
+
+    ul li {
+      margin-left:5px;
+      list-style-position: inside;
+    }
+    
+    .last { margin-bottom: 0; }
+    .panel{ border: 1px solid #eee; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+    .hr{ border-bottom: 1px solid #eee; margin-top: 10px; margin-bottom: 10px; }
+    .pull-right{ float: right; }
+    .bold{ font-weight: bold; }
+    small{ font-size: 11px; }
+    a{ color: #c6181b !important; }
+    tr{ vertical-align: top; }
+    /*h2{ text-decoration: underline; }*/
+    
+    table{
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    </style>
+  </head>
+  <body>
+    <table class="body">
+      <tr>
+        <td bgcolor="#ffffff">
+          <div style="padding:20px;">
+            <table>
+              <tr>
+                <td>
+                  <%= yield %>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

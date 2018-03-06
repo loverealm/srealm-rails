@@ -1,0 +1,8 @@
+- @used_credits.each do |broadcast|
+  %tr
+    %td= l(broadcast.created_at, format: :short)
+    %td= number_to_currency(broadcast.amount)
+
+- if @used_credits.next_page
+  %tr
+    %td{colspan: 2}= view_more_button(url_for(action: :used_credits, page: @used_credits.next_page), '', closest: 'tr')

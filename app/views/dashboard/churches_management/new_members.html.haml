@@ -1,0 +1,7 @@
+= form_tag url_for(action: :new_members), method: :post, remote: true, class: 'hook_caller ujs_hide_modal', 'data-callback' => 'ChurchManagement:new_members_form' do
+  .form-group
+    = label_tag :members, 'New Members'
+    = select_tag :members, [], multiple: true, class: 'sel_members', 'data-notin-group' => @church.id, placeholder: 'Type in here the name of the user you want to add to this group.'
+    
+  .form-group
+    = button_tag 'Add Members', class: 'btn btn-primary', 'data-disable-with'=>button_spinner  

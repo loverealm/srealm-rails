@@ -1,0 +1,19 @@
+- @ads.each do |ad|
+  %tr
+    %td= ad.id
+    %td= ad.promotable_type == 'UserGroup' ? ad.promotable.the_group_label : 'Event'
+    %td
+      - if ad.promotable_type == 'UserGroup'
+        = link_to 'Open', ad.website, target: '_blank'
+      - else
+        = link_to 'Open', ad.promotable.decorate.the_url, remote: true, 'data-disable-with' => button_spinner, class: 'ujs_link_modal', 'data-modal-title' => 'Event Details'
+    %td= l(ad.created_at, format: :short)
+    %td.text-right
+      = dropdown_builder right: true, button_class: 'btn-xs' do
+        = content_tag :li, link_to('Approve', url_for(action: :approve, id: ad.id), method: :post, class: 'ujs_success_remove', 'data-closest-remove' => 'tr', 'data-confirm' => 'Are you sure you want to APPROVE this AD?', remote: true, 'data-disable-with' => button_spinner)
+        = content_tag :li, link_to('Reject', url_for(action: :reject, id: ad.id), class: 'ujs_link_modal', 'data-modal-title' => 'Reject AD', remote: true, 'data-disable-with' => button_spinner)
+      
+          
+- if @ads.next_page
+  %tr
+    %td{colspan: 4}= view_more_button url_for(page: @ads.next_page), '', closest: 'tr'

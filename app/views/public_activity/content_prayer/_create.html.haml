@@ -1,0 +1,17 @@
+- if activity.trackable
+  = render layout: 'public_activity/layout', locals: {activity: activity} do
+    .media-left= user_avatar_widget activity.owner, 50, activity.created_at
+    .media-body
+      .media-heading
+        = link_to_user(activity.owner, {class: 'user-name', time: activity.created_at})
+
+      .notification-text
+        invited you to pray concerning #{link_to activity.trackable.content.the_title, dashboard_content_path(activity.trackable.content_id)}.
+        - if activity.trackable.pending?
+          .links.text-right
+            = link_to('Accept', prayer_accept_dashboard_content_path(activity.trackable.content_id), class: 'btn btn-primary btn-sm ujs_success_hide', remote: true, 'data-disable-with' => button_spinner('Accepting...'), 'data-closest-hide'=>'.links')
+            = link_to('Reject', prayer_reject_dashboard_content_path(activity.trackable.content_id), class: 'btn btn-default btn-sm ujs_success_hide', remote: true, 'data-disable-with' => button_spinner('Rejecting...'), 'data-closest-hide'=>'.links')
+    .media-right.small
+      %time.nowrap
+        = time_ago_in_words(activity.created_at)
+        &nbsp;ago

@@ -1,0 +1,44 @@
+- attrs = {class: 'ujs_content_to hook_caller ujs_hide_modal', 'data-prepend-to' => '#grow_church_events_list' } if @event.new_record?
+- attrs = {class: 'ujs_modal_success_replace hook_caller ujs_hide_modal', 'data-closest-replace' => '.media' } unless @event.new_record?
+= form_for @event, url: url_for(action: @event.new_record? ? :create : :update), html: {'data-callback' => 'ChurchEvents:form', remote: true, multipart: true, data: { type: :json }}.merge(attrs) do |f|
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control required'
+
+  .form-group
+    = f.label :price
+    .input-group
+      = f.number_field :price, class: 'form-control required'
+      %span.input-group-addon= I18n.translate('number.currency.format.unit')
+    
+
+  .form-group
+    = f.label :description
+    = f.text_area :description, class: 'form-control required'
+
+  .form-group
+    = f.label :location
+    = f.text_field :location, class: 'form-control required'
+
+  .form-group
+    = f.label :photo
+    = f.file_field :photo, class: "#{'required' if @event.new_record?} filestyle", accept: file_upload_image_formats
+    
+  .row
+    .col-sm-6
+      .form-group
+        = f.label :start_at
+        = date_picker_input({time: true}) do
+          = f.text_field :start_at, class: 'form-control required'
+    .col-sm-6
+      .form-group
+        = f.label :end_at
+        = date_picker_input({time: true}) do
+          = f.text_field :end_at, class: 'form-control required'
+
+  -#.form-group
+  -#  = f.label :ticket_url
+  -#  = f.url_field :ticket_url, class: 'form-control url'
+
+  .form-group.text-right
+    = button_tag @event.new_record? ? 'Create Event' : 'Update Event', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Saving...')

@@ -1,0 +1,15 @@
+- content_prayers.eager_load(:content, content: :user).each do |req|
+  .media.media_bordered{'data-id' => req.content_id}
+    .media-left
+      = user_avatar_widget(req.content.user, 30, req.created_at)
+    .media-body
+      .media-heading
+        = link_to req.content.the_title, dashboard_content_path(req.content)
+      %p
+        %i.small #{req.content.content_prayers_accepted.count} Praying - 
+        %span.links
+          = link_to('Accept', prayer_accept_dashboard_content_path(req.content.id), class: 'btn btn-primary btn-xs ujs_success_remove ujs_content_to', 'data-prepend-to' => '#sidebar .prayers-panel .prayers-accepted', remote: true, 'data-disable-with' => button_spinner('Accepting...'), 'data-closest-remove'=>'.media')
+          = link_to('Reject', prayer_reject_dashboard_content_path(req.content.id), class: 'btn btn-default btn-xs ujs_success_replace', remote: true, 'data-disable-with' => button_spinner('Rejecting...'), 'data-closest-replace'=>'.links')
+
+- if content_prayers.next_page
+  = view_more_button(my_praying_list_requests_dashboard_users_path(page: content_prayers.next_page), '')

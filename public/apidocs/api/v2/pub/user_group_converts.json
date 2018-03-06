@@ -1,0 +1,120 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "user_group_converts",
+  "apis": [
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/converts/{convert_id}/search_new",
+      "operations": [
+        {
+          "summary": "search results for members who are not converted yet",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "search",
+              "type": "string",
+              "description": "Text to search",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupConverts#search_new",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/converts/{convert_id}/data",
+      "operations": [
+        {
+          "summary": "return graphic data of members converted",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Report period: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupConverts#data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/converts",
+      "operations": [
+        {
+          "summary": "List of converts of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupConverts#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/converts",
+      "operations": [
+        {
+          "summary": "Mark members as converted",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "members",
+              "type": "array",
+              "description": "Array of members ids to be marked as converted",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupConverts#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

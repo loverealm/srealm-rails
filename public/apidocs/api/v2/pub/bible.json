@@ -1,0 +1,78 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "bible",
+  "apis": [
+    {
+      "path": "/api/v2/pub/bible/{book_id}/{chapter}/verses",
+      "operations": [
+        {
+          "summary": "Return quantity of verses of a specific book and chapter",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "book_id",
+              "type": "string",
+              "description": "Book code, sample: Gen",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "chapter",
+              "type": "integer",
+              "description": "Chapter number",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Bible#verses",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/bible/books",
+      "operations": [
+        {
+          "summary": "Return list of books with including chapter numbers for each one",
+          "nickname": "Api::V2::Pub::Bible#books",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/bible/passage/{book_id}-{chapter}:{verse_numbers}",
+      "operations": [
+        {
+          "summary": "Return html verses format ready to be included in content description (html format)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "book_id",
+              "type": "string",
+              "description": "Book code, sample: Gen",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "chapter",
+              "type": "integer",
+              "description": "Chapter number",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "verse_numbers",
+              "type": "string",
+              "description": "Range of verses to recover, sample: 2-5",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Bible#passage",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

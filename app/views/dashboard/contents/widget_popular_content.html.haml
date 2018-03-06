@@ -1,0 +1,6 @@
+- cache "widget_popular_contents_#{params[:page]}", expires_in: 15.seconds do
+  - data = NewsfeedService.new(current_user, params[:page], params[:per_page] || 4).widget_popular_content
+  .g.border_bottom
+    - data.decorate.each do |content|
+      = content.the_row class: 'padding_h media_bordered', avatar_size: 45
+  = view_more_button url_for(page: data.next_page), ' btn-block margin_bottom10', {label: 'See More'} if data.next_page

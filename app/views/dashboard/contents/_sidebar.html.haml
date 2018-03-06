@@ -1,0 +1,128 @@
+#sidebar.sidebar{class: "col-md-#{col rescue 3}"}
+  .b_sticky.hook_caller.clearfix{'data-callback' => 'SidebarManager:init_affix_panel', 'data-bottom' => 60}
+
+    = prepend_content rescue ''
+    - if(group = current_user.primary_church)
+      .panel.panel-default
+        .panel-heading.panel-title 
+          Your Church
+          - if group.is_admin?(current_user.id)
+            .pull-right
+              = link_to "Manage", dashboard_user_group_churches_management_index_path(group), title: 'Manage your Church', class: 'underline small'
+        .panel-body.margin_bottom0
+          .media
+            .media-left
+              = user_group_image_widget(group, (30))
+            .media-body
+              .title
+                = link_to(group.name, dashboard_user_group_path(group))
+              .descr.small.text-gray
+                = group.the_description(60)
+          %br
+          = group.decorate.the_payment_link
+            
+          - if current_live_video = group.contents.where(created_at: 4.hours.ago..Time.current).filter_live.includes(:content_live_video).where(content_live_videos: {finished_at: nil}).take
+            %hr.sm
+            .overflow_hidden.post_relative
+              = current_live_video.decorate.the_live_video
+              .small.text-gray= current_live_video.summary
+          
+        - if(events = group.events.upcoming).any?
+          .panel-heading.panel-title Upcoming Events 
+          .panel-body
+            - events.limit(4).decorate.each do |event|
+              = event.the_widget(class: 'media_bordered')
+            = view_all_button(list_dashboard_user_group_events_path(user_group_id: group), {modal_size: 'modal-lg', modal_title: 'Upcoming Events'}) if events.count > 4
+            
+    - else
+      .panel.panel-default
+        .panel-body
+          = link_to '/dashboard/search?type=churches&filter=' do
+            = image_tag('church.png', class: 'v_middle', style: 'height: 80px;')
+            %span.text-big Join your Church
+  
+  
+    .panel.panel-default
+      .panel-heading.panel-title
+        Churches/Groups you belong to
+      .panel-body.empty_msg_panel{'data-empty-msg'=> 'You do not belong to any Church/Group yet.'}<
+        - groups = current_user.user_groups.page(1).per(5)
+        - groups.each do |group|
+          .media.media_bordered
+            .media-left
+              = user_group_image_widget(group, (30))
+            .media-body
+              .title
+                = link_to(group.name, dashboard_user_group_path(group))
+              .descr.small.text-gray
+                = group.the_description(60)
+        
+        - if groups.next_page
+          .text-center
+            = link_to('See all &raquo;'.html_safe, dashboard_user_groups_path, class: 'underline')
+              
+      .panel-footer
+        = link_to 'Create New Group', new_dashboard_user_group_path, class: 'btn ujs_link_modal', title: 'Create new group', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-size' => 'modal-lg'
+        
+    - if false 
+      .panel.panel-default
+        .panel-heading.panel-title Suggested Groups
+        .panel-body.suggested-user-list.empty_msg_panel{'data-empty-msg'=>'No suggested groups found'}<
+          - if(suggested_groups = current_user.suggested_groups(1, 5)).present?
+            - suggested_groups.shuffle.each do |group|
+              .media
+                .media-left
+                  = user_group_image_widget(group, 40)
+                .media-body
+                  .row
+                    .col-sm-8
+                      .media-heading
+                        = link_to group.name, dashboard_user_group_url(group)
+                    .col-sm-4.text-right
+                      = link_to 'Join', send_request_dashboard_user_group_path(group), class: 'btn btn-primary btn-xs btn-bordered'
+                  .small
+                    = group.description.to_s.truncate(100)
+            - if suggested_groups.next_page
+              .text-center
+                %br
+                = link_to 'View other groups', suggested_groups_dashboard_user_groups_path
+
+    .panel.panel-default.prayers-panel
+      .panel-heading.panel-title Your Prayer List
+      .panel-body.prayers-list.margin_bottom10.empty_msg_panel{'data-empty-msg' => 'Your prayer list is empty'}<
+        - if (_l = current_user.contents.filter_prays.no_answered).any?
+          = render 'dashboard/users/my_praying_list', content_prayers: (_l).page(1).per(3)
+
+      .panel-heading.panel-title Accepted Prayer requests
+      .panel-body.prayers-accepted.margin_bottom10.empty_msg_panel{'data-empty-msg' => 'Accepted Prayer requests is empty'}<
+        - if (_l = current_user.content_prayers.accepted.no_answered.exclude_owner).any?
+          = render 'dashboard/users/my_praying_list_of_others', content_prayers: _l.page(1).per(3)
+      
+      .panel-heading.panel-title Pending Prayer Requests
+      .panel-body.prayers-request.margin_bottom10.empty_msg_panel{'data-empty-msg' => 'Pending prayer requests list is empty'}<
+        - if(_l = current_user.content_prayers.no_answered.pending).any?
+          = render 'dashboard/users/my_praying_list_requests', content_prayers: _l.page(1).per(3)
+      
+      .panel-heading.panel-title Answered Prayers
+      .panel-body.prayers-answered.margin_bottom10.empty_msg_panel{'data-empty-msg' => 'Answered prayers list is empty'}<
+        - if (_l = current_user.content_prayers.answered.accepted).any?
+          = render 'dashboard/users/my_praying_list_answered', content_prayers: _l.page(1).per(3)
+  
+    .panel.panel-default
+      .panel-heading.panel-title Suggested users
+      .panel-body.empty_msg_panel{'data-empty-msg' => 'No users found'}<
+        - if(suggested_users = current_user.suggested_users(1, 5).decorate.shuffle).present?
+          = render partial: 'dashboard/users/suggested_user', collection: suggested_users, as: :user, locals:{ btn_class: 'btn btn-primary btn-xs btn-bordered' }
+          .text-center
+            = link_to 'See all &raquo;'.html_safe, suggested_dashboard_users_path, class: 'underline'
+
+    - if(promotions = current_user.the_suggested_promotions.limit(4).decorate).any?
+      .panel.panel-default.promotions-panel
+        .panel-heading.panel-title Promotions
+        .panel-body.promotions-list.margin_bottom10
+          .hook_caller{'data-callback' => 'SidebarManager:promotions_slider'}
+            - promotions.each_with_index do |promotion, index|
+              .item
+                = promotion.the_banner_widget({photo: true})
+                
+    = append_content rescue ''

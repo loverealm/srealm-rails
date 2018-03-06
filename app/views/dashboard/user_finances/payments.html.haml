@@ -1,0 +1,34 @@
+- data = capture do
+  - @payments.each do |payment|
+    %tr
+      -#%td.text-right{style: 'width: 30px;'}= payment.decorate.the_dropdown_options
+      %td= l(payment.payment_at, format: :short)
+      %td= payment.payable.try(:name)
+      %td{style: 'width: 80px;'}= payment.goal.to_s.titleize
+      %td.text-right{style: 'width: 50px;'}= number_to_currency(payment.amount)
+        
+  - if @payments.try(:next_page)
+    %tr
+      %td{colspan: 4}= view_more_button url_for(page: @payments.next_page), '', closest: 'tr'
+
+- if params[:page]
+  = data
+  
+- else
+  .report.post_relative.card
+    .btn-top-right.w_report_periods= report_periods_dropdown
+    .hook_caller{style: 'height: 320px;', 'data-callback' => 'MyFinances:draw_graphic', 'data-url' => url_for(action: :graphic)}
+      Loading...
+  
+    - if @payments.empty?
+      = link_to 'You have no financial transaction yet, Donate to a Church', url_for(action: :donate_church), class: 'italic underline ujs_link_modal', 'data-modal-title' => 'Donate to a Church', remote: true, 'data-disable-with' => button_spinner
+        
+    - else  
+      %table.table
+        %tr
+          -#%th.text-right{style: 'width: 30px;'}
+          %th Date
+          %th Recipient
+          %th{style: 'width: 80px;'} Payment Type
+          %th.text-right{style: 'width: 50px;'} Amount
+        = data

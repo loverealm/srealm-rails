@@ -1,0 +1,8 @@
+%h2 Dear,
+%br
+%p It's #{@user_from.try(:full_name, false)}. I really need you to pray for me. #{link_to 'Please login / sign up to LoveRealm', 'http://loverealm.com/'} to accept my prayer request.
+
+%p
+  Regards,
+  %br
+  = @user_from.first_name

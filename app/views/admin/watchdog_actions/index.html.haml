@@ -1,0 +1,31 @@
+%h1 Watchdogs
+.row
+  .col-md-6
+    = search_form_for @q, url: url_for(action: :index) do |f|
+      .input-group
+        = f.search_field :full_name_or_email_cont, class: 'form-control', placeholder: 'Type here to filter...'
+        %span.input-group-btn
+          = button_tag 'Filter', class: 'btn btn-default'
+
+%table.table{id: 'watchdogs_list_table'}
+  %thead
+    %tr
+      %th #
+      %th Full Name
+      %th Email
+      %th Mode
+      %th Accuracy
+      %th 
+  %tbody
+    - @watchdogs.each do |user|
+      %tr{'data-id' => user.id}
+        %td= user.id
+        %td= user.full_name
+        %td= user.email
+        %td= user.is_watchdog_probation? ? 'Watchdog Probation' : 'Watchdog'
+        %td= "#{((user.watchdog_elements.reverted.count * 100)/user.watchdog_elements.count) rescue 0}%"
+        %td
+          = dropdown_builder button_class: 'btn-xs', right: true do
+            = content_tag :li, link_to('Toggle Probation Mode', url_for(action: :toggle_mode, id: user), class: '')
+            
+= paginate @watchdogs      

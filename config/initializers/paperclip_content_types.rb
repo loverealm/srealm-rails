@@ -1,0 +1,1 @@
+Paperclip.options[:content_type_mappings][:m4a] = "video/mp4" # fix to upload m4a record audio

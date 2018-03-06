@@ -1,0 +1,131 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "search",
+  "apis": [
+    {
+      "path": "/api/v2/pub/search/google_place_info",
+      "operations": [
+        {
+          "summary": "Search for full information of a google place by its ID",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "place_id",
+              "type": "string",
+              "description": "Google place ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Search#google_place_info",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/search/churches",
+      "operations": [
+        {
+          "summary": "Search churches on server which includes loverealm churches + external churches (nearby churches from google maps)",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Text to filter in churches",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "lat",
+              "type": "string",
+              "description": "Latitude of the visitor",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "lng",
+              "type": "string",
+              "description": "Longitude of the visitor",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "next_page_token",
+              "type": "string",
+              "description": "Google search next page pagination (Used for pagination on google search service)",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page for pagination (default 10)",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "radius",
+              "type": "integer",
+              "description": "Integer representing the circle's radius in meters. The maximum allowed radius is 50000 meters. Default 30000",
+              "required": false
+            }
+          ],
+          "notes": "Results includes \"is_external\" which means if a church is external or loverealm. Also includes \"google_next_page_token\" which is the key for the next pagination for external places. Sample request page #2: .../churches/?...&page=2&next_page_token=..&..",
+          "nickname": "Api::V2::Pub::Search#churches",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/search",
+      "operations": [
+        {
+          "summary": "Search items on server",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "type",
+              "type": "string",
+              "description": "Type of search items: friends | contents | people | counselors | official_counselor | other_counselor | churches | churches_verified | groups | groups_verified | events | hash_tags",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Text to filter",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page for pagination (default 10)",
+              "required": false
+            }
+          ],
+          "notes": "Search items on server",
+          "nickname": "Api::V2::Pub::Search#index",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

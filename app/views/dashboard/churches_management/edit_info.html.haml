@@ -1,0 +1,12 @@
+= form_for @church, url: url_for(action: :edit_info), remote: true, method: :post, html:{class: 'ujs_hide_modal ujs_content_to', 'data-content-to' => '#church_grow_church_page .group-description'} do |f|
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'required form-control'
+
+  .form-group
+    = f.label :description
+    = f.text_area :description, class: 'required form-control'
+    
+  .form-group.text-right
+    = button_tag 'Save Information', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Saving...')
+    

@@ -1,0 +1,10 @@
+.hook_caller{'data-callback' => 'ConversationGroupManager:view'}
+  .text-center.title_group_form
+    .text 
+      = @conversation.group_title
+    = image_tag(@conversation.image.url)
+  
+  %p
+    %b Members
+  .members_list.list-group
+    = render 'participants', conversation: @conversation, participants: @conversation.user_participants.page(1).per(20)

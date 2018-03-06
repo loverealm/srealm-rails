@@ -1,0 +1,32 @@
+= form_tag url_for(action: :update, id: @user), class: 'validate ujs_hide_modal ujs_content_to', method: :put, remote: true, 'data-content-to' => "#user_row_#{@user.id} .roles" do
+  .form-group
+    = label_tag :roles, 'User Roles'
+    .roles.checkbox
+      - User::ROLES.each do |k_role, v_role| next if [:mentor, :official_mentor, :watchdog, :watchdog_probation, :bot, :user].include?(k_role) 
+        %label
+          = check_box_tag "roles[#{k_role}]", k_role, @user.roles.include?(k_role)
+          = v_role
+        %br
+      
+      %label.radio-inline
+        = radio_button_tag 'roles[mentor]', :mentor, @user.roles.include?(:mentor)
+        Mentor
+      %label.radio-inline  
+        = radio_button_tag 'roles[mentor]', :official_mentor, @user.roles.include?(:official_mentor)
+        Official Mentor
+      %label.radio-inline
+        = radio_button_tag 'roles[mentor]', ''
+        None
+      %br
+      %label.radio-inline
+        = radio_button_tag 'roles[watchdog]', :watchdog, @user.roles.include?(:watchdog)
+        Watchdog
+      %label.radio-inline
+        = radio_button_tag 'roles[watchdog]', :watchdog_probation, @user.roles.include?(:watchdog_probation)
+        Watchdog Probation
+      %label.radio-inline
+        = radio_button_tag 'roles[watchdog]', ''
+        None
+      
+  .form-group
+    = button_tag 'Update Roles', class: 'btn btn-primary', 'data-disable-with' => button_spinner

@@ -1,0 +1,17 @@
+- mention = Mention.find_by_id(activity.trackable_id)
+- if mention.present? && activity.owner.present?
+  = render layout: 'public_activity/layout', locals: {activity: activity} do
+    .media-left= user_avatar_widget activity.owner, 50, activity.created_at
+    .media-body
+      .media-heading
+        = link_to_user(activity.owner, {class: 'user-name', time: activity.created_at})
+          
+      .notification-text
+        - if mention.content.present?
+          mentioned you in this #{link_to 'post', dashboard_content_path(mention.content_id)}
+        - else
+          mentioned you in this #{link_to 'Comment', dashboard_content_path(mention.comment.try(:content_id))}.
+    .media-right.small
+      %time.nowrap
+        = time_ago_in_words(activity.created_at)
+        &nbsp;ago

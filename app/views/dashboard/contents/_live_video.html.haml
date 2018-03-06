@@ -1,0 +1,9 @@
+- live_video = content.try(:content_live_video)
+.content.live_video{content_widget_data(content)}
+  = render 'dashboard/contents/card_header', content: content, extra_heading: "#{'<small class="text-gray">was live</small>' if live_video.finished?}".html_safe
+  .content-body
+    .content-text
+      = raw content.decorate.the_excerpt
+    = content.decorate.the_widget_body
+          
+  = render 'dashboard/contents/card_footer', content: content

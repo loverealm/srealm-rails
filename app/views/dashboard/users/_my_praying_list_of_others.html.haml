@@ -1,0 +1,12 @@
+- content_prayers.eager_load(:content, content: :user).each do |req|
+  .media.media_bordered{'data-id' => req.content_id}
+    .media-left
+      = link_to "<i class='fa fa-circle-thin fa-2x fa-stack-1x'></i> <i class='fa fa-hover fa-check fa-stack-1x'></i>".html_safe, stop_praying_dashboard_content_path(req.content), remote: true, class: 'ujs_success_remove fa-stack', data: {'closest-remove' => '.media', confirm: 'Are you sure you want to stop praying?'}, 'data-disable-with' => button_spinner('...')  , title: 'Stop Praying'      
+    .media-body
+      .media-heading
+        = link_to req.content.the_title, dashboard_content_path(req.content)
+      %p
+        %small
+          %i #{req.content.content_prayers_accepted.count} Praying
+
+= view_more_button(my_praying_list_of_others_dashboard_users_path(page: content_prayers.next_page), '') if content_prayers.try(:next_page)

@@ -1,0 +1,39 @@
+%html.no-js{:lang => "en"}
+  %head= render '/layouts/head'
+
+  %body{class: "#{params[:controller]}/#{params[:action]}".split('/').join(' ') << "#{' no_session ' unless current_user}"}
+    #stickerPipe
+    - if show_splash_screen?
+      = render 'shared/splash_screen'
+
+    - if !current_user || params[:controller] == 'home'
+      = render 'shared/public_navigation'
+    - elsif !@hide_header
+      = render 'components/header'
+
+    #main_container.container.page{class: "#{yield :container_class}"}
+      = render '/layouts/flash_messages'
+      = yield
+
+    - if user_signed_in? && !current_user.is_newbie && !current_user.chat_invisibility
+      #chat_widget.hook_caller{'data-callback' => 'init_widget_chat'}
+        .conversations_panel.closed
+          .panel_header.clearfix
+            .col-xs-6
+              Messages
+            .col-xs-6.text-right.btns
+              .dropdown.inline.dropup
+                = link_to('<i class="fa fa-gear"></i>'.html_safe, '#', class: 'btn_settings btn dropdown-toggle', 'data-toggle' => 'dropdown', title: 'Settings')
+                %ul.dropdown-menu.dropdown-menu-right
+                  = content_tag :li, link_to('Create Group', create_group_dashboard_conversations_path, class: 'ujs_link_modal', remote: true, title: 'Create Group Conversation', 'data-disable-with' => button_spinner('Loading...'))
+                  = content_tag :li, link_to('Search Conversation', search_dashboard_conversations_path, class: 'ujs_link_modal btn_search', remote: true, title: 'Search Conversations', 'data-disable-with' => button_spinner('Loading...'))
+              = link_to('<i class="fa fa-window-minimize"></i>'.html_safe, '#', class: 'btn_toggle btn', title: 'Toggle Chat')
+          .panel_body
+    
+    %footer.footer
+      .container= render 'components/footer'
+
+    = render 'shared/invite_friends_modal' if current_user.present? && current_user.can_show_invite_friends?
+    = render 'shared/invite_volunteer_modal' if !cookies[:shown_volunteer_invitation] && current_user && current_user.can_show_invite_volunteer?
+    
+    = render '/layouts/footer'

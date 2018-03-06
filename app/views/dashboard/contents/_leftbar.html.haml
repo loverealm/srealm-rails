@@ -1,0 +1,100 @@
+#leftbar.sidebar{class: "col-md-#{col rescue 3}"}
+  .b_sticky.hook_caller.clearfix{'data-callback' => 'SidebarManager:init_affix_panel'}
+    // user avatar
+    .panel.panel-default
+      #profile-cover.panel-body{style: "background: url('#{current_user.cover.url(:medium)}') no-repeat 0 0; background-size: 100% 32%;"}
+        .btn-hover-parent
+          = user_avatar_widget(current_user, 120)
+          = current_user.the_edit_avatar_form label: 'Edit Avatar'
+          = current_user.the_edit_cover_form label: 'Edit Cover', style: 'right: auto;'
+        %h3 #{current_user.full_name(false)}
+        %p #{current_user.the_biography}
+        %table.table
+          %tr
+            %td.text-center
+              %span.text-red #{humanize_number current_user.following.count}
+              %br
+              Following
+            %td.text-center
+              %span.text-red #{humanize_number humanize_number current_user.num_of_followers}
+              %br
+              Followers
+            %td.text-center
+              %span.text-red #{humanize_number current_user.contents.count}
+              %br
+              Posts
+  
+    // counseling
+    .panel.panel-default.hook_caller.mentor_appointments{'data-callback'=>'SidebarManager:counseling'}
+      - if current_user.mentor?
+        .panel-heading.panel-title Book Appointment
+        .panel-body
+          .small= link_to 'Show counseling revenue', my_revenue_dashboard_counselors_path, remote: true, class: 'underline ujs_link_modal', data:{disable_with: button_spinner, modal_title: 'My Counseling Revenue', modal_size: 'modal-lg'}
+
+        .panel-heading.panel-title Confirmed Appointments
+        .panel-body.upcoming-list.empty_msg_panel{'data-empty-msg'=>'You have no counseling appointments'}<
+          - appointments = current_user.mentor_appointments.upcoming; appointments.limit(5).decorate.each do |appointment|
+            = appointment.the_row_item
+          = view_all_button(dashboard_appointments_path(kind: 'upcoming'), {modal_title: 'Confirmed Appointments'}) if appointments.count > 5
+
+        .panel-heading.panel-title Counseling Requests
+        .panel-body.pending-list.empty_msg_panel{'data-empty-msg'=>'You have no counseling requests'}<
+          - appointments = current_user.mentor_appointments.pending.future; appointments.limit(5).decorate.each do |appointment|
+            = appointment.the_row_item
+          = view_all_button(dashboard_appointments_path(kind: 'pending_future'), {modal_title: 'Video Counseling Requests'}) if appointments.count > 5
+                   
+      - else
+        .panel-heading.panel-title.transparent.text-red.bold.text-center Counselor Finder
+        .panel-body.text-center
+          = link_to('Click here to start a conversation with a counselor', suggested_mentor_conversation_dashboard_conversations_path, class: 'ujs_start_conversation underline text-gray', remote: true, 'data-disable-with'=> button_spinner )
+          
+        - if current_user.default_mentor_id.present?
+          .panel-heading.panel-title Your Counselor
+          .panel-body
+            - mentor = current_user.default_mentor.decorate
+            = mentor.the_mentor_row_item({block_position: 'bottom', show_text_status: false, thumb_size: 35, truncate: 0, user_link_class: 'text-black'}) do
+              .small
+                = mentor.the_mentor_chat_link({label: 'Chat', class: 'text-black underline'})
+                \| 
+                = mentor.the_mentor_video_link(class: 'text-black underline')
+              
+          .panel-heading.panel-title Your Church Counselors
+          .panel-body.empty_msg_panel{'data-empty-msg'=>'Your church has no counselors yet.'}<
+            - unless current_user.primary_church
+              .text-center
+                .bold You have not yet joined a church
+                = link_to 'Join a church to access its counselors', '/dashboard/search?type=churches&filter=', class: 'underline'
+            - else
+              - items = current_user.church_counselors
+              = render template: 'dashboard/counselors/church_counselors', locals:{counselors: items.limit(4)}
+              = view_all_button(church_counselors_dashboard_counselors_path, modal_title: 'Churches Counselors') if items.count > 4
+
+        .panel-heading.panel-title Confirmed Appointments
+        .panel-body.upcoming-list.empty_msg_panel{'data-empty-msg'=>'You have no confirmed appointments'}<
+          - appointments = current_user.mentee_appointments.upcoming; appointments.limit(3).decorate.each do |appointment|
+            = appointment.the_row_item
+          = view_all_button(dashboard_appointments_path(kind: 'upcoming'), {modal_title: 'Confirmed Appointments'}) if appointments.count > 3
+            
+        .panel-heading.panel-title Pending appointments
+        .panel-body.pending-list.empty_msg_panel{'data-empty-msg'=>'You have no pending appointments'}<
+          - appointments = current_user.mentee_appointments.pending.future; appointments.limit(3).decorate.each do |appointment|
+            = appointment.the_row_item
+          = view_all_button(dashboard_appointments_path(kind: 'pending_future'), {modal_title: 'Pending Counseling Appointments'}) if appointments.count > 3
+
+        .panel-footer.text-center.bg_transparent= link_to 'Find more counselors', dashboard_counselors_path, class: 'underline'
+          
+        
+  
+    // trending tags
+    .panel.panel-default
+      .panel-heading.panel-title Trending Tags
+      .panel-body
+        %ul.list-unstyled
+          - HashTag.trending_tags(5).each do |tag|
+            %li
+              = link_to tag.name, dashboard_contents_path(tag_id: tag.id)
+                
+    // copyright
+    .panel.transparent
+      .panel-body
+        = render 'components/footer', custom_class: 'btn btn-xs'

@@ -1,0 +1,8 @@
+%p Dear #{@user.first_name},
+- if @ticket.event.is_free?
+  %p Please check attached your ticket code for the event "#{@ticket.event.name}".
+- else
+  %p Please check attached your purchased ticket for the event "#{@ticket.event.name}".
+  
+%p Kind Regards,
+%p The #{link_to 'LoveRealm', root_url} team

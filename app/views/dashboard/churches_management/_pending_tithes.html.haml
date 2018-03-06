@@ -1,0 +1,5 @@
+- users.each do |user|
+  = user_row_widget(user, {class: 'media_bordered'}) do
+    = link_to('Send Reminder', url_for(action: :send_tithe_reminder, id: user), class: 'small underline', remote: true, 'data-disable-with' => button_spinner, 'data-confirm' => 'Are you sure you want to send a reminder?')
+
+= view_more_button(url_for(action: :pending_payments, kind: params[:kind], page: users.try(:next_page))) if users.try(:next_page)

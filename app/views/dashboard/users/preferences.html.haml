@@ -1,0 +1,87 @@
+%ol.breadcrumb
+  %li
+    = link_to 'Home', home_path
+  %li My account
+
+%h2 Your Profile
+
+.user-image-form-wrapper.clearfix
+  .current-user-image.current-user-avatar
+    = image_tag current_user.avatar.url(:square), class: 'media-object user-avatar current-user-avatar'
+
+  = simple_form_for(current_user, url: profile_avatar_dashboard_users_path, multipart: true, method: :put, remote: true, html: { class: 'current-user-image-form reset_on_success ujs_filestyle', 'data-disable-with' => button_spinner('Uploading...') }) do |f|
+    .form-group
+      %h3 Upload your profile picture
+    .form-group
+      = f.input_field :avatar, label: false, required: true, class: 'upload filestyle', 'data-buttonText' => 'Choose Image', 'data-buttonBefore'=> true, 'data-input'=>'false', 'onChange'=>'$(this).closest(\'form\').submit()', 'data-badge'=>'false', accept: 'image/gif,image/jpeg,image/png,image/jpg'
+
+.validating-form.user-settings-wrapper.panel
+  = simple_form_for(current_user, url: url_for(action: :update), html: { method: :post, class: 'hook_caller', 'data-callback' => 'User.preferences_form' }) do |f|
+    .form-heading
+      Update your details
+
+    .form-body
+      = f.error_notification
+      .row.form-group
+        .col-xs-6
+          = f.input :first_name, label: false, required: true, placeholder: 'First Name'
+        .col-xs-6
+          = f.input :last_name, label: false, required: true
+
+      .row.form-group
+        .col-xs-6
+          = f.input :email, as: :email, label: false
+
+        .col-xs-6
+          = date_picker_input do
+            = f.text_field :birthdate, class: 'form-control required', placeholder: 'Select your birthdate:'
+          
+      .row.form-group
+        .col-xs-6
+          = f.input :sex, as: :select, collection: User::SEX.invert, label: false, class: "form-control required", prompt: 'Select gender'
+
+        .col-xs-6
+          = f.select :country, ISO3166::Country.all.map{|c| "<option data-code='#{c.country_code}' #{'selected' if c.alpha2 == current_user.country} value='#{c.alpha2}'>#{c.name}</option>"}.join('').html_safe, {include_blank: 'SELECT YOUR COUNTRY'}, class: "hook_caller form-control required country_sel", 'data-placeholder' => 'Select country', 'data-callback' => 'Common.select2'
+
+      .row.form-group
+        .col-xs-6
+          = f.collection_select :time_zone, ActiveSupport::TimeZone.all, :name, :to_s, {include_blank: 'SELECT YOUR TIME ZONE'}, class: 'form-control required', value: current_user_timezone
+        .col-xs-6
+          .row
+            .col-sm-3
+              = f.text_field :country_code, class: 'form-control', value: current_user.phone_number.to_s.split(' ').first, placeholder: 'Country Code'
+            .col-sm-8.padding_left0
+              = f.text_field :phone_number, class: 'form-control', value: current_user.phone_number.to_s.split(' ').last, placeholder: 'Phone number'
+
+      = f.input :biography, as: :text, label: false, required: true, minlength: 30
+
+      .row.form-group
+        .col-xs-3
+          = f.label "Receive messages only from people I'm following", :class => "wider"
+          = f.input :receive_messages_only_from_followers, as: :radio_buttons, label: false
+        .col-xs-3
+          = f.label "Receive e-mail notifications", :class => "wider"
+          = f.input :receive_notification, as: :radio_buttons, label: false
+
+        .col-xs-3
+          = f.label "Notifications Sound", :class => "wider"
+          = f.input :notification_sound, as: :radio_buttons, label: false
+
+        .col-xs-3
+          = f.label "Turn Off Chat", :class => "wider"
+          = f.input :chat_invisibility, as: :radio_buttons, label: false
+
+      .form-group
+        %label Topics you’re interested in
+        .l= select_tag :hash_tags, options_for_select(current_user.hash_tags.pluck(:name), current_user.hash_tags.pluck(:name)), placeholder: 'Select topics you’re interested in', class: 'hook_caller', multiple: true, 'data-callback' => 'Common.tags_autocomplete'
+
+    .form-actions.clearfix
+      = f.button :submit, "Save changes", :class => "button-save pull-right"
+      = link_to url_for(action: :delete_account), method: :delete, data: {confirm: 'Are you sure you want to delete your account and all related information?'}, class: 'btn btn-danger' do
+        %i.fa.fa-user-times
+        Delete Account
+
+- if current_user.require_password?
+  .panel{style: 'padding: 20px;'}
+    = render 'shared/reset_password'
+

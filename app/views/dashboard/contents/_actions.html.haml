@@ -1,0 +1,35 @@
+.content-actions.clearfix
+  - top_friends = content.friends_in_votes_of(current_user).order('voted_at DESC').limit(2).map{|u| u.the_first_name(u.voted_at) }.join(', ')
+  = link_to '', toogle_like_dashboard_content_path(id: content.id), data: {friends: top_friends, ujs_qty: content.the_total_votes, reacted: (content.reacted_by(current_user).try(:vote_scope).presence || ''), reaction: content.is_pray? ? 'pray' : 'love'}, class: "content-action btn btn-xs like-action bold #{'active' if content.is_liked_by?(current_user)} padding_left0"
+
+  %span.content-action.comment-action.btn.btn-xs.bold
+    %span.icon.glyphicon.glyphicon-comment
+    %span Comment
+
+  .share-button-container.content-action.dropdown.dropup.btn.btn-xs
+    %span.bold{'data-toggle' => 'dropdown'}
+      = image_tag('share-128.png', class: 'share-button-icon icon')
+      = tv '.share.caption'
+        
+    %ul.dropdown-menu
+      - if content.user_id != current_user.try(:id)
+        %li.internal-sharing
+          = render partial: 'dashboard/shares/internal_link', locals: { content: content }
+      %li
+        = link_to '#', class: 'external-sharing' do
+          %i.fa.fa-share-alt
+          = tv('.share.on_other')
+  %ul.share-buttons.hidden
+    %li
+      %a{:href => "https://www.facebook.com/sharer/sharer.php?u=#{dashboard_content_url(content)}", :target => "_blank"}
+        = image_tag("icons/Facebook.png")
+    %li
+      %a{:href => "https://twitter.com/home?status=#{dashboard_content_url(content)}", :target => "_blank"}
+        = image_tag("icons/Twitter.png")
+    %li
+      %a{:href => "https://plus.google.com/share?url=#{dashboard_content_url(content)}", :onclick => "javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"}
+        = image_tag("icons/google_plus.png")
+    %li
+      %a{:href => "whatsapp://send?text=#{dashboard_content_url(content)}", :target => "_blank"}
+        = image_tag("icons/whatsapp.png")
+

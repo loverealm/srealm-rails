@@ -1,0 +1,19 @@
+.content.question.status{content_widget_data(content)}
+  = render 'dashboard/contents/card_header', content: content
+  - cache content.custom_cache_key('widget', 'last_activity_time') do
+    .content-body
+      .status-content-text
+        %h3.text-danger.margin_top0
+          = content.title
+        .description{style: feed_font_size_text(content)}
+          = raw content.decorate.the_excerpt
+
+      .recommended_users.margin_top20
+        - recommended_users, qty_visible = content.recommended_users.to_a, 5
+        - recommended_users.each_with_index do |recommended_user, index|
+          .post-author-image.inline{class: "#{'hidden' if index >= qty_visible}"}
+            = user_avatar_widget(recommended_user, 50) do
+              - if index == (qty_visible-1) && recommended_users.size > qty_visible
+                %span.plus_text{onclick: "$(this).closest('.post-author-image').siblings().removeClass('hidden'); $(this).remove(); return false;"} +#{recommended_users.size-qty_visible}
+
+  = render 'dashboard/contents/card_footer', content: content

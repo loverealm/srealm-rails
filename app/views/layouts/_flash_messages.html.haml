@@ -1,0 +1,11 @@
+- flash.each do |key, value| 
+  - key = 'error' if ['alert', 'recaptcha_error'].include?(key.to_s)
+  - real_key = key.sub('_persist', '')
+  - if ['error', 'danger', 'warning', 'notice', 'success', 'info'].include?(real_key.to_s)
+    %div{:class => "alert alert-#{real_key} #{'skip_dismiss' if key.include?('_persist')}"}
+      %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+        %i.fa.fa-times
+      = value
+
+- if flash[:ujs_modal_title]
+  .hook_caller.hidden{data: {callback: 'Common.open_modal', title: flash[:ujs_modal_title], kind: flash[:ujs_modal_kind]} }= flash[:ujs_modal_body]

@@ -1,0 +1,13 @@
+= content_for :head do
+  %meta{:content => "loverealmmobile://content/#{content.id}", :property => "al:android:url"}/
+  %meta{:content => "loverealmmobile://content/#{content.id}", :property => "al:ios:url"}/
+  
+  
+#content_full
+  .content.content-full{content_widget_data(content)}
+    = render 'dashboard/contents/card_header', content: content, extra_heading: (extra_heading rescue '')
+    = yield
+    = render partial: 'author_info', locals: { content: content } unless (no_author rescue false)
+    = render 'dashboard/contents/card_footer', content: content
+
+= render partial: 'recommended_stories', locals: { recommended_stories: @recommended_stories }

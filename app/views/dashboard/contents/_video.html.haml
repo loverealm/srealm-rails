@@ -1,0 +1,7 @@
+.content.video{content_widget_data(content)}
+  = render 'dashboard/contents/card_header', content: content
+  .content-body
+    = link_to '', content.video.url, class: 'link_media_player', 'data-poster' => content.video.url(:thumb)
+    .description
+      = raw content.decorate.the_excerpt
+  = render 'dashboard/contents/card_footer', content: content

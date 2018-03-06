@@ -1,0 +1,11 @@
+:ruby
+  set_meta_tags og: {
+    title: shortik(@content.description, 100),
+    video: @content.video.url(:full)
+  }
+
+= render layout: 'full_content', locals:{content: @content} do
+  .content-body
+    = link_to '', content.video.url, class: 'link_media_player', 'data-poster' => content.video.url(:thumb)
+    .content-text
+      = raw @content.decorate.the_body

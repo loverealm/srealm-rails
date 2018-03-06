@@ -1,0 +1,19 @@
+:javascript
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Month');
+    data.addColumn('number', 'Items');
+    data.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
+    data.addRows(#{@data.to_json})
+    var options = {
+      title: '#{@title}',
+      hAxis: {title: '#{params[:kind]=='monthly_active_users' ? 'Days' : 'Months'}',  titleTextStyle: {color: '#333'}},
+      vAxis: {minValue: 0}
+    };
+
+    var chart = new google.visualization.AreaChart(document.getElementById('dashboard_chart_div'));
+    chart.draw(data, options);
+  }

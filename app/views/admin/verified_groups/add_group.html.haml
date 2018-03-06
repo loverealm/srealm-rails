@@ -1,0 +1,7 @@
+= form_tag url_for(), method: :post, class: 'validate' do
+  .form-group
+    %label Verified Groups
+    = select_tag :groups, '', class: 'form-control required hook_caller', 'data-callback' => 'Common.user_autocomplete', 'data-url' => url_for(action: :search_unverified), placeholder: 'Enter verified user groups...', multiple: true
+    
+  .text-center
+    = button_tag 'Save', class: 'btn btn-primary', 'data-disable-with' => button_spinner

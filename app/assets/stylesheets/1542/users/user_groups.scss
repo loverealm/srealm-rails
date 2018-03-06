@@ -1,0 +1,170 @@
+#user_group_view{
+  #group_header{
+    .banner{
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-color: #fff;
+      height: 300px;
+      position: relative;
+    }
+    .white_panel{
+      float: right;
+      background-color: rgba(250, 250, 250, 0.8);
+      margin-top: 20px;
+      margin-right: 10px;
+      .btn{
+        color: #333333;
+        text-decoration: underline;
+      }
+    }
+    .add_member_btn{
+      background-color: #000;
+      color: #fff;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      letter-spacing: 1px;
+      font-size: 32px;
+      line-height: 55px;
+      &:hover, &:active, &:focus{
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+#user_group_form{
+  .members_list{
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .meetings_list{
+    .meeting-item:first-child .btn-del-meeting{
+      visibility: hidden;
+    }
+  }
+}
+
+//****** inline group type icon ******/
+input[type=checkbox] + .inline_group_icon,
+input[type=radio] + .inline_group_icon{
+  border: 2px solid transparent;
+}
+input:checked + .inline_group_icon{
+  border-color: #aaa;
+}
+
+.inline_group_icon{
+  background-image: asset_url('icons/group-icons.png');
+  width: 90px;
+  height: 80px;
+  display: inline-block;
+  cursor: pointer;
+  &.general{
+    background-position: 0px 0px;
+  }
+  &.church{
+    background-position: -92px 0;
+  }
+  &.youth_group{
+    background-position: 0px 87px;
+  }
+  &.workship_group{
+    background-position: -192px 0px;
+  }
+  &.commitee{
+    background-position: -191px 87px;
+  }
+  &.department{
+    background-position: -303px 87px;
+  }
+  &.organization{
+    background-position: 91px 0;
+  }
+  &.discussion_topic{
+    background-position: -90px 87px;
+  }
+}
+
+.sprite {
+  background-image: image-url('basic_spritesheet.png');
+  background-repeat: no-repeat;
+  display: block;
+
+  &.sprite_wow {
+    @include stitches-sprite(-20px, -20px, 128px, 128px);
+  }
+
+  &.sprite_Chat_communication_dialogue_discussion {
+    @include stitches-sprite(-188px, -20px, 128px, 116px);
+  }
+
+  &.sprite_sad {
+    @include stitches-sprite(-356px, -20px, 128px, 128px);
+  }
+
+  &.sprite_angry {
+    @include stitches-sprite(-524px, -20px, 128px, 128px);
+  }
+
+  &.sprite_heart {
+    @include stitches-sprite(-20px, -188px, 128px, 128px);
+  }
+
+  &.sprite_icon_support {
+    @include stitches-sprite(-188px, -188px, 128px, 128px);
+  }
+
+  &.sprite_User {
+    @include stitches-sprite(-356px, -188px, 128px, 128px);
+  }
+
+  &.sprite_new-message {
+    @include stitches-sprite(-524px, -188px, 128px, 128px);
+  }
+
+  &.sprite_camera-refresh {
+    @include stitches-sprite(-20px, -356px, 128px, 128px);
+  }
+
+  &.sprite_Prayer-_Yellow {
+    @include stitches-sprite(-188px, -356px, 102px, 128px);
+  }
+
+  &.sprite_open-book {
+    @include stitches-sprite(-330px, -356px, 128px, 128px);
+  }
+
+  &.sprite_10_Church {
+    @include stitches-sprite(-498px, -356px, 128px, 128px);
+  }
+
+  &.sprite_Live {
+    @include stitches-sprite(-20px, -524px, 128px, 128px);
+  }
+
+  &.sprite_xxx029 {
+    @include stitches-sprite(-188px, -524px, 128px, 128px);
+  }
+
+  &.sprite_50 {
+    @include stitches-sprite(-356px, -524px, 128px, 128px);
+  }
+
+  &.sprite_Shopping_Mall {
+    @include stitches-sprite(-524px, -524px, 128px, 128px);
+  }
+
+  &.sprite_general_icons-02 {
+    @include stitches-sprite(-692px, -20px, 128px, 128px);
+  }
+
+  &.sprite_Meeting {
+    @include stitches-sprite(-692px, -188px, 128px, 128px);
+  }
+
+  &.sprite_177 {
+    @include stitches-sprite(-666px, -356px, 128px, 128px);
+  }
+}

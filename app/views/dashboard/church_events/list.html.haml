@@ -1,0 +1,6 @@
+- @events.decorate.each do |event|
+  .col-sm-6.margin_bottom10
+    = event.the_widget({class: 'media_bordered', photo: true})
+  
+.clearfix
+= view_more_button(url_for(action: :list, page: @events.next_page)) if @events.next_page

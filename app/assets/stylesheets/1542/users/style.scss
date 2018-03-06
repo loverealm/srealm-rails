@@ -1,0 +1,107 @@
+.avatar_widget img{
+  margin: 0 auto;
+  overflow: hidden;
+}
+.user-stats {
+  .user-stat-item {
+    text-align: right;
+    float: left;
+    padding: 8px 24px;
+    margin: 20px 0;
+
+    .caption {
+      color: #c8140f;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .counter {
+      color: #333;
+      font-style: arial, serif;
+      font-family: arial, serif;
+      font-size: 22px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .user-stat-item + .user-stat-item{
+    border-left: 1px solid #cbd5ce;
+  }
+}
+
+.verified_badge, .volunteer_badge{
+  background: #699dfb none repeat scroll 0 0;
+  border-radius: 100%;
+  color: #fff !important;
+  font-size: 12px;
+  padding: 1px;
+  vertical-align: middle;
+  cursor: pointer;
+  &.volunteer_badge{
+    background-color: darken($LR-red, 10%);
+  }
+}
+
+#counselors_list_page{
+  padding-bottom: 20px;
+  .counselor_name{
+    font-size: 18px;
+    color: $black;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  > .separator{
+    background-color: #000;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px;
+  }
+}
+
+// password progressbar
+.pwstrength_viewport_progress{
+  .password-verdict{
+    white-space: nowrap;
+    color: #333;
+  }
+  .progress{
+    margin-bottom: 0;
+  }
+}
+
+// Avatar Status
+.avatar_status{
+  border-radius: 50%;
+  padding: 5px;
+  background-color: #AAAAAA;
+  &.online{
+    background-color: #61E80D;
+  }
+}
+.profile-info .avatar_status{
+  border: 2px solid #fff;
+  left: -10px;
+  position: relative;
+  top: -15px;
+}
+
+.user_avatar_widget_styled{
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-align: right;
+  .avatar_status{
+    border: 2px solid #fff;
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    top: auto;
+  }
+}
+// end avatar status

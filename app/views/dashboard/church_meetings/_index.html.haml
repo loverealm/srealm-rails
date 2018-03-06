@@ -1,0 +1,7 @@
+- meetings.each do |meeting|
+  - links = capture do
+    .nowrap
+      = link_to('Edit', edit_dashboard_user_group_meeting_path(user_group_id: @church, id: meeting), class: 'btn btn-primary btn-xs btn-bordered ujs_link_modal', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title' => 'Edit Meeting')
+      = link_to('Delete', dashboard_user_group_meeting_path(user_group_id: @church, id: meeting), class: 'btn btn-primary btn-xs btn-bordered ujs_success_remove', method: :delete, remote: true, 'data-confirm'=>'Are you sure you want to delete this meeting?', 'data-disable-with' => button_spinner('Loading...'), 'data-closest-remove' => '.media')
+  = meeting.decorate.the_widget({class: 'media_bordered', media_right: links}) 
+- view_more_button(dashboard_user_group_meetings_path(user_group_id: @church, page: meetings.next_page)) if meetings.try(:next_page)

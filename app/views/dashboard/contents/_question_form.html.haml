@@ -1,0 +1,13 @@
+.hook_caller{'data-callback' => 'ContentEditor:question_form'}
+  = form_for content, url: [:dashboard, content], multipart: true, remote: true, html: {class: 'simple_form', id: "content_question_form", 'data-suggested-btn' => 'Ask your question', 'data-suggested-title' => 'Select from the list below more people to help you with answers'} do |f|
+    = f.hidden_field :owner_id
+    = f.hidden_field :user_group_id
+    = f.hidden_field :content_type, value: 'question'
+    .form-group
+      = f.text_field :title, placeholder: "What is your question?", class: 'form-control required', maxlength: 150
+    .form-group
+      = f.text_area :description, placeholder: 'Please Explain your question in detail.', class: 'required form-control mentionable'
+    - if content.new_record? && content.owner_id
+      = hidden_field_tag 'content[user_recommended_ids][]', current_user.id
+    - else
+      = f.select :user_recommended_ids, options_from_collection_for_select(content.recommended_users, :id, lambda{|u| u.full_name(false)}, content.recommended_users.pluck(:id)), {include_hidden: false}, {multiple: true, style: 'width: 100%; display: block;', placeholder: "Please select Users to answer the question."}

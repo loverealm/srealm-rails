@@ -1,0 +1,28 @@
+%h1 Listing Other mentors
+.text-right
+  = link_to 'New Other Mentor', url_for(action: :new), class: 'btn btn-primary btn-sm ujs_link_modal', remote: true, 'data-disable-with' => button_spinner, 'data-modal-title' => 'New Other Mentor'
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Biography
+      %th Mentorship topics
+      %th &nbsp;
+
+  %tbody
+    - @mentors.each do |mentor|
+      %tr
+        %td= mentor.full_name
+        %td= mentor.the_biography
+        %td= mentor.mentorship_hash_tags.pluck(:name).map{|t| "<span class='label label-default'>#{t}</span>"}.join('&nbsp;').html_safe
+        %td
+          .dropdown
+            %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown"}
+              %i.fa.fa-cog
+              %span.caret
+            %ul.dropdown-menu
+              = content_tag :li, link_to('Edit', url_for(action: :edit, id: mentor), class: "ujs_link_modal", remote: true, 'data-disable-with' => button_spinner, 'data-modal-title' => 'New Other Mentor')
+              = content_tag :li, link_to('Show Profile', dashboard_profile_path(mentor), class: "")
+              = content_tag :li, link_to('Remove Mentor', admin_mentor_path(mentor), :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "")
+
+= paginate @mentors

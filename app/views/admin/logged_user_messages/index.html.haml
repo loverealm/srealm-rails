@@ -1,0 +1,21 @@
+%h2 Bot answers
+= link_to 'Add new message', new_admin_logged_user_message_path
+%table.table-w100.table
+  %thead
+    %tr
+      %th #
+      %th Message text
+      %th Available bot answers
+  %tbody
+    - @messages.each do |message|
+      %tr
+        %td
+          = message.id
+        %td
+          = message.try(:text)
+        %td
+          .row
+            .col-md-3
+              = message.bot_custom_answers.count
+            .col-md-3
+              = link_to "Show answers", admin_logged_user_message_bot_custom_answers_path(message)

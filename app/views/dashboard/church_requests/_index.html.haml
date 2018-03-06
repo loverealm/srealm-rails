@@ -1,0 +1,32 @@
+- church_requests.each do |user_group|
+  = user_group_row_widget(user_group, class: 'media_bordered') do
+    - if user_group.request_kind == 'root'
+      - if @church.received_root_branch_request? user_group.id
+        .small
+          = link_to 'Accept Main Branch', accept_main_dashboard_user_group_requests_path(user_group_id: @church, id: user_group), class: 'ujs_success_remove underline', 'data-closest-remove' => '.media', remote: true, 'data-disable-with' => 'Loading...', 'data-confirm' => 'Are you sure you want to accept this church as your branch?'
+          |
+          = link_to 'Reject Main Branch', reject_main_dashboard_user_group_requests_path(user_group_id: @church, id: user_group), class: 'ujs_success_remove underline', 'data-closest-remove' => '.media', remote: true, 'data-disable-with' => 'Loading...', 'data-confirm' => 'Are you sure you want to reject this request?'
+      - else
+        .text-right
+          .dropdown
+            = link_to '#', class: 'dropdown-toggle small underline ', "data-toggle" => "dropdown" do
+              Main Branch Request Sent 
+              %span.caret
+            %ul.dropdown-menu.dropdown-menu-right
+              = content_tag :li, link_to('Cancel Request', cancel_main_dashboard_user_group_requests_path(user_group_id: @church.id, id: user_group), class: 'ujs_success_remove', 'data-closest-remove' => '.media', remote: true, 'data-disable-with' => 'Loading...', 'data-confirm' => 'Are you sure you want to cancel your request?')
+    - else
+      - if @church.received_branch_request? user_group.id
+        .small
+          = link_to 'Accept', accept_dashboard_user_group_requests_path(user_group_id: @church, id: user_group), class: 'ujs_success_remove underline', 'data-closest-remove' => '.media', remote: true, 'data-disable-with' => 'Loading...', 'data-confirm' => 'Are you sure you want to accept this church as your branch?'
+          |
+          = link_to 'Reject', reject_dashboard_user_group_requests_path(user_group_id: @church, id: user_group), class: 'ujs_success_remove underline', 'data-closest-remove' => '.media', remote: true, 'data-disable-with' => 'Loading...', 'data-confirm' => 'Are you sure you want to reject this request?'
+      - else
+        .text-right
+          .dropdown
+            = link_to '#', class: 'dropdown-toggle small underline', "data-toggle" => "dropdown" do
+              Request Sent 
+              %span.caret
+            %ul.dropdown-menu.dropdown-menu-right
+              = content_tag :li, link_to('Cancel Request', cancel_dashboard_user_group_requests_path(user_group_id: @church.id, id: user_group), class: 'ujs_success_remove', 'data-closest-remove' => '.media', remote: true, 'data-disable-with' => 'Loading...', 'data-confirm' => 'Are you sure you want to cancel your request?')
+
+= view_more_button(dashboard_user_group_requests_path(user_group_id: @church.id, page: church_requests.next_page)) if church_requests.try(:next_page)                    

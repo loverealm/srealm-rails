@@ -1,0 +1,6 @@
+- requests.each do |user|
+  = user_row_widget(user, {class: 'media_bordered'}) do
+    .actions
+      = link_to 'Accept', url_for(action: :accept_member, user_id: user.id), class: 'btn btn-xs btn-bordered btn-primary ujs_success_hide', 'data-closest-hide' => '.actions', method: :put, remote: true, 'data-disable-with' => button_spinner
+      = link_to 'Reject', url_for(action: :reject_member, user_id: user.id), class: 'btn btn-xs btn-bordered btn-primary ujs_success_hide', 'data-closest-hide' => '.actions', method: :delete, 'data-confirm' => 'Are you sure you want to reject this member request?', remote: true, 'data-disable-with' => button_spinner
+= view_more_button(url_for(action: :grow_church_data, kind: 'member_requests', page: requests.try(:next_page))) if requests.try(:next_page) 

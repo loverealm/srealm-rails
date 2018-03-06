@@ -1,0 +1,51 @@
+- content_for :searched_value, params[:filter]
+- content_for :container_class, 'panel'
+#search_page.hook_caller{'data-callback' => 'SearchManager:init', 'data-url'=>url_for(type: params[:type], filter: params[:filter], format: :js)}
+  .content-with-sidebar.row
+    = form_tag url_for(), remote: true, method: :get, class: 'sidebar_form ujs_content_to col-sm-3', 'data-content-to' => '#content_search .results_container' do
+      = hidden_field_tag :type, params[:type]
+      .panel.panel-default
+        .panel-heading.bold Filters
+        .panel-body
+          .input-group
+            = text_field_tag 'filter', params[:filter], class: 'form-control required', placeholder: ''
+            %span.input-group-btn
+              = button_tag 'Search', class: 'btn btn-primary', 'data-disable-with' => button_spinner
+  
+        .panel-body
+          %ul.list-group
+            %label.list-group-item
+              = check_box_tag 'extra_filter[]', 'my_country', (params[:extra_filter] || []).include?('my_country'), class: 'hidden'
+              %i.fa.fa-square
+              In my country
+            %label.list-group-item
+              = check_box_tag 'extra_filter[]', 'my_groups', (params[:extra_filter] || []).include?('my_groups'), class: 'hidden'
+              %i.fa.fa-square
+              In my groups
+              
+    #content_search.col-md-9.content-feed
+      %ul.nav.nav-tabs{:role => "tablist"}
+        %li{class: "#{'active' if params[:type] == 'all'}"}
+          = link_to('All', '#', 'data-kind' => 'all', remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_content_to', 'data-content-to' => '#content_search .results_container')
+        
+        %li{class: "#{'active' if params[:type] == 'people'}"}
+          = link_to('Friends', '#', 'data-kind' => 'people', remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_content_to', 'data-content-to' => '#content_search .results_container')
+  
+        %li{class: "#{'active' if params[:type] == 'contents'}"}
+          = link_to('Posts', '#', 'data-kind' => 'contents', remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_content_to', 'data-content-to' => '#content_search .results_container')
+  
+        %li{class: "#{'active' if params[:type] == 'counselors'}"}
+          = link_to('Counselors', '#', 'data-kind' => 'counselors', remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_content_to', 'data-content-to' => '#content_search .results_container')
+  
+        %li{class: "#{'active' if params[:type] == 'churches'}"}
+          = link_to('Churches', '#', 'data-kind' => 'churches', remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_content_to', 'data-content-to' => '#content_search .results_container')
+  
+        %li{class: "#{'active' if params[:type] == 'groups'}"}
+          = link_to('Groups', '#', 'data-kind' => 'groups', remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_content_to', 'data-content-to' => '#content_search .results_container')
+  
+        %li{class: "#{'active' if params[:type] == 'events'}"}
+          = link_to('Events', '#', 'data-kind' => 'events', remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_content_to', 'data-content-to' => '#content_search .results_container')
+  
+      .results_container.padding_top10
+        = render template: 'dashboard/search/results'
+

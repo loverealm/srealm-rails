@@ -1,0 +1,8 @@
+- @mentors.decorate.each do |mentor|
+  = mentor.the_mentor_row_item(kind: true) do
+    = dropdown_builder right: true do
+      = content_tag :li, mentor.the_mentor_chat_link(class: '')
+      = content_tag :li, mentor.the_mentor_set_default_link(class: '', label: 'Set as default')
+      = content_tag :li, mentor.the_mentor_video_link(class: '')
+    
+= view_more_button(url_for(action: :index, page: @mentors.next_page)) if @mentors.next_page    

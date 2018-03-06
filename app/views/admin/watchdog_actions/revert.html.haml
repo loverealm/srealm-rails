@@ -1,0 +1,7 @@
+= form_tag url_for(action: params[:action], id: params[:id]), method: :post, class: 'validate' do
+  .form-group
+    = label_tag :reason, 'Reason to revert'
+    = text_area_tag :reason, '', class: 'required form-control'
+      
+  .form-group
+    = button_tag 'Revert', class: 'btn btn-primary', 'data-disable-with' => button_spinner

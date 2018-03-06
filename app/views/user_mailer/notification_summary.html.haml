@@ -1,0 +1,33 @@
+%p= "#{@user.full_name(false)},"
+%p Whilst you were away:
+- if @relationship_notifications.present?
+  %p
+    = tv '.followed_message', count: @relationship_notifications.size
+    = link_to @relationship_notifications.first.recipient.full_name(false), dashboard_profile_url(@relationship_notifications.first.recipient)
+
+
+%p= tv '.summary_message', count: @notifications.size
+
+%ul
+  - @notifications.each do |activity|
+    %li
+      - case activity.key
+      - when 'comment.create'
+        = link_to activity.owner.full_name(false), dashboard_user_url(activity.owner)
+        commented your #{link_to activity.trackable.content.content_type.downcase, dashboard_content_url(activity.trackable)}
+      - when 'content.create'
+        = link_to activity.owner.full_name(false), dashboard_user_url(activity.owner)
+        - if activity.trackable
+          added the #{link_to activity.trackable.content_type.downcase, dashboard_content_url(activity.trackable)}
+        - else
+          added the story that is currently deleted.
+      - when 'relationship.create'
+        = link_to activity.recipient.full_name(false), dashboard_profile_url(activity.recipient)
+        is now following you
+      - when 'recommend.create'
+        = link_to activity.recipient.full_name(false), dashboard_profile_url(activity.recipient)
+        Asked you.
+
+Check out all your notifications #{link_to 'here', dashboard_notifications_url}.
+
+= render '/shared/mailer/unsubscribe'

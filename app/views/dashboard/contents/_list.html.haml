@@ -1,0 +1,13 @@
+- next_page = (params[:page].present? ? contents.try(:next_page) : (next_page rescue contents.try(:next_page)))
+- sug_friends = calculate_suggested_friends_frequency(params[:page]) # suggested friends
+- position_groups = calculate_suggested_groups_frequency(params[:page]) ? rand(1..3) : -1 # suggested groups
+
+= render 'dashboard/users/suggested_friends_feed', mode: sug_friends[:mode] if sug_friends[:display]
+- contents.each_with_index do |content, index|
+  = render_content_item content
+  = render 'dashboard/user_groups/feed_widget' if index == position_groups
+    
+- if next_page
+  .text-center
+    = link_to 'Vew more', url_for(page: next_page, per_page: params[:per_page]), class: 'btn btn-primary ujs_success_replace inview_click', 'data-inview-offset' => 250, 'data-closest-replace' => 'parent', 'data-disable-with' => button_spinner('Loading...'), remote: true
+      

@@ -1,0 +1,15 @@
+.content.story{content_widget_data(content)}
+  = render 'dashboard/contents/card_header', content: content
+  - cache content.custom_cache_key('widget', 'last_activity_time') do
+    .content-body
+      = link_to dashboard_content_path(content), class: 'content-image' do
+        = image_tag(content.image)
+
+      .story-text-wrapper
+        %h2.margin_top0
+          = link_to content.title, dashboard_content_path(content)
+
+        .excerpt{style: feed_font_size_text(content)}
+          = raw content.decorate.the_excerpt
+          
+  = render 'dashboard/contents/card_footer', content: content

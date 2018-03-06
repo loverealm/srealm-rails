@@ -1,0 +1,28 @@
+.credit_card_field_w{
+  position: relative;
+  .credit_card_field{
+    padding-left: 55px;
+  }
+  .credit_card_field_logo{
+    position: absolute;
+    left: -2px;
+    top: -3px;
+    width: 50px;
+    height: 38px;
+    &.card-generic {
+      background: image-url("libraries/credit_card/images/generic.png") no-repeat 3px 4px
+    }
+    &.card-visa {
+      background: image-url("libraries/credit_card/images/visa.png") no-repeat 3px 4px
+    }
+    &.card-amex {
+      background: image-url("libraries/credit_card/images/amex.png") no-repeat 3px 4px
+    }
+    &.card-mastercard {
+      background: image-url("libraries/credit_card/images/mastercard.png") no-repeat 3px 4px
+    }
+    &.card-discover {
+      background: image-url("libraries/credit_card/images/discover.png") no-repeat 3px 4px
+    }
+  }
+}

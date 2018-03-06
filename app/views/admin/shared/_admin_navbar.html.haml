@@ -1,0 +1,71 @@
+%ul.nav.nav-pills
+  %li= link_to "Overview", admin_home_index_path, class: "#{current_class_menu_item(controllers: 'admin/home')}"
+    
+  - if can? :manage, :feedbacks
+    %li= link_to "Feedbacks", admin_feedbacks_path, class: "#{current_class_menu_item(controllers: 'admin/feedbacks')}"
+  
+  - if can? :manage, :user
+    %li
+      = link_to "Users <span class='caret'></span>".html_safe, '#', class: "dropdown-toggle #{current_class_menu_item(controllers: ['admin/users', 'admin/mentors', 'admin/official_mentors'])}", id: "dropdown_users_menu", 'data-toggle'=>"dropdown", 'aria-haspopup'=>"true", 'aria-expanded'=>true
+      %ul.dropdown-menu{"aria-labelledby" => "dropdown_users_menu"}
+        %li= link_to "Users", admin_users_path, class: "#{current_class_menu_item(controllers: 'admin/users', actions: 'index')}"
+        %li= link_to "Inactive Users", inactive_admin_users_path, class: "#{current_class_menu_item(controllers: 'admin/users', actions: 'inactive')}"
+        %li= link_to "Banned Users", banned_admin_users_path, class: "#{current_class_menu_item(controllers: 'admin/users', actions: 'banned')}"
+        %li= link_to "Verified Users", verified_admin_users_path, class: "#{current_class_menu_item(controllers: 'admin/users', actions: 'verified')}"
+        %li= link_to "Official Counselors", admin_official_mentors_path, class: "#{current_class_menu_item(controllers: 'admin/official_mentors')}"
+        %li= link_to "Other Counselors", admin_mentors_path, class: "#{current_class_menu_item(controllers: 'admin/mentors')}"
+        %li= link_to "Promoted Users", promoted_admin_users_path, class: "#{current_class_menu_item(controllers: 'admin/promoted')}"
+        %li= link_to "Volunteer Users", volunteers_admin_users_path, class: "#{current_class_menu_item(controllers: 'admin/users', actions: 'volunteers')}"
+        = content_tag :li, (link_to "Watchdog Users", watchdogs_admin_users_path, class: "#{current_class_menu_item(controllers: 'admin/users', actions: 'watchdogs')}") if can? :manage_watchdogs, User
+  
+  - if can? :manage, :role
+    = content_tag :li, link_to("Roles", admin_roles_path, class: "#{current_class_menu_item(controllers: 'admin/roles')}")
+    
+  - if can? :manage, :words
+    %li
+      = link_to "Barred Words", admin_words_path, class: "#{current_class_menu_item(controllers: 'admin/words')}"
+
+  - if can? :manage, :daily_stories
+    %li
+      = link_to "Daily Stories", admin_stories_path, class: "#{current_class_menu_item(controllers: 'admin/stories')}"
+
+  - if can? :manage, :verified_group
+    %li
+      = link_to "Verified Groups", admin_verified_groups_path, class: "#{current_class_menu_item(controllers: 'admin/verified_groups')}"
+
+  - if can? :manage, :payments
+    %li= link_to "Payments", admin_payments_path, class: "#{current_class_menu_item(controllers: 'admin/payments')}"
+  
+  - if can? :manage, :verified_ad
+    %li
+      = link_to "Verified Ads", admin_verified_ads_path, class: "#{current_class_menu_item(controllers: 'admin/verified_ads')}"    
+
+  - if can? :access, :watchdog_action
+    %li
+      = link_to "Watchdog Actions <span class='caret'></span>".html_safe, '#', class: "dropdown-toggle #{current_class_menu_item(controllers: ['admin/watchdog_actions'])}", 'data-toggle'=>"dropdown"
+      %ul.dropdown-menu
+        %li= link_to "Ban Offending Users", marked_ban_users_admin_watchdog_actions_path, class: "#{current_class_menu_item(controllers: 'admin/watchdog_actions', actions: 'marked_ban_users')}"
+        %li= link_to "Prevent Offending users from posting", marked_prevent_posting_users_admin_watchdog_actions_path, class: "#{current_class_menu_item(controllers: 'admin/watchdog_actions', actions: 'marked_prevent_posting_users')}"
+        %li= link_to "Prevent Offending users from commenting", marked_prevent_commenting_users_admin_watchdog_actions_path, class: "#{current_class_menu_item(controllers: 'admin/watchdog_actions', actions: 'marked_prevent_commenting_users')}"
+        %li= link_to "Delete violating post", marked_deleted_contents_admin_watchdog_actions_path, class: "#{current_class_menu_item(controllers: 'admin/watchdog_actions', actions: 'marked_deleted_contents')}"
+        %li= link_to "Delete violating comment", marked_deleted_comments_admin_watchdog_actions_path, class: "#{current_class_menu_item(controllers: 'admin/watchdog_actions', actions: 'marked_deleted_comments')}"
+        = content_tag :li, (link_to "Watchdogs", admin_watchdog_actions_path, class: "#{current_class_menu_item(controllers: 'admin/watchdog_actions', actions: 'index')}") if can? :index, :watchdog_action
+
+  - if can? :manage, :marketing
+    = content_tag :li, link_to("Marketing", admin_marketings_path, class: "#{current_class_menu_item(controllers: 'admin/marketings')}")
+
+  - if (can? :manage, :counselor_reports) || (can? :manage, :reports)
+    %li
+      = link_to "Reports section <span class='caret'></span>".html_safe, '#', class: "dropdown-toggle #{current_class_menu_item(controllers: ['admin/counselor_reports', 'admin/reports'])}", 'data-toggle'=>"dropdown"
+      %ul.dropdown-menu
+        = content_tag :li, (link_to "Counselor Reports", admin_counselor_reports_path, class: "#{current_class_menu_item(controllers: 'admin/counselor_reports')}") if can? :manage, :counselor_reports
+        = content_tag :li, (link_to "Reports", admin_reports_path, class: "#{current_class_menu_item(controllers: 'admin/reports')}") if can? :manage, :reports
+  
+  - if can? :manage, :settings
+    %li
+      = link_to "More <span class='caret'></span>".html_safe, '#', class: "dropdown-toggle #{current_class_menu_item(controllers: ['admin/break_news', 'admin/mentor_categories', 'admin/settings'])}", 'data-toggle'=>"dropdown"
+      %ul.dropdown-menu
+        = content_tag :li, link_to("Push Notifications", admin_break_news_index_path, class: "#{current_class_menu_item(controllers: 'admin/break_news')}")
+        = content_tag :li, link_to("Settings", admin_settings_path, class: "#{current_class_menu_item(controllers: 'admin/settings')}")
+        = content_tag :li, link_to("Mentor Categories", admin_mentor_categories_path, class: "#{current_class_menu_item(controllers: 'admin/mentor_categories')}")
+        = content_tag :li, link_to("Dr. Love", bot_admin_home_index_path, class: "#{current_class_menu_item(controllers: 'admin/dashboard/bot')}")

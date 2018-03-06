@@ -1,0 +1,40 @@
+= javascript_include_tag 'https://www.gstatic.com/charts/loader.js'
+.global-stats.hidden(id='global-stats')
+  .stat-counters
+    - @stats.each do |key, value|
+      .stat-counter-item
+        .stat-counter-key
+          = key.to_s.humanize
+        .stat-counter-value
+          - if value.kind_of?(Hash)
+            = link_to(value[:total_count], url_for(action: :chart, kind: key), remote: true, 'data-remote-place' => '#dashboard_chart_content')
+            - value.except(:total_count).each do |k, v|
+              .stat-count-subvalue
+                = k.to_s.humanize
+                = v
+
+          - else
+            = link_to(value, url_for(action: :chart, kind: key), remote: true, 'data-remote-place' => '#dashboard_chart_content')
+
+  #dashboard_chart_content.panel
+    #dashboard_chart_div(style='width: 100%; height: 400px')
+
+.row
+  - @top_contents.each do |key, value|
+    .col-md-4
+      .group-title
+        = key.to_s.humanize
+
+      %table.table-w100
+        %thead
+          %tr
+            %th Title
+        %tbody
+          - value.each do |content|
+            %tr
+              %td
+                = link_to content.title || content.content_type, dashboard_content_path(content)
+
+- content_for :script do
+  :javascript
+    jQuery(function(){ init_dashboard_stats() })

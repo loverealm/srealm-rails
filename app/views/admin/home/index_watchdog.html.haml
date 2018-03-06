@@ -1,0 +1,8 @@
+%h1 Welcome to Administration Panel
+.bold What do you want to do?
+%ol
+  = content_tag :li, link_to('Ban offending users', marked_ban_users_admin_watchdog_actions_path)
+  = content_tag :li, link_to('Prevent offending users from Posting', marked_prevent_posting_users_admin_watchdog_actions_path)
+  = content_tag :li, link_to('Prevent offending users from commenting', marked_prevent_commenting_users_admin_watchdog_actions_path)
+  = content_tag :li, link_to('Delete violating post', marked_deleted_contents_admin_watchdog_actions_path)
+  = content_tag :li, link_to('Delete violating comment', marked_deleted_comments_admin_watchdog_actions_path)

@@ -1,0 +1,18 @@
+%h2 Promoted Users
+%table.table
+  %thead
+    %tr
+      %th #
+      %th User name
+      %th Email
+      %th 
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.id
+        %td= user.full_name
+        %td= user.email
+        %td.text-right
+          = link_to('Unmake Promoted', url_for(action: :unmake_promoted, id: user), class: 'ujs_success_hide', remote: true, method: :post, data: {closest_hide: 'tr', confirm: "Are you sure you want to cancel promoted role for \"#{user.full_name(false)}\"?", disabled_with: button_spinner('Loading...')})
+
+= paginate @users

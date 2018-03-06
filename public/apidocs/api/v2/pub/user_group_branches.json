@@ -1,0 +1,283 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "user_group_branches",
+  "apis": [
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/sent_branch_request",
+      "operations": [
+        {
+          "summary": "send a branch request to a main group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_group_to",
+              "type": "integer",
+              "description": "Main User Group ID who will be the main group of current user group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#sent_branch_request",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/cancel_branch_request",
+      "operations": [
+        {
+          "summary": "Cancel a branch request to a main group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_group_to",
+              "type": "integer",
+              "description": "Main User Group ID who will be the main group of current user group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#cancel_branch_request",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/accept_branch_request",
+      "operations": [
+        {
+          "summary": "Accept a branch request to be a branch of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_group_from",
+              "type": "integer",
+              "description": "Branch User Group ID who will be branch of current user group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#accept_branch_request",
+          "method": "put"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/reject_branch_request",
+      "operations": [
+        {
+          "summary": "Reject a branch request to be a branch of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_group_from",
+              "type": "integer",
+              "description": "Branch User Group ID who will be branch of current user group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#reject_branch_request",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/exclude_branch",
+      "operations": [
+        {
+          "summary": "send a branch request to a main group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "branch_id",
+              "type": "integer",
+              "description": "User Group ID who is a branch of current user group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#exclude_branch",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/send_root_branch_request",
+      "operations": [
+        {
+          "summary": "send a request current user group to be main group for branch_id",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "branch_id",
+              "type": "integer",
+              "description": "User Group ID who will be branch of current user group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#send_root_branch_request",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/accept_root_branch_request",
+      "operations": [
+        {
+          "summary": "Accept a root request to be main group of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "branch_id",
+              "type": "integer",
+              "description": "User Group ID who will be main group of current user group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#accept_root_branch_request",
+          "method": "put"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/reject_root_branch_request",
+      "operations": [
+        {
+          "summary": "Reject a root request to be a main group of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "main_group_id",
+              "type": "integer",
+              "description": "User Group ID who wants to be main group of current group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#reject_root_branch_request",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches/cancel_root_branch_request",
+      "operations": [
+        {
+          "summary": "Current user group cancel a root request to be a main group of branch_id group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "branch_id",
+              "type": "integer",
+              "description": "User Group ID who will be branch of current user group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#cancel_root_branch_request",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/branches",
+      "operations": [
+        {
+          "summary": "Return all branches of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Permit ot filter branches by: branches|requests_sent|requests_received. Default branches",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupBranches#index",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

@@ -1,0 +1,14 @@
+= form_for @mentor, url:  @mentor.new_record? ? url_for(action: :create) : admin_mentor_path(@mentor), html: {class: 'hook_caller validate', 'data-callback' => 'Admin:mentor_form'} do |f|
+  .form-group
+    = f.label :topic, 'User'
+    - if @mentor.new_record?
+      = select_tag :user_id, [], class: 'form-control required', 'data-exclude' => 'other_mentors'
+    - else
+      .s= @mentor.full_name
+      
+  .form-group
+    = f.label :topic, 'Mentorship topic'
+    = select_tag :hash_tags, @mentor.mentorship_hash_tags.pluck(:name).map{|v| "<option selected value='#{v}'>#{v}</option>" }.join('').html_safe, multiple: true, class: 'form-control required'
+  
+  .form-group
+    = f.button @mentor.new_record? ? 'Save Mentor' : 'Update Mentor', class: 'btn btn-primary', 'data-disable-with' => button_spinner

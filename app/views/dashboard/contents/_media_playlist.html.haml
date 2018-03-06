@@ -1,0 +1,15 @@
+- images = content.content_images.to_a
+- if images.count == 1 && !(image = images.first).is_image?
+  = link_to '', image.image.url, title: '', class: 'link_media_player', 'data-player-callback' => 'ContentManager.gallery_media_player', 'data-views' => image.visits_counter, 'data-c-id' => content.id, 'data-f-id' => image.id, 'data-poster' => image.image.url(:thumb)
+- else
+  - qty_vis = 5
+  - one_big = images.count <= 4
+  %ul.content-images{class: "images-#{images.count} #{'two-big' unless one_big } #{'one-big' if one_big }"}
+    - images.each_with_index do |item, _index|
+      - image = item.image
+      - show_counter = _index == qty_vis && images.count > qty_vis + 1
+      %li{class: "item-#{_index} #{'hidden' if _index > qty_vis} #{'more_items text-center' if show_counter}"}
+        = link_to image.url, title: '', 'data-player-callback' => 'ContentManager.gallery_media_player', 'data-views' => item.visits_counter, 'data-c-id' => content.id, 'data-f-id' => item.id, class: "gallery-item #{'media_item' unless item.is_image?}", 'data-poster' => image.url(:thumb), 'data-gallery' => "content_#{content.id}" do
+          = image_tag(_index <= (one_big ? 0: -1) && image.content_type.include?('image') ? image.url : image.url(:thumb), class: 'img_item')
+          = image_tag '/images/video-play.png', class: 'play-icon' if image.content_type.include?('video')
+          = content_tag :span, "+#{images.count - qty_vis - 1}", class: 'number' if show_counter

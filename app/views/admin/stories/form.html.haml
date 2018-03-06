@@ -1,0 +1,29 @@
+.h2
+  Daily Devotion Story
+.content-feed.hook_caller.validating-form{'data-callback' => 'daily_devotion_form'}
+  = form_for(@story, url: @story.new_record? ? admin_stories_path : admin_story_path(@story), method: @story.new_record? ? :post : :put) do |f|
+    .form-group
+      = f.label :title
+      = f.text_field :title, required: true, class: 'form-control'
+    
+    .form-group
+      = f.label :image
+      .media
+        .media-body
+          = f.file_field :image, required: !@story.image.present?, class: 'filestyle', 'data-buttonText' => 'Choose Image', 'data-buttonBefore'=> true
+        .media-right
+          = media_avatar_image(@story.image.url, 35) if @story.image.present?
+  
+    .form-group
+      = f.label :description
+      = f.text_area :description, required: true, rows: 20, class: 'editor'
+    .form-group
+      = f.label '', 'Related Hash Tags'
+      = select_tag 'content[hash_tags_data]', options_from_collection_for_select(@story.hash_tags, :name, :name, @story.hash_tags.pluck(:name)), class: 'tags', multiple: true, placeholder: 'Start writing your hash tags'
+  
+    .form-group
+      = f.label :publishing_at
+      = f.text_field :publishing_at, class: 'form-control required', id: 'datepicker'
+  
+    .form-group
+      = button_tag @story.new_record? ? 'Publish' : 'Update', class: "btn btn-primary post-status", data: {disable_with: button_spinner('Loading...')}

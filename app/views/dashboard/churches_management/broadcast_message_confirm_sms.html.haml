@@ -1,0 +1,25 @@
+= render 'header', current_menu: 'Grow your church'
+.row
+  .panel.panel-default.col-md-6.col-md-offset-3.margin_top20
+    .panel-headingg
+      %h3 Broadcast SMS for unread members
+    .panel-body
+      = form_tag url_for(action: :broadcast_message_confirm_sms), class: 'validate' do
+        .form-group
+          = label_tag :msg, 'Message sent:'
+          .small.italic= @broadcast.message
+        
+        .form-group
+          = label_tag :sent_at, 'Sent at:'
+          .r= l(@broadcast.created_at, format: :short)
+        
+        .form-group
+          = label_tag :unread, 'Unread members:'
+          .r= "#{@broadcast.unread_messages.count} of #{@church.members.count} members"
+        
+        .form-group.underline
+          Here the logic for the price (TODO)
+        
+        .form-group
+          = button_tag 'Send SMS', class: 'btn btn-primary', 'data-confirm' =>'Are you sure you want to send the sms message for unread members?'
+          = link_to 'Cancel', url_for(action: :index), class: 'btn btn-default'

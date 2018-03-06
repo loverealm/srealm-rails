@@ -1,0 +1,75 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "user_group_member_invitations",
+  "apis": [
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/member_invitations",
+      "operations": [
+        {
+          "summary": "List of member invitations of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 5",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupMemberInvitations#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/member_invitations",
+      "operations": [
+        {
+          "summary": "Create a new members invitations for current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "file",
+              "type": "file",
+              "description": "List of members to invite (excel file, see template here: /templates/church_contacts_tpl.xlsx)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "pastor_name",
+              "type": "string",
+              "description": "Pastor's name",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupMemberInvitations#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

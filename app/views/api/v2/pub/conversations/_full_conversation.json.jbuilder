@@ -1,0 +1,1 @@
+json.partial! 'api/v2/pub/conversations/shared', conversation: conversation

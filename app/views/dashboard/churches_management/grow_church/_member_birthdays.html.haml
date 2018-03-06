@@ -1,0 +1,8 @@
+- members.each do |user|
+  = user_row_widget(user, {class: 'media_bordered'}) do
+    .small
+      - if user.is_today_birthday?
+        = link_to('Say happy birthday', user_profile_url(user), class: 'underline', title: user.full_name(false))
+      - else
+        %span.text-gray= l(user.birthdate, format: :short) if user.birthdate
+= view_more_button(url_for(action: :grow_church_data, kind: 'members_birthday', page: members.next_page)) if members.try(:next_page) 

@@ -1,0 +1,321 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "users",
+  "apis": [
+    {
+      "path": "/api/v1/pub/users/me",
+      "operations": [
+        {
+          "notes": "Return al information about current user",
+          "nickname": "Api::V1::Pub::Users#me",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{id}/profile",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "string",
+              "description": "User ID or mention key",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page for pagination (default 6)",
+              "required": false
+            }
+          ],
+          "notes": "Return the full information of user",
+          "nickname": "Api::V1::Pub::Users#profile",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{file_id}/delete_photo",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "file_id",
+              "type": "integer",
+              "description": "File ID which needs to be deleted.",
+              "required": true
+            }
+          ],
+          "notes": "Deletes a specific user photo of current user",
+          "nickname": "Api::V1::Pub::Users#delete_photo",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/delete_account",
+      "operations": [
+        {
+          "notes": "Send a confirmation email to delete the account.",
+          "nickname": "Api::V1::Pub::Users#delete_account",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/friends",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "If this is present, the request will fetch other user's friends, if not will return current user's friends",
+              "required": false
+            }
+          ],
+          "notes": "Return friends for current user paginated by 20",
+          "nickname": "Api::V1::Pub::Users#friends",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/pending_friends",
+      "operations": [
+        {
+          "notes": "Return pending request friends to be accepted for current user",
+          "nickname": "Api::V1::Pub::Users#pending_friends",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/suggested_friends",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page used in pagination (default 15)",
+              "required": false
+            }
+          ],
+          "notes": "Return suggested friends for current user paginated",
+          "nickname": "Api::V1::Pub::Users#suggested_friends",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{user_id}/ignore_suggested_friend",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID to cancel suggestion friend",
+              "required": true
+            }
+          ],
+          "notes": "Ignore specific suggested friend. This user will not be suggested anymore for current user.",
+          "nickname": "Api::V1::Pub::Users#ignore_suggested_friend",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{user_id}/send_friend_request",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "type": "integer",
+              "description": "Other user's ID",
+              "required": true
+            }
+          ],
+          "notes": "Send friend request to a User. If both sent friend requests, automatically they will become into friends. Return user friend status: sent | friends | ...",
+          "nickname": "Api::V1::Pub::Users#send_friend_request",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{user_id}/cancel_friend",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User's ID to cancel as friend",
+              "required": true
+            }
+          ],
+          "notes": "Current user cancel a friend",
+          "nickname": "Api::V1::Pub::Users#cancel_friend",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{user_id}/cancel_friend_request",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID to cancel friend request",
+              "required": true
+            }
+          ],
+          "notes": "Current user cancel a friend request",
+          "nickname": "Api::V1::Pub::Users#cancel_friend_request",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{user_id}/reject_friend",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID to be rejected as friend for current user",
+              "required": true
+            }
+          ],
+          "notes": "Current user reject a friend request",
+          "nickname": "Api::V1::Pub::Users#reject_friend",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{user_id}/accept_friend",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID to be accepted as friend for current user",
+              "required": true
+            }
+          ],
+          "notes": "Current user accept a friend request",
+          "nickname": "Api::V1::Pub::Users#accept_friend",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{user_id}/bot_data",
+      "operations": [
+        {
+          "notes": "Return all bot data for current user",
+          "nickname": "Api::V1::Pub::Users#bot_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/users/{user_id}/bot_data_save",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "city",
+              "type": "string",
+              "description": "city",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "education",
+              "type": "integer",
+              "description": "education",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "ethnicity",
+              "type": "integer",
+              "description": "ethnicity",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "profession",
+              "type": "integer",
+              "description": "profession",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "denomination",
+              "type": "integer",
+              "description": "denomination",
+              "required": false
+            }
+          ],
+          "notes": "Update bot data for current user",
+          "nickname": "Api::V1::Pub::Users#bot_data_save",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

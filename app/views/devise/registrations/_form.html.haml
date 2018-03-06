@@ -1,0 +1,30 @@
+.signup-form.panel
+  .panel-heading.border_bottom.bold New to LoveRealm? Sign Up
+  .panel-body
+    - user = resource rescue User.new
+    = form_for user, url: registration_path(:user), html:{ class: 'validate margin_bottom0' } do |f|
+      = render 'shared/form_error', model: user
+      .row.form-group
+        .col-md-6{style: 'padding-right: 2px;'}
+          = f.text_field :first_name, class: 'required form-control', placeholder: 'First Name'
+        .col-md-6{style: 'padding-left: 2px;'}
+          = f.text_field :last_name, class: 'required form-control', placeholder: 'Last Name'
+
+      .form-group
+        = f.email_field :email, class: 'required form-control', placeholder: 'Email'
+
+      .form-group
+        = f.password_field :password, class: 'required form-control', id: 'password_field', placeholder: 'Password', minlength: 8
+
+      .form-group.captcha-field
+        = recaptcha_tags
+
+      - unless is_home?
+        .clearfix
+          = button_tag 'Sign up', class: 'btn btn-primary pull-left', style: 'width: 50%;'
+          = link_to 'Log in', session_path(:user), class: 'pull-right btn underline'
+      - else
+        .text-center
+          = button_tag 'Sign up', class: 'btn btn-primary', style: 'width: 70%;'
+
+      

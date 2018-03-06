@@ -1,0 +1,11 @@
+= simple_form_for([:admin, @message]) do |f|
+  = f.error_notification
+
+  .field
+    = f.label :text
+  
+  .field
+    = f.text_area :text, rows: 7
+
+  .field
+    = f.button :submit, 'Create message'

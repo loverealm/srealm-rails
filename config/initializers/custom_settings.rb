@@ -1,0 +1,1 @@
+Rails.configuration.app_currency = 'GHS'

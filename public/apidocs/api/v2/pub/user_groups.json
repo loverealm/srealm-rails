@@ -1,0 +1,1667 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "user_groups",
+  "apis": [
+    {
+      "path": "/api/v2/pub/user_groups/{id}/send_request",
+      "operations": [
+        {
+          "summary": "Send a request to be part of this group. Returns: {res: \"joined|request_sent\"}; joined => if group is open | request_sent => if group is closed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#send_request",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/leave_group",
+      "operations": [
+        {
+          "summary": "As a member of current group, you can leave this group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#leave_group",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/members",
+      "operations": [
+        {
+          "summary": "List of members of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "query",
+              "type": "string",
+              "description": "Permit to filter/search members by their names",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#members",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/counselors",
+      "operations": [
+        {
+          "summary": "List all counselors of a current user's user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#counselors",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/feed",
+      "operations": [
+        {
+          "summary": "List of contents/feeds of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 10",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Permit to filter contents: mine => only my posts in current group, admin => all contents made by admins, all => all contents in this group (default empty => admin)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#feed",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/save_image",
+      "operations": [
+        {
+          "summary": "set/Update Banner image for current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "banner",
+              "type": "file",
+              "description": "Group banner image",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#save_image",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/add_members",
+      "operations": [
+        {
+          "summary": "List of members of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "new_members",
+              "type": "array",
+              "description": "Array of new members IDs",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#add_members",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/add_attendance",
+      "operations": [
+        {
+          "summary": "Permit to add attendance of current user to current user group for today",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#add_attendance",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/make_default",
+      "operations": [
+        {
+          "summary": "Makes current church as default church for current user",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Church ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#make_default",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/add_counselor",
+      "operations": [
+        {
+          "summary": "Add a new counselor to current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User counselor ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#add_counselor",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/remove_counselor",
+      "operations": [
+        {
+          "summary": "Remove an existent counselor from current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User counselor ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#remove_counselor",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/promote",
+      "operations": [
+        {
+          "summary": "Promotes current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "photo",
+              "type": "file",
+              "description": "Promotion Photo",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "website",
+              "type": "string",
+              "description": "Website of the promotion",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "age_range",
+              "type": "string",
+              "description": "Promotion filter age range 0 until 100, sample: 12,78",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "gender",
+              "type": "integer",
+              "description": "Promotion filter to a single gender: empty => all, 0=> Male, 1 => Female",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "budget",
+              "type": "integer",
+              "description": "Promotion Budget",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "period_until",
+              "type": "date",
+              "description": "Promotion date until, format: 2017-10-28",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "demographics[]",
+              "type": "string",
+              "description": "Array of demographics. Promotion filter by demographics, empty => all (data here: GET /api/v2/pub/users/demographics)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "locations[]",
+              "type": "string",
+              "description": "Array of countries. Promotion filter by country, empty => all (data here: GET /api/v2/pub/users/countries)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "payment_method",
+              "type": "string",
+              "description": "Payment method: paypal|stripe|rave (PAYMENT PARAMS)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "stripe_token",
+              "type": "string",
+              "description": "Stripe payment token (required if stripe method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "stripe_transaction_id",
+              "type": "string",
+              "description": "Stripe transaction ID (required if stripe method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "paypal_token",
+              "type": "string",
+              "description": "Paypal payment token (required if paypal method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "rave_token",
+              "type": "string",
+              "description": "Rave payment token (required if rave method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "save_card",
+              "type": "boolean",
+              "description": "Permit to save current transaction card token to be used it in the future. Only for Rave, Stripe",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "payment_card_id",
+              "type": "integer",
+              "description": "Permit to pay using saved card token. Get list of saved cards here: GET /api/v2/pub/user_finances/cards",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#promote",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/promotions",
+      "operations": [
+        {
+          "summary": "Return the list of promotions of this user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#promotions",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/member_requests",
+      "operations": [
+        {
+          "summary": "List of users requested to be member of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#member_requests",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/members_birthday",
+      "operations": [
+        {
+          "summary": "List of members birthday of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Filter for: today|this_week|this_month. Default today",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#members_birthday",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/broadcast_message",
+      "operations": [
+        {
+          "summary": "Broadcast conversation messages to selected members",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "message",
+              "type": "text",
+              "description": "Sms Message",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "age_range",
+              "type": "string",
+              "description": "Broadcast filter age range 0 until 100, sample: 12,78",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "gender",
+              "type": "integer",
+              "description": "Broadcast filter to a single gender: empty => all, 0=> Male, 1 => Female",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "branches[]",
+              "type": "integer",
+              "description": "Array of branches IDs from where to include its members",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "countries[]",
+              "type": "string",
+              "description": "Array of countries. Promotion filter by country, empty => all (data here: GET /api/v2/pub/users/countries)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#broadcast_message",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/broadcast_sms",
+      "operations": [
+        {
+          "summary": "Broadcast sms messages to selected members",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "from",
+              "type": "string",
+              "description": "Text sms subject from",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "message",
+              "type": "text",
+              "description": "Sms Message",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "age_range",
+              "type": "string",
+              "description": "Broadcast filter age range 0 until 100, sample: 12,78",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "gender",
+              "type": "integer",
+              "description": "Broadcast filter to a single gender: empty => all, 0=> Male, 1 => Female",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "branches[]",
+              "type": "integer",
+              "description": "Array of branches IDs from where to include its members",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "countries[]",
+              "type": "string",
+              "description": "Array of countries. Promotion filter by country, empty => all (data here: GET /api/v2/pub/users/countries)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "to_kind",
+              "type": "string",
+              "description": "Kind of broadcast sms, where: members => All members of this group (filtered by previous attributes), custom => Custom Phone Numbers (send sms to custom phone numbers: custom_phones + raw_phone_numbers)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "custom_phones",
+              "type": "file",
+              "description": "Excel file including list of extra phone numbers in the first column (Optional)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "raw_phone_numbers",
+              "type": "text",
+              "description": "Custom Phone numbers (Separated by \\n). Ensure that every number occupies just one line.",
+              "required": false
+            }
+          ],
+          "notes": "Return the total cost and broadcast_id to be completed with confirm_broadcast_sms endpoint",
+          "nickname": "Api::V2::Pub::UserGroups#broadcast_sms",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/confirm_broadcast_sms",
+      "operations": [
+        {
+          "summary": "Confirm a broadcast and delivery the sms messages.",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "broadcast_id",
+              "type": "integer",
+              "description": "Broadcast ID",
+              "required": true
+            }
+          ],
+          "notes": "The payment is done using credits purchased on user credits endpoint, this means here does not exist payment process anymore.",
+          "nickname": "Api::V2::Pub::UserGroups#confirm_broadcast_sms",
+          "method": "put"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/save_communion",
+      "operations": [
+        {
+          "summary": "saves communion of current member for today for current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Church ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "answer",
+              "type": "boolean",
+              "description": "Church ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#save_communion",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/verify",
+      "operations": [
+        {
+          "summary": "Send verification email to the group owner",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Request ok"
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Request errors"
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#verify",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/communion_members_data",
+      "operations": [
+        {
+          "summary": "return graphic information for user group communions",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Report period: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#communion_members_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/add_baptised_members",
+      "operations": [
+        {
+          "summary": "Add new baptised members",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "baptised_members",
+              "type": "array",
+              "description": "Array of members IDs to mark as baptised members",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#add_baptised_members",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/baptised_members_data",
+      "operations": [
+        {
+          "summary": "return baptised members graphics data",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Report period: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#baptised_members_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/search_non_baptised_members",
+      "operations": [
+        {
+          "summary": "search for members who are not baptised in this group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "search",
+              "type": "string",
+              "description": "Text to search on first name or last name for members who are not baptised.",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#search_non_baptised_members",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/ask_communion",
+      "operations": [
+        {
+          "summary": "send a notification to all members for communion of today",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#ask_communion",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/event_tickets_sold_data",
+      "operations": [
+        {
+          "summary": "return graphic data for events tickets sold",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Report period: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#event_tickets_sold_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/new_manual_value",
+      "operations": [
+        {
+          "summary": "Permit to add manual data for attendances or new members",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "kind",
+              "type": "string",
+              "description": "Kind of manual value: attendance | new_member",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "date",
+              "type": "string",
+              "description": "Value date, format: 2017-10-28",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "value",
+              "type": "value",
+              "description": "Period of report: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#new_manual_value",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/invite_members",
+      "operations": [
+        {
+          "summary": "Current user group send member invitations to members who are not using the app yet.",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "pastor_name",
+              "type": "string",
+              "description": "The name of the pastor",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "file",
+              "type": "file",
+              "description": "The excel file which includes the list of members, template here: /templates/church_contacts_tpl.xlsx",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#invite_members",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/attendances_data",
+      "operations": [
+        {
+          "summary": "return attendances data",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Report period: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#attendances_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/baptised_members",
+      "operations": [
+        {
+          "summary": "List baptised members",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#baptised_members",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/total_payments_data",
+      "operations": [
+        {
+          "summary": "Return total payments data of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Period of report: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#total_payments_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/new_members_data",
+      "operations": [
+        {
+          "summary": "Return new members data of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Period of report: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#new_members_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/payment_data",
+      "operations": [
+        {
+          "summary": "Return payments data of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Period of report: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#payment_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/members_commonest_data",
+      "operations": [
+        {
+          "summary": "Return members commonest data of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#members_commonest_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/members_sex_data",
+      "operations": [
+        {
+          "summary": "Return members sex data of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#members_sex_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/age_of_members_data",
+      "operations": [
+        {
+          "summary": "Return age of members data of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#age_of_members_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/countries_of_members_data",
+      "operations": [
+        {
+          "summary": "Return countries of members data of current user group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#countries_of_members_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/broadcast_report_data",
+      "operations": [
+        {
+          "summary": "return all data for broadcasting report",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Period of report: this_month|last_month|last_6_months|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#broadcast_report_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/{user_id}/reject_member",
+      "operations": [
+        {
+          "summary": "Reject a member request from current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID to reject",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#reject_member",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}/{user_id}/accept_request",
+      "operations": [
+        {
+          "summary": "As an admin for this group, you can accept member requests",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID to accept in this group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#accept_request",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/default_church",
+      "operations": [
+        {
+          "summary": "Return default church of current user",
+          "nickname": "Api::V2::Pub::UserGroups#default_church",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/suggested_groups",
+      "operations": [
+        {
+          "summary": "Return suggested groups for current user",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 10",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#suggested_groups",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/list",
+      "operations": [
+        {
+          "summary": "List all existent user groups",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Permit to filter specific kind of groups: general | church | workship_group | organization | youth_group | discussion_topic | commitee | department",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#list",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/type_list",
+      "operations": [
+        {
+          "summary": "List all group type list",
+          "nickname": "Api::V2::Pub::UserGroups#type_list",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/data",
+      "operations": [
+        {
+          "summary": "Returns available data for user group categories and types. Note: categories mean kind attribute and types mean privacy_level attribute",
+          "nickname": "Api::V2::Pub::UserGroups#data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups",
+      "operations": [
+        {
+          "summary": "List of groups of current user",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Permit to filter specific kind of groups: general | church | workship_group | organization | youth_group | discussion_topic | commitee | department",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "filter_verified",
+              "type": "boolean",
+              "description": "Permit to filter only verified",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups",
+      "operations": [
+        {
+          "summary": "Create a new User Group",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "name",
+              "type": "string",
+              "description": "Name of group",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Description of group",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "kind",
+              "type": "string",
+              "description": "Kind of group: general|church|workship_group|organization|youth_group|discussion_topic|commitee|department",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Level privacy for the group: open|closed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "image",
+              "type": "file",
+              "description": "Group Photo",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "image",
+              "type": "banner",
+              "description": "Group Cover Photo",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "latitude",
+              "type": "string",
+              "description": "Group latitude geolocation (required for churches)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "longitude",
+              "type": "string",
+              "description": "Group longitude geolocation (required for churches)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "request_root_branch",
+              "type": "integer",
+              "description": "Parent Group ID who is the main church/group of this group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "counselor_ids",
+              "type": "array",
+              "description": "List of counselor ids to assign to this group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "meetings_attributes",
+              "type": "array",
+              "description": "List of meetings, sample: [{title: \"Test metting 1\", hour: \"04:30am\", day: \"Wednesday\"}]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "new_participant_ids",
+              "type": "array",
+              "description": "List of members of this group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "new_admin_ids",
+              "type": "array",
+              "description": "List of members who are admins for this group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "hashtag_ids",
+              "type": "array",
+              "description": "List of hash tag ids assigned to this group",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}",
+      "operations": [
+        {
+          "summary": "Show full information of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}",
+      "operations": [
+        {
+          "summary": "Update a User Group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "name",
+              "type": "string",
+              "description": "Name of group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Description of group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "kind",
+              "type": "string",
+              "description": "Kind of group: general|church|workship_group|organization|youth_group|discussion_topic|commitee|department",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Level privacy for the group: open|closed",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "image",
+              "type": "file",
+              "description": "Group Photo",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "banner",
+              "type": "file",
+              "description": "Group Cover Photo",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "latitude",
+              "type": "string",
+              "description": "Group latitude geolocation (required for churches)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "longitude",
+              "type": "string",
+              "description": "Group longitude geolocation (required for churches)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "request_root_branch",
+              "type": "integer",
+              "description": "Parent Group ID who is the main church/group of this group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "counselor_ids",
+              "type": "array",
+              "description": "List of counselor ids to assign to this group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "meetings_attributes",
+              "type": "array",
+              "description": "List of meetings, sample: [{id:1, title: \"Test metting 1 changed\", hour: \"04:30am\", day: \"Wednesday\"}, {id:1, _destroy: true}]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "new_participant_ids",
+              "type": "array",
+              "description": "List of members of this group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "new_admin_ids",
+              "type": "array",
+              "description": "List of members who are admins for this group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "delete_participant_ids",
+              "type": "array",
+              "description": "List of members who will be excluded from current group",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "hashtag_ids",
+              "type": "array",
+              "description": "List of hash tag ids assigned to this group",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{id}",
+      "operations": [
+        {
+          "summary": "Destroy a User Group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroups#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

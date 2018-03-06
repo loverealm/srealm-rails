@@ -1,0 +1,103 @@
+= render 'header', current_menu: 'Grow your church'
+#church_grow_church_page.hook_caller{'data-callback' => 'ChurchManagement:grow_church'}
+  .row
+    .col-md-4
+      .panel.panel-transparent.card
+        .panel-heading.text-center
+          .panel-title Contact Members
+        .panel-body
+          = link_to 'Contact via SMS', url_for(action: :broadcast_sms), class: 'btn btn-primary btn-block btn-lg ujs_link_modal', 'data-disable-with' => button_spinner('Loading...'), remote: true, 'data-modal-title'=>'Send SMS Message'
+          = link_to 'Broadcast via LoveRealm', url_for(action: :broadcast_message), class: 'btn btn-primary btn-bordered btn-block btn-lg ujs_link_modal', 'data-disable-with' => button_spinner('Loading...'), remote: true, 'data-modal-title'=>'Send Message'
+          = link_to 'Invite members', url_for(action: :invite_members), class: 'btn btn-primary btn-bordered btn-block btn-lg ujs_link_modal', 'data-disable-with' => button_spinner('Loading...'), remote: true, 'data-modal-title'=>'Invite your church members to join your church online', title: 'Invite church members to join your church online'
+      
+      - unless @church.open_group?
+        .panel.panel-transparent.card
+          .panel-heading.text-center
+            .panel-title Pending Members
+          .panel-body.empty_msg_panel{'data-empty-msg'=>'There are no pending members'}<
+            = render 'dashboard/churches_management/grow_church/member_requests', requests: church_requests.limit(4)
+            = view_all_button(url_for(action: :grow_church_data, kind: 'member_requests'), {modal_title: 'Pending Members'}) if church_requests.count > 4
+              
+    .col-md-8
+      .panel.panel-transparent.card
+        .panel-heading
+          .panel-title Promote Events
+        #grow_church_events_list.margin_top10.empty_msg_panel{'data-empty-msg'=>'You haven\'t added any event yet'}<
+          = render 'dashboard/churches_management/grow_church/promote_events_list', events: @church.events.limit(3)
+          = view_all_button(url_for(action: :grow_church_data, kind: 'promote_events'), {modal_title: 'Church Events'}) if @church.events.count > 3
+            
+      .card
+        = link_to 'Create Church Event', new_dashboard_user_group_event_path(user_group_id: @church), class: 'ujs_link_modal underline', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title'=> 'Create Church Event'      
+      %br    
+      .card
+        = link_to 'Promote Church Membership', new_dashboard_user_group_promotion_path(user_group_id: @church), class: 'ujs_link_modal underline', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title' => 'Promote church membership'
+        .see_promotions_list{class: "#{'hidden' unless @church.promotions.any?}", style: 'float: right; margin-top: -10px;'}
+          = view_all_button(dashboard_user_group_promotions_path(user_group_id: @church), {modal_title: 'Church Promotions', label: 'See promotions', modal_size: 'modal-lg'})
+      %br
+
+  - if can? :manage_counselors, @church
+    #counselors_list.panel.panel-transparent.card
+      .panel-heading.post_relative
+        .panel-title Church Counselors
+        = link_to('Edit Counselors', url_for(action: :edit_counselors), class: 'ujs_link_modal btn-top-right small', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title'=>'Edit Counselors')
+      .panel-body
+        = render 'dashboard/churches_management/grow_church/counselors', counselors: @church.counselors
+
+  .row
+    .col-md-4
+      .panel.panel-transparent.card
+        .panel-heading.transparent.post_relative.text-center
+          .panel-title About your church
+          = link_to 'Edit', url_for(action: :edit_info), class: 'small btn-top-right ujs_link_modal', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title' => 'Edit Information'
+        .panel-body.small.group-description
+          = @church.description
+
+      .panel.panel-transparent.card.hook_caller{'data-callback' => 'ChurchManagement:photos_editor'}
+        .panel-heading.transparent
+          .panel-title Photos
+        .panel-body
+          .photos_list
+            = render 'dashboard/churches_management/grow_church/photos', photos: @church.files
+            = form_tag url_for(action: :upload_files), class: 'file_uploader photo_item post_relative pull-left reset_on_success ujs_filestyle ujs_content_to', 'data-before-to' => '#church_grow_church_page .photos_list form', remote: true, multipart: true, 'data-type' => "json", 'data-disable-with' => button_spinner('Uploading...') do
+              = file_field_tag 'files[]', label: false, required: true, class: 'upload filestyle', 'data-buttonText' => '+ Add photos', 'data-buttonBefore'=> true, 'data-input'=>'false', 'onChange'=>'$(this).closest(\'form\').submit();', 'data-badge'=>'false', multiple: true, accept: 'image/gif,image/jpeg,image/png,image/jpg', 'data-buttonName' => ''
+  
+    .col-md-8
+      .panel.panel-transparent.card
+        .panel-heading.transparent.post_relative.text-center
+          .panel-title Daily Devotions
+          = link_to 'Add new', new_dashboard_user_group_daily_devotion_path(user_group_id: @church), class: 'small btn-top-right ujs_link_modal', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title' => 'Add Daily Devotion'
+        .panel-body.daily_devotions_list.empty_msg_panel{'data-empty-msg'=>'You haven\'t added any devotion yet'}<
+          = render 'dashboard/church_devotions/index', devotions: @church.contents.filter_devotions.limit(5)
+          = view_all_button(dashboard_user_group_daily_devotions_path(user_group_id: @church), {modal_title: 'Daily Devotions'}) if @church.contents.filter_devotions.count > 0
+
+      .panel.panel-transparent.card
+        .panel-heading.transparent.post_relative.text-center
+          .panel-title Meetings
+          = link_to 'Add new', new_dashboard_user_group_meeting_path(user_group_id: @church), class: 'small btn-top-right ujs_link_modal', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title' => 'Add Meeting'
+        .panel-body.meetings_list.empty_msg_panel{'data-empty-msg'=>'You haven\'t added any meeting yet'}<
+          = render 'dashboard/church_meetings/index', meetings: @church.meetings.limit(3)
+          = view_all_button(dashboard_user_group_meetings_path(user_group_id: @church), {modal_title: 'Meetings'}) if @church.meetings.count > 3
+                
+  // branches
+  - if can? :manage_branches, @church
+    .row
+      .col-md-4
+        .panel.panel-transparent.card
+          .panel-heading.transparent
+            .panel-title Branch Requests
+          .panel-body.church_requests_list.empty_msg_panel{'data-empty-msg'=>'There are no branch requests'}<
+            = render 'dashboard/church_requests/index', church_requests: @church.all_branch_requests.limit(5)
+            = view_all_button(dashboard_user_group_requests_path(user_group_id: @church.id)) if @church.all_branch_requests.count > 5
+  
+      - if @church.is_main_group?
+        .col-md-8
+          .panel.panel-transparent.card
+            .panel-heading.transparent.post_relative
+              .panel-title Your branches
+              = link_to 'Add new', new_dashboard_user_group_request_path(user_group_id: @church), class: 'underline btn-top-right small ujs_link_modal', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title' => 'Churches to add as a branch'
+            .panel-body.empty_msg_panel{'data-empty-msg'=>'There are no branches'}<
+              - @church.branches.each do |user_group|
+                = user_group_row_widget(user_group, class: 'media_bordered') do
+                  .text-right
+                    = link_to 'Exclude Branch', exclude_branch_dashboard_user_group_requests_path(user_group_id: @church, id: user_group), remote: true, class: 'ujs_success_remove small underline', 'data-closest-remove' => '.media', 'data-confirm' => 'Are you sure you want exclude this branch?', 'data-disable-with' => button_spinner('Loading...')
+        

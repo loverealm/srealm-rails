@@ -1,0 +1,79 @@
+.btn.btn-black {
+	@extend .btn-primary;
+	background-color: $black;
+	border-color: darken($black, 10);
+	&:hover, &:active, &:focus {
+		background-color: lighten($black, 20);
+	}
+}
+
+@mixin placeholder_color($color, $font_family: 'FontAwesome'){
+  &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    $color;
+    font-family: $font_family;
+  }
+  &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    $color;
+    opacity:  1;
+    font-family: $font_family;
+  }
+  &::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    $color;
+    opacity:  1;
+    font-family: $font_family;
+  }
+  &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:    $color;
+    font-family: $font_family;
+  }
+}
+
+// MIXINS
+@mixin plus_shadow_panel($font_size: 32px, $line_height: 95px) {
+  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: $font_size;
+  height: 100%;
+  line-height: $line_height;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+@mixin opacity($qty: 0){
+  opacity: $qty;
+  filter: alpha(opacity=$qty*100);
+}
+
+@mixin ellipsis_text($font-size: 26px, $lines-to-show: 3, $line-height: 1.4){
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 400px;
+  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+  margin: 0 auto;
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* basic sprite icons */
+@mixin stitches-sprite($x: 0, $y: 0, $width: 0, $height: 0) {
+  background-position: $x $y;
+  width: $width;
+  height: $height;
+}
+
+@mixin transform($t, $d: nil){
+  -webkit-transform: $t;
+  -ms-transform: $t;
+  transform: $t;
+  @if $d{
+    -webkit-transition-duration: $d;
+    transition-duration: $d;
+  }
+}

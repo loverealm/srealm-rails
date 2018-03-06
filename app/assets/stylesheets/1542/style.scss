@@ -1,0 +1,161 @@
+body {
+  background-color: rgb(233, 235, 238);
+  &.no_session, &.home, &.finish_registration {
+    background: asset-url('bg-image-1542.jpg')  no-repeat center center fixed;
+    background-size: cover;
+    .page {
+      margin-top: 50px;
+    }
+    .footer a {
+      color: #fff;
+    }
+  }
+  &.mobile_app.no_session{
+    background-image: asset_url('logout_background.png') !important;
+    background-size: cover !important;
+  }
+}
+
+body.finish_registration{
+  #main_container{
+    padding-top: 0;
+  }
+}
+
+h1 {
+  font-size: 30px;
+}
+
+form {
+  label.error, span.error, div.error {
+    font-weight: normal;
+    color: $LR-red;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  input, textarea, select{
+    &.error, &.error:focus{
+      color: $LR-red !important;
+      border-color: $LR-red !important;
+    }
+  }
+  .btn.transparent{
+    background-color: transparent;
+    border: none !important;
+  }
+}
+
+.glyphicon.spinning {
+  animation: spin 1s infinite linear;
+  -webkit-animation: spin2 1s infinite linear;
+}
+
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg); }
+  to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+
+.load-more {
+  span {
+    margin-right: 5px;
+    display: none;
+  }
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+#tags_tagsinput,
+#tags-without-autocomplete_tagsinput {
+  padding: 6px 12px;
+  height: 44px !important;
+  min-height: 44px !important;
+  width: 100% !important;
+  margin-bottom: 15px !important;
+  overflow: hidden;
+}
+
+#main_container{
+  min-height: 500px;
+  padding-bottom: 30px;
+  padding-top: 78px;
+  .breadcrumb > li + li:before {
+    content: "> ";
+    padding: 0 5px;
+    color: #777;
+  }
+}
+
+.modal {
+  form {
+    margin: 0;
+  }
+
+  .modal-header-primary {
+    background-color: #bb150d;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    font-size: 16px;
+  }
+
+  .modal-body-primary {
+    background-color: #eee;
+  }
+
+  .modal-dialog {
+    //margin: 130px auto;
+  }
+}
+
+.row-no-padding {
+  margin: 0;
+
+  [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+.youtube {
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+  transition: all 200ms ease-out;
+  cursor: pointer;
+  background-size: cover;
+  width: 100%;
+  height: 360px;
+
+  .play {
+    background: image-url('play-btn.png') no-repeat center center;
+    background-size: 60px 58px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: .8;
+    filter: alpha(opacity=80);
+    transition: all 0.2s ease-out;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+#toast-container {
+  z-index: 99999;
+  &.as_link{
+    cursor: pointer;
+  }
+}
+
+.no-pe {
+  pointer-events: none;
+}

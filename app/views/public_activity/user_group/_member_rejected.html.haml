@@ -1,0 +1,12 @@
+= render layout: 'public_activity/layout', locals: {activity: activity} do
+  - group = activity.trackable.groupable
+  .media-body
+    .notification-text
+      %span.fa-stack.fa-lg.text-danger
+        %i.fa.fa-square-o.fa-stack-2x
+        %i.fa.fa-warning.fa-stack-1x
+      You were rejected on #{group.the_group_label} "#{link_to(group.name, dashboard_user_group_path(group))}"
+  .media-right.small
+    %time.nowrap
+      = time_ago_in_words(activity.created_at)
+      &nbsp;ago

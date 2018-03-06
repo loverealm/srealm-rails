@@ -1,0 +1,3 @@
+- items.decorate.each do |content|
+  = content.the_row(class: 'media_bordered', block_right: "<small class='nowrap'>#{I18n.l(content.created_at, format: :short)}</small>")
+        

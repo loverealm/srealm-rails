@@ -1,0 +1,13 @@
+- users.each_slice(4).to_a.each do |group|
+  .row
+    - group.each do |user|
+      .col-md-3
+        .item_card.text-center.thumbnail
+          = user_avatar_widget(user, 100)
+          %p.name
+            = link_to_user(user, {class: ''})
+            &nbsp;
+          %p.bio.small
+            = user.the_biography(50)
+            
+= view_more_button(url_for(action: :friends, page: users.next_page, per_page: params[:per_page]), 'inview_click') if users.try(:next_page)            

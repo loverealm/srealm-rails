@@ -1,0 +1,27 @@
+= form_for conversation, url: conversation.new_record? ? create_group_dashboard_conversations_path : update_group_dashboard_conversation_path(conversation), remote: true, multipart: true, html:{class: "group_conversation_form hook_caller #{'new_group' if conversation.new_record?}", 'data-callback' => 'ConversationGroupManager:form_builder', autocomplete: 'off', id: 'conversation_group_form'}, data: { type: :json } do |f|
+  .text-center.title_group_form
+    .text #{ conversation.new_record? ? 'New Group' : 'Group Info' }
+    = image_tag(conversation.image.url)
+  .form-group.text-center
+    .w_image
+      = f.file_field :image, class: 'filestyle', accept: 'image/gif,image/jpeg,image/png,image/jpg', title: conversation.new_record? ? "Group’s Avatar" : "Edit Group’s Avatar" 
+  
+  .form-group
+    = f.text_field :group_title, class: 'form-control required', placeholder: 'Enter Group Name'
+  
+  .form-group.checkbox
+    %label{style: 'padding-left: 0;'}
+      = f.radio_button :is_private, true
+      Private
+    %label
+      = f.radio_button :is_private, false
+      Public
+  %hr
+
+  .form-group.post_relative
+    %label= conversation.new_record? ? 'Members' : 'New Members'
+    = select_tag 'conversation[new_members][]', '', multiple: true, class: 'required members', 'data-notin-conversation' => conversation.id, 'data-exclude'=>current_user.id, placeholder: 'Type in here the name of the user you want to add to this group.'
+          
+  .form-group
+    %button.btn.btn-primary{type: 'submit', 'data-disable-with' => "<i class='fa fa-spinner fa-spin'></i> Creating..."}
+      = conversation.new_record? ? 'Create Group' : 'Update Group'

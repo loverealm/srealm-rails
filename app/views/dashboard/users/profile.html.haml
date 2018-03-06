@@ -1,0 +1,127 @@
+#user-profile-page
+  #profile_header.profile-header{'data-user-id': @displayed_user.id}
+    .row.row-no-padding
+      .col-md-4
+        .user-about
+          %h1.user-name
+            = title @displayed_user.full_name
+  
+          .user-bio.ellipsis
+            = @displayed_user.the_biography
+  
+        .profile-info
+          .user-stats.clearfix
+            .user-stat-item.user-avatar-w.btn-hover-parent
+              = link_to_user(@displayed_user, {class: 'media-left'}) do
+                = image_tag @displayed_user.avatar.url(:square), class: 'media-object user-avatar current-user-avatar'
+                = @displayed_user.the_online_status
+              = @displayed_user.the_edit_avatar_form if page_owner? @displayed_user
+              
+            .user-stat-item.following
+              .counter
+                = humanize_number @displayed_user.following.count
+              .caption
+                Following
+  
+            .user-stat-item.posts
+              .counter
+                = humanize_number @displayed_user.contents.count
+              .caption
+                Posts
+  
+            .user-stat-item.follower
+              .counter
+                = humanize_number @displayed_user.num_of_followers
+              .caption
+                Followers
+                
+          - unless page_owner? @displayed_user
+            .profile-menu
+              - if current_user.blocked_to?(@displayed_user)
+                .inline.small
+                  %span Blocked User
+                  &#8226;
+                  = link_to 'Unblock User'.html_safe, url_for(action: :unblock_user, user_id: @displayed_user.id), 'data-confirm' => 'Are you sure you want to unblock this user?'
+              - else
+                = link_to 'Contact', start_conversation_dashboard_conversations_path(user_id: @displayed_user), remote: true, 'data-disable-with' => button_spinner, class: 'btn ujs_start_conversation inline btn-sm'
+                &#8226;
+                = follow_button(@displayed_user, class: 'inline btn-sm', btn_class: '')
+                &#8226;
+                .inline{style: 'position: relative;'}
+                  = link_to 'Become Friends', send_friend_request_dashboard_users_path(user_id: @displayed_user), class: 'btn ujs_success_hide btn-sm', remote: true, 'data-disable-with' => button_spinner, method: :post if current_user.friend_status(@displayed_user.id) == ''  
+                  = content_tag :span, 'Friends <span class="caret"></span>'.html_safe, class: 'btn btn-sm ', "data-toggle" => "dropdown" if current_user.friend_status(@displayed_user.id) == 'friends'  
+                  = content_tag :span, 'Request Sent <span class="caret"></span>'.html_safe, class: 'btn btn-sm ', "data-toggle" => "dropdown" if current_user.friend_status(@displayed_user.id) == 'sent'
+                  = content_tag :span, 'Rejected <span class="caret"></span>'.html_safe, class: 'btn btn-sm ', "data-toggle" => "dropdown" if current_user.friend_status(@displayed_user.id) == 'rejected'
+                  = content_tag :span, 'Friend Request <span class="caret"></span>'.html_safe, class: 'btn btn-sm ', "data-toggle" => "dropdown" if current_user.friend_status(@displayed_user.id) == 'pending'
+                  %ul.dropdown-menu
+                    = content_tag :li, link_to('Accept Request', accept_friend_dashboard_users_path(user_id: @displayed_user), method: :post, class: 'ujs_success_hide', remote: true, 'data-disable-with' => button_spinner) if ['pending', 'rejected'].include?(current_user.friend_status(@displayed_user.id))
+                    = content_tag :li, link_to('Reject Request', reject_friend_dashboard_users_path(user_id: @displayed_user), method: :post, class: 'ujs_success_hide', remote: true, 'data-disable-with' => button_spinner) if current_user.friend_status(@displayed_user.id) == 'pending'
+                    = content_tag :li, link_to('Unfriend', cancel_friend_dashboard_users_path(user_id: @displayed_user), method: :post, class: 'ujs_success_hide', remote: true, 'data-disable-with' => button_spinner, 'data-confirm' => 'Are you sure you want to remove this friend?') if current_user.friend_status(@displayed_user.id) == 'friends'
+                    = content_tag :li, link_to('Send Message', start_conversation_dashboard_conversations_path(user_id: @displayed_user), class: 'ujs_start_conversation', 'data-disable-with' => button_spinner, remote: true) if current_user.friend_status(@displayed_user.id) == 'friends'
+                    = content_tag :li, link_to('Cancel Request', cancel_friend_request_dashboard_users_path(user_id: @displayed_user), method: :post, class: 'ujs_success_hide', remote: true, 'data-disable-with' => button_spinner) if current_user.friend_status(@displayed_user.id) == 'sent'
+                .dropdown.pull-right
+                  = link_to '#', class: 'btn dropdown-toggle btn-xs', "data-toggle" => "dropdown" do
+                    %i.fa.fa-cog
+                    %span.caret
+                  %ul.dropdown-menu
+                    = content_tag :li, (link_to '<i class="fa fa-eye-slash"></i> Block User'.html_safe, url_for(action: :block_user, user_id: @displayed_user.id),  data: {confirm: 'Are you sure you want to block this user?'})
+                    - if current_user.admin?
+                      = content_tag :li, link_to("Set as Mentor", create_mentor_admin_user_path(@displayed_user), method: :post, remote: true, 'data-disable-with' => button_spinner, class: 'btn btn-default set-as-mentor') unless @displayed_user.mentor?  
+                      = content_tag :li, link_to('Report', new_report_path(target_type: :user, target_id: @displayed_user.id), remote: true, class: 'ujs_link_modal', 'data-modal-title' => 'Report User')
+              .clearfix
+                      
+      .col-md-8.profile-cover-wrapper.btn-hover-parent
+        = image_tag @displayed_user.cover.url(:medium), class: 'profile-cover', id: 'profile-cover'
+        = current_user.the_edit_cover_form(label: 'Edit Cover') if page_owner? @displayed_user
+  
+  .row.hook_caller{'data-callback' => 'user_profile_page'}
+    -# main side
+    .col-md-8
+      #content_feed.content-feed
+        = render 'profile_options'
+        - if params[:birthday].present?
+          - content_for :script do
+            :javascript
+              jQuery(function(){ $('#content_feed #content_description').focus().val("#{ "Happy Birthday #{@displayed_user.first_name}"}") })
+      
+        #contents
+          = render partial: 'dashboard/contents/list', locals: {contents: @contents}
+
+    -# Sidebar
+    #sidebar.sidebar.col-md-4
+      .hook_caller.clearfix{'data-callback' => 'SidebarManager:init_affix_panel', 'data-bottom' => 100}
+        .panel.panel-default
+          .panel-heading.text-center
+            %h2.panel-title.text-primary About #{@displayed_user.first_name}
+            %p.hidden #{@displayed_user.biography}
+          .panel-body.validating-form.btn-hover-parent
+            = link_to('Edit', url_for(action: :information_edit), class: 'small underline ujs_link_modal btn-hover-item', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title' => 'Edit Information') if page_owner? @displayed_user
+            .user_preferences_panel
+              = render 'information', user: @displayed_user
+  
+          - if @displayed_user.user_photos.any?
+            %hr
+            .panel-body.gallery_images
+              - @displayed_user.user_photos.each do |photo|
+                .grid-item.btn-hover-parent
+                  = link_to(image_tag(photo.url), photo.url, class: 'gallery-item', 'data-gallery' => "user_photos_sidebar")
+                  - if page_owner? @displayed_user
+                    = link_to('<i class="fa fa-times"></i>'.html_safe, url_for(action: :destroy_user_photo, id_photo: photo.id), class: 'btn btn-danger btn-xs btn-hover-item ujs_success_remove', remote: true, method: :delete, 'data-confirm' => 'Are you sure you want to destroy this photo and related content feed?', 'data-closest-remove' => 'parent')
+  
+          - if (friends = @displayed_user.friends.limit(9).to_a).any?
+            .panel-heading.text-center
+              %h2.panel-title.text-primary Friends (#{@displayed_user.qty_friends})
+            .panel-body.friends_list
+              .row
+                - friends.each_with_index do |friend, index|
+                  .col-md-6.margin_bottom10
+                    = link_to user_profile_url(friend), class: 'item small text-center' do
+                      = image_tag(friend.avatar_url, class: 'img-circle')
+                      %span.nowrap.text= friend.full_name(false).truncate(25)
+  
+              .text-center
+                = view_all_button(url_for(action: :friends, page: 1, per_page: 20), {modal_title: 'User Friends', modal_size: 'modal-lg'}) if @displayed_user.qty_friends > 9
+  
+        .panel.transparent
+          .panel-body
+            = render 'components/footer', custom_class: 'btn btn-sm'    

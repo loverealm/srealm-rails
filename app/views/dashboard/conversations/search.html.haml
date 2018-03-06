@@ -1,0 +1,21 @@
+%div
+  %ul.nav.nav-tabs
+    = content_tag :li, link_to('Group Conversations', '#chat_search_conversations', "data-toggle" => "tab"), class: 'active' 
+    = content_tag :li, link_to('Friends', '#chat_search_friends', "data-toggle" => "tab"), class: '' 
+    
+  .tab-content
+    #chat_search_conversations.tab-pane.active
+      = form_tag '', class: 'conv' do
+        .form-group
+          = select_tag 'filter', '', placeholder: 'Type here to search conversations', 'data-url' => search_dashboard_conversations_path(format: :json), class: 'required'
+        .form-group
+          = button_tag 'Open Conversation', class: 'btn btn-primary'
+          
+    #chat_search_friends.tab-pane
+      = form_tag '', class: 'friends' do
+        .form-group
+          = select_tag 'filter', '', placeholder: 'Type here to search friends and start conversation', class: 'required', 'data-user-kind' => 'friend'
+        .form-group
+          = button_tag 'Start Conversation', class: 'btn btn-primary'
+
+

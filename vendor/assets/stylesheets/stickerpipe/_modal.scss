@@ -1,0 +1,107 @@
+
+.sp-modal-lock {
+	overflow: hidden;
+}
+
+.sp-modal-overlay {
+
+	background: rgba(0, 0, 0, 0.5);
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 1000;
+
+	overflow: auto;
+
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #7F000000, endColorstr = #7F000000);
+	zoom: 1;
+
+	& > * {
+		-webkit-transform: translateZ(0px);
+	}
+}
+
+
+.sp-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 100050;
+
+
+	overflow-x: hidden;
+	overflow-y: auto;
+
+	-webkit-overflow-scrolling: touch;
+}
+
+.sp-modal-dialog {
+	background: white;
+	position: relative;
+
+	//height: 600px;
+	height: 100%;
+	overflow: hidden;
+
+	border-radius: 3px;
+	margin: 40px auto;
+	max-width: 700px;
+
+
+	&:before {
+		display: table;
+		content: " ";
+	}
+
+	@media (max-width: 700px) {
+		& {
+			border-radius: 0;
+			margin: 0;
+			width: 100%;
+		}
+	}
+}
+
+.sp-modal-header {
+	background: rgba(255, 255, 255, 0.8);
+	border-radius: 3px;
+	display: table;
+	height: 48px;
+	width: 100%;
+	position: absolute;
+	top: 0;
+}
+
+.sp-modal-body {
+	height: 100%;
+	width: 100%;
+	//overflow-y: scroll;
+	overflow-y: hidden;
+}
+
+
+.sp-modal-back,
+.sp-modal-close {
+	$modalCloseButtonOpacity: 0.5;
+
+	cursor: pointer;
+	opacity: $modalCloseButtonOpacity;
+	padding: 12px;
+
+	&:hover {
+		opacity: $modalCloseButtonOpacity + 0.2;
+	}
+}
+
+.sp-modal-back {
+	float: left;
+	display: none;
+}
+
+.sp-modal-close {
+	float: right;
+}

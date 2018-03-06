@@ -1,0 +1,12 @@
+#content_feed.content-feed
+  - if @current_trending.present?
+    #current_trending
+      .row
+        .col-xs-6.title
+          %span.hash.label.label-primary
+            = @current_trending.name
+        .col-xs-6.text-right
+          = link_to "Live Wall", live_board_dashboard_contents_path(hash_tag: @current_trending.name.sub('#', '')), class: 'btn btn-black'
+    
+  #contents
+    = render partial: 'dashboard/contents/list', locals: {contents: @contents}

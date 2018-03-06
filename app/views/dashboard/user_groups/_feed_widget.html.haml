@@ -1,0 +1,18 @@
+- if (groups = current_user.suggested_groups(1, 5)).present?
+  .groups_suggestions_widget.hook_caller.well.white{'data-callback' => 'UserGroupsSuggested:banner'}
+    .w_title.overflow_hidden
+      .pull-left
+        %b Suggested Groups
+      .pull-right
+        = link_to '<i class="fa fa-plus-circle"></i> Create New Group'.html_safe, new_dashboard_user_group_path, class: 'btn ujs_link_modal', title: 'Create new group', remote: true, 'data-disable-with' => button_spinner('Loading...')
+    .list_items.simple_slider
+      - groups.each do |group|
+        .item_card
+          .text-center
+            = user_group_image_widget(group, 100)
+          %p.name.text-center
+            = link_to(group.name, dashboard_user_group_path(group))
+            &nbsp;
+          %p.bio
+            = group.the_description(50)
+          = link_to 'join', send_request_dashboard_user_group_url(group), class: 'btn btn-join btn-primary btn-bordered ujs_success_hide ', remote: true, 'data-disable-with' => button_spinner

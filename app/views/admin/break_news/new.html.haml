@@ -1,0 +1,22 @@
+%h3 Create new Push Notification
+.validating-form.hook_caller{'data-callback' => 'push_notifications_form'}
+  = simple_form_for(@break_news, url: url_for(action: :create)) do |f|
+    = f.error_notification
+    .form-group
+      = f.label :title, 'Title'
+      = f.text_field :title, class: 'required form-control', required: true
+
+    .form-group
+      = f.label :content_id, 'User Feed Owner'
+      = select_tag :user_owner, options_from_collection_for_select([current_user], :id, :full_name), class: 'users_list required', 'data-url' => posts_admin_break_news_index_path
+        
+    .form-group
+      = f.label :content_id, 'Content Feed'
+      = f.collection_select :content_id, current_user.my_contents.order(created_at: :desc).limit(50), :id, :the_title, {}, class: 'required form-control', required: true
+    
+    .form-group
+      = f.label :subtitle, 'Description'
+      = f.text_area :subtitle, rows: 7, class: 'form-control'
+        
+    .form-group
+      = f.button :submit

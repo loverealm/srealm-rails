@@ -1,0 +1,38 @@
+- mode = (mode rescue 'simple')
+.friends_suggestions_widget.hook_caller.well.white.overflow_hidden{'data-callback' => 'FriendSuggestionsManager:init'}
+  - if (users = current_user.suggested_friends(1, 10).to_a.shuffle).present?
+    .w_title.overflow_hidden
+      .pull-left
+        %p 
+          Suggested Friends 
+          = link_to '(Edit Preferences)', my_preferences_edit_dashboard_users_path, class: 'small ujs_link_modal', remote: true, 'data-disable-with' => button_spinner('Loading...'), 'data-modal-title'=> 'Edit Preferences'
+      .pull-right
+        = link_to '<b>See All</b>'.html_safe, suggested_friends_dashboard_users_path
+    .list_items.simple_slider
+      - users.each do |user|
+        .item_card
+          = user_avatar_widget(user, 100)
+          %p.name
+            = link_to_user(user, {class: ''})
+            &nbsp;
+          %p.bio
+            = user.the_biography
+          = link_to 'Become Friends', send_friend_request_dashboard_users_path(user_id: user), class: 'btn btn-primary become_friends', remote: true, method: :post, 'data-disable-with' => button_spinner
+          = link_to('x', ignore_suggested_friend_dashboard_users_path(user_id: user), class: 'btn btn-ignore btn-xs', method: :post, remote: true, 'data-disable-with' => button_spinner(''))
+
+      - if mode == 'simple'
+        .item_card.more_friends
+          = link_to suggested_friends_dashboard_users_path, class: 'text-center' do
+            %i.fa.fa-users.fa-4x
+            %span.underline.display-block Click here to make more friends
+            enjoy your time here
+    
+    - if mode != 'simple'
+      .more_suggestions_block{class: "mode_#{mode}"}
+        = link_to '#', class: 'close_btn btn' do
+          %i.fa.fa-close
+        = link_to suggested_friends_dashboard_users_path, class: 'lnk' do
+          %i.fa.fa-users.fa-4x
+          %span.underline.display-block.text-big Click here to make more friends
+          enjoy your time here
+        

@@ -1,0 +1,17 @@
+%p Dear #{@user.first_name},
+%p Your user group has been successfully created.
+%p Please provide the following information to verify your group and start receiving payments:
+%ul
+  %li Name of #{@user_group.the_group_label}
+  %li Location of #{@user_group.the_group_label}
+  %li Name of Authorized Representative
+  %li Phone Number
+  %li Physical Address 
+  %li Official Email Address
+  %li National ID of Official Contact Person
+  %li Are you a Registered Legal Entity: Yes/No
+  %li Certificate of Incorporation
+  %li Bank Account Information (For Receiving Payments)
+  
+%p Kind Regards,
+%p The #{link_to 'LoveRealm', root_url} team

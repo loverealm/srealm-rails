@@ -1,0 +1,6 @@
+- counselors.decorate.each do |mentor|
+  = mentor.the_mentor_row_item({block_position: 'bottom', show_text_status: false, thumb_size: 35, truncate: (qty_descr rescue 0), user_link_class: 'text-black'}) do
+    .small
+      = mentor.the_mentor_chat_link({label: 'Chat', class: 'text-black underline'})
+      \| 
+      = mentor.the_mentor_video_link(class: 'text-black underline')

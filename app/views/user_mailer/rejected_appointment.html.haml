@@ -1,0 +1,3 @@
+%p Dear #{@user.full_name(false)},
+%p Your #{@appointment.is_video? ? 'video' : 'walk in'} appointment requested to #{@appointment.mentor.full_name(false)} for #{I18n.l @appointment.schedule_for, format: :long} has been declined by the counselor.
+%p= link_to 'www.loverealm.com', root_url

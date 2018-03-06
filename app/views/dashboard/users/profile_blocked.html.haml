@@ -1,0 +1,19 @@
+#user-profile-page
+  #profile_header.profile-header{'data-user-id': @displayed_user.id}
+    .row.row-no-padding
+      .col-md-4
+        .user-about
+          %h1.user-name
+            = title @displayed_user.full_name
+
+          .user-bio.ellipsis
+            = description @displayed_user.the_biography
+
+        .profile-info
+          .media.valign-middle
+            .media-left= user_avatar_widget(@displayed_user, 70)
+            .media-body.bold #{@displayed_user.full_name(false)} blocked you.
+      
+      .col-md-8.profile-cover-wrapper.btn-hover-parent
+        = image_tag @displayed_user.cover.url(:medium), class: 'profile-cover', id: 'profile-cover'
+        

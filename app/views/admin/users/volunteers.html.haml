@@ -1,0 +1,16 @@
+%h2 Volunteer Users
+%table.table
+  %thead
+    %tr
+      %th #
+      %th User name
+      %th Email
+      %th 
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.id
+        %td= user.full_name
+        %td= link_to('Unmake Volunteer', url_for(action: :unmake_volunteer, id: user), class: 'ujs_success_hide', remote: true, method: :delete, data: {closest_hide: 'tr', confirm: "Are you sure you want to cancel volunteer role for \"#{user.full_name(false)}\"?", disabled_with: button_spinner('Loading...')})
+
+= paginate @users

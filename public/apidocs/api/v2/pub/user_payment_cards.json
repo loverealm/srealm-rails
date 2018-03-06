@@ -1,0 +1,38 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "user_payment_cards",
+  "apis": [
+    {
+      "path": "/api/v2/pub/user_payment_cards",
+      "operations": [
+        {
+          "notes": "List of payment cards of current user",
+          "nickname": "Api::V2::Pub::UserPaymentCards#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_payment_cards/{id}",
+      "operations": [
+        {
+          "notes": "destroy an specific payment card",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Payment card ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserPaymentCards#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

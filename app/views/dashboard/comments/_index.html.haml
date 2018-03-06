@@ -1,0 +1,14 @@
+- content = local[:content]
+%div.comments
+  - content.comments.each do |comment|
+    %div.comment-wrapper
+      %div#avatar
+        = show_avatar comment.user, "thumb", {time: comment.created_at}
+        %h4
+          = link_to_user(comment.user, {time: comment.created_at})
+      %span
+        = posted_time comment
+      %div.content
+        %br   
+          = pure_text comment.body
+      %hr

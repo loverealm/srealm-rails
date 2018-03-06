@@ -1,0 +1,28 @@
+.verified_groups_page
+  %h1 Verified User Groups
+  .row
+    .col-md-6
+      = search_form_for @q, url: url_for(action: :index) do |f|
+        .input-group
+          = f.search_field :name_cont, class: 'form-control', placeholder: 'Type here to filter...'
+          %span.input-group-btn
+            = button_tag 'Filter', class: 'btn btn-default'
+            = link_to 'Add group', url_for(action: :add_group), class: 'btn btn-default ujs_link_modal', remote: true, 'data-disable-with' => button_spinner, 'data-modal-title' => 'Add Verified Groups'
+
+  %table.table
+    %thead
+      %tr
+        %th #
+        %th Name
+        %th Owner
+        %th
+    %tbody
+      - @groups.each do |group|
+        %tr{'data-id' => group.id}
+          %td= group.name
+          %td= group.user.full_name
+          %td
+            = dropdown_builder button_class: 'btn-xs', right: true do
+              = content_tag :li, link_to('Mark as unverified', url_for(action: :unmark_verified, id: group), 'data-disable-with' =>button_spinner, remote: true, method: :delete, class: 'ujs_success_remove', 'data-closest-remove' => 'tr', 'data-confirm' => 'Are you sure you want to mark this group as unverified?')
+
+  = paginate @groups

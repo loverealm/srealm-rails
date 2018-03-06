@@ -1,0 +1,49 @@
+- _save_card = save_card rescue true
+- _recurring = recurring rescue true
+- field_id = "card-element-#{Time.current.to_i}"
+.payment_panel.text-left.hook_caller{data: {callback: 'Payment:form', field_id: "##{field_id}", stripe_key: ENV['STRIPE_PK'], currency: Rails.configuration.app_currency, email: current_user.email, name: current_user.first_name, phone: current_user.phone_number, logo: asset_url('lovereal-120x120.png'), rave_key: ENV['RAVE_PKEY']}}
+  -#= javascript_include_tag 'https://checkout.stripe.com/checkout.js' 
+  = javascript_include_tag Payment.rave_api_for('flwpbf-inline.js')
+  = hidden_field_tag 'card[token]', '', class: 'card_token'
+  = hidden_field_tag 'payment_method', 'stripe', class: 'payment_method'
+  - if _recurring
+    .payment_recurring_w
+      .row
+        .col-md-12.col_sel
+          .form-group
+            %label Recurring payment
+            = select_tag 'payment_recurring_period', options_for_select(Payment::RECURRING_OPTIONS.invert), include_blank: 'Select the period...', class: 'form-control payment_recurring'
+        .col-md-6
+          .input-group.custom_recurring_tpl{style: 'margin-top: 24px;'}
+            %span.input-group-addon Each
+            = number_field_tag :payment_recurring_custom, '', class: 'form-control required', min: 0
+            %span.input-group-addon days
+
+  - if current_user.payment_cards.any?
+    .form-group
+      %label.radio-inline
+        = radio_button_tag 'pay_with_saved_card', '', true 
+        Pay with New payment method
+      %label.radio-inline
+        = radio_button_tag 'pay_with_saved_card', 'true', false 
+        Pay with Saved card
+      
+  .token_payment_panel.hidden
+    .form-group
+      %label My payment cards
+      = select_tag 'payment_token_card_id', options_from_collection_for_select(current_user.payment_cards, :id, :the_title), class: 'form-control'
+    .text-center
+      = button_tag 'Make Payment', class: 'btn btn-primary btn-token', 'data-disabled-with' => button_spinner, type: 'button'
+    
+  .card_payment_panel
+    - if _save_card
+      .form-group.checkbox
+        = label_tag '' do
+          = check_box_tag 'card[card_saving]', '1', false, class: 'card_saving'
+          Store for future transactions
+    
+    .form-group.text-center.payment-btns
+      -#= button_tag('Pay with stripe' || (card_label rescue 'Make Payment'), title: 'Make payment using stripe', type: 'button', class: "stripe_btn btn btn-primary", 'data-disabled-with' => button_spinner) 
+      = button_tag(('Pay'), title: 'Make payment using rave', type: 'button', class: "rave_btn btn btn-black", 'data-disabled-with' => button_spinner) 
+      -#= button_tag class: "paypal_btn transparent btn btn-bordered", type: 'button', title: 'Make payment using paypal', style: "padding: 0; border: none;", 'data-disabled-with' => button_spinner do
+      -#  = image_tag('http://www.paypalobjects.com/webstatic/en_AU/i/buttons/btn_paywith_primary_m.png')

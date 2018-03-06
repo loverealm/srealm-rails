@@ -1,0 +1,10 @@
+- data = @category.new_record? ? {url: url_for(action: :create), html: {class: 'validate'}} : {url: url_for(action: :update, id: @category.id), html: {class: 'validate'}}
+= form_for @category, data do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'required form-control'
+  .form-group
+    = f.label :description
+    = f.text_area :description, class: ' form-control'
+  .form-group
+    = f.button @category.new_record? ? 'Save Mentor Category' : 'Update Mentor Category', class: 'btn btn-primary', 'data-disable-with' => button_spinner

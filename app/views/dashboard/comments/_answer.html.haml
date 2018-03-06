@@ -1,0 +1,41 @@
+.comment-answer.no_overflow.clearfix.media.hook_caller{id: "comment-#{answer.id}", 'data-id' => answer.id, 'data-callback' => 'Comment:init_answer'}
+  .media-left
+    = user_avatar_widget(answer.user, 30, answer.created_at)
+  
+  .comment-content.media-body
+    .comment-header.pull-left
+      = link_to answer.user.full_name(true, answer.created_at), user_profile_url(answer.user, answer.created_at), class: 'comment-author-name'
+      %span.time
+        = "#{time_ago_in_words(answer.created_at)} ago"
+    .pull-right.comment-actions.small.text-red
+      = link_to toggle_vote_dashboard_comment_answer_path(comment_id: comment, id: answer), class: "content-action comment-like-action #{answer.is_liked_by?(current_user) ? 'active' : ''}" do
+        %span.icon.glyphicon.glyphicon-heart
+        %span.comment_votes_count
+          = answer.cached_votes_score
+      .pull-right.dropdown
+        &nbsp;&middot;&nbsp;
+        %a.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", href: '#'}
+          %i.fa.fa-cog
+          %span.caret
+        %ul.dropdown-menu.dropdown-menu-right
+          = content_tag :li do
+            = link_to new_report_path(target_type: :comment, target_id: answer.id), remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_link_modal' do
+              %span.icon.fa.fa-flag{"aria-hidden" => "true"}
+              Report
+          = content_tag :li, link_to('<i class="fa fa-pencil"></i> Edit'.html_safe, '#', :title => "Edit Answer", class: 'edit_comment_link') if can?(:edit, answer)
+          = content_tag :li, link_to('<i class="fa fa-trash"></i> Delete'.html_safe, dashboard_comment_answer_path(comment_id: comment, id: answer, content_id: comment.content_id), class: 'ujs_success_hide del_answer', 'data-id' => answer.id, "data-closest-hide" => ".comment-answer", 'data-confirm' => "Are you sure you want to delete this answer?", "data-disable-with" => button_spinner('Deleting...'), method: :delete, remote: true, :title => "Destroy Answer") if can? :modify, answer
+          = content_tag :li, link_to('<i class="fa fa-recycle"></i> Delete from app'.html_safe, mark_deleted_comment_admin_watchdog_action_path(answer), 'data-modal-title' => 'Delete this answer from app', class: 'watchdog_del_answer ujs_link_modal', method: :get, remote: true, 'data-modal-confirm' => "Are you sure you want to mark to be deleted from app?", "data-disable-with" => button_spinner('Loading...')) if can? :mark_deleted_comment, answer
+    .clearfix
+
+    .comment-body.comment-body-answer{class: "#{'editable' if can?(:edit, answer)}"}
+      .the_content.word-break
+        - if answer.file.present?
+          = link_to(image_tag(answer.file.url(:thumb), class: 'maxwidth_100'), answer.file.url, class: 'gallery-item')
+        - else
+          .summary
+            = raw answer.the_summary
+          .full.hidden
+            = raw answer.body
+        
+      - if answer.user_id == current_user.try(:id)
+        = text_area_tag 'comment[body]', answer.body, autocomplete: 'off', class: 'required form-control hidden edit_comment_area mentionable', 'data-id'=>answer.id, 'data-url' => dashboard_comment_answer_path(comment_id: comment, id: answer, content_id: comment.content_id)

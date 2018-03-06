@@ -1,0 +1,7 @@
+- @members.each_slice(2).each do |members|
+  .row
+    - members.each do |member|
+      .col-md-6
+        = user_row_widget(member, {class: 'border_bottom padding_bottom10 margin_bottom10', media_right: @group.is_admin?(member.id) ? '<small class="label label-primary inline">(Admin)</small>' : ''})
+.clearfix
+= view_more_button(url_for(page: @members.next_page)) if @members.next_page

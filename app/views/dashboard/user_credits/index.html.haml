@@ -1,0 +1,33 @@
+- content_for :container_class, 'panel'
+%h1.title.margin_top0 My Credits
+.row
+  .col-md-9
+    %ul.nav.nav-tabs{:role => "tablist"}
+      %li.active
+        %a{"data-toggle" => "tab", :href => "#my_payments", :role => "tab"} Purchased Credits
+      %li
+        %a{"data-toggle" => "tab", :href => "#spent_credits", :role => "tab"} Used Credits
+      
+    .tab-content
+      #my_payments.tab-pane.active
+        - unless @payments.empty?
+          %table.table
+            = render template: 'dashboard/user_credits/list'
+        = content_tag :div, 'There are no items to list', class: 'bold text-center' if @payments.empty?
+      
+      #spent_credits.tab-pane
+        - unless @used_credits.empty?
+          %table.table
+            = render template: 'dashboard/user_credits/used_credits'
+        = content_tag :div, 'There are no items to list', class: 'bold text-center' if @used_credits.empty?
+      
+
+  .col-md-3
+    .panel.panel-default
+      .panel-heading.bold Total Credits
+      .panel-body.text-center.italic
+        %span{style: 'font-size: 40px;'}= number_to_currency current_user.credits
+        %br
+        %br
+        = link_to 'Buy Credits', url_for(action: :buy_credits), remote: true, 'data-modal-title' => 'Buy Credits', 'data-disable-with' => button_spinner, class: 'ujs_link_modal btn-block btn btn-primary'
+      

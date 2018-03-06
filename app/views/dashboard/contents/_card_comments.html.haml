@@ -1,0 +1,6 @@
+- comments = content.comments.includes(:user)
+.content-comments{class: "#{'hidden' if comments.empty?}"}
+  = render partial: 'dashboard/comments/list', locals: { comments: comments.limit(2).reverse }
+  - if comments.count > 2
+    .text-center.load-more-comments_w.bold
+      = link_to 'Previous comments &raquo;'.html_safe, comments_dashboard_content_path(id: content, content_id: content.id), remote: true, class: 'load-more-comments small underline', 'data-disable-with' => button_spinner('Loading...')

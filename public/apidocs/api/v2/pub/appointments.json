@@ -1,0 +1,436 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "appointments",
+  "apis": [
+    {
+      "path": "/api/v2/pub/appointments/{id}/reject",
+      "operations": [
+        {
+          "summary": "As a mentor can reject an appointment",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#reject",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}/accept",
+      "operations": [
+        {
+          "summary": "Accept an appointment by mentor or mentee (Mentee only for re-scheduling)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#accept",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}/start_call",
+      "operations": [
+        {
+          "summary": "As a mentor or mentee can start video call which will trigger instant notifications. Returns video call settings. (Check opentok service)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#start_call",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}/ping_call",
+      "operations": [
+        {
+          "summary": "As a caller, can ping to the current progress calling (called every 10secs from caller side)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#ping_call",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}/reject_call",
+      "operations": [
+        {
+          "summary": "As a receiver can reject a call",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#reject_call",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}/accept_call",
+      "operations": [
+        {
+          "summary": "As a receiver can accept current call",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#accept_call",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}/end_call",
+      "operations": [
+        {
+          "summary": "As a member of the appointment can finish current call. Note: after finish the call, is mandatory to show a donation form for mentee user (listen fcm notification appointment_end_call)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#end_call",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}/re_schedule",
+      "operations": [
+        {
+          "summary": "As a mentor can re schedule an appointment which will need to be accepted by the Mentee",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "re_schedule_for",
+              "type": "string",
+              "description": "Date for the appointment in UNIX time, sample: 1507672969129",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "location",
+              "type": "string",
+              "description": "Appointment free location text (Optional)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "latitude",
+              "type": "string",
+              "description": "Appointment latitude geolocation (Optional)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "longitude",
+              "type": "string",
+              "description": "Appointment longitude geolocation (Optional)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#re_schedule",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}/donation",
+      "operations": [
+        {
+          "summary": "As a mentee, can make a donation to current counselor",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "amount",
+              "type": "integer",
+              "description": "Donation amount (GHS)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "payment_method",
+              "type": "string",
+              "description": "Payment method: paypal|stripe|rave (PAYMENT PARAMS)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "stripe_token",
+              "type": "string",
+              "description": "Stripe payment token (required if stripe method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "stripe_transaction_id",
+              "type": "string",
+              "description": "Stripe transaction ID (required if stripe method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "paypal_token",
+              "type": "string",
+              "description": "Paypal payment token (required if paypal method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "rave_token",
+              "type": "string",
+              "description": "Rave payment token (required if rave method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "save_card",
+              "type": "boolean",
+              "description": "Permit to save current transaction card token to be used it in the future. Only for Rave, Stripe",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "payment_card_id",
+              "type": "integer",
+              "description": "Permit to pay using saved card token. Get list of saved cards here: GET /api/v2/pub/user_finances/cards",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "payment_recurring_period",
+              "type": "string",
+              "description": "Permit to repeat this transaction many times (Recurring Payment), where: number value means => every x days OR string value must be => daily,weekly,monthly,quarterly,biannually,yearly.",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#donation",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments",
+      "operations": [
+        {
+          "summary": "Return list appointments for current user (if current user is a mentor: list of received requests, else: list of sent requests)",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "kind",
+              "type": "string",
+              "description": "Filter appointments by: upcoming (default), pending, pending_future",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments",
+      "operations": [
+        {
+          "summary": "As a mentee can request an appointment",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "counselor_id",
+              "type": "integer",
+              "description": "Counselor's ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "kind",
+              "type": "string",
+              "description": "Appointment kind: video|walk_in. Default video.",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "schedule_for",
+              "type": "string",
+              "description": "Date for the appointment in UNIX time, sample: 1507672969129",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "location",
+              "type": "string",
+              "description": "Appointment free location text (required for walk_in if geolocation is not defined)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "latitude",
+              "type": "string",
+              "description": "Appointment latitude geolocation (required for walk_in if location is not defined)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "longitude",
+              "type": "string",
+              "description": "Appointment longitude geolocation (required for walk_in if location is not defined)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}",
+      "operations": [
+        {
+          "summary": "Return full information of a specific appointment",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}",
+      "operations": [
+        {
+          "summary": "As a mentee can update a requested appointment",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "kind",
+              "type": "string",
+              "description": "Appointment kind: video|walk_in. Default video.",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "schedule_for",
+              "type": "string",
+              "description": "Date for the appointment in UNIX time, sample: 1507672969129",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "location",
+              "type": "string",
+              "description": "Appointment free location text (required for walk_in if geolocation is not defined)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "latitude",
+              "type": "string",
+              "description": "Appointment latitude geolocation (required for walk_in if location is not defined)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "longitude",
+              "type": "string",
+              "description": "Appointment longitude geolocation (required for walk_in if location is not defined)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/appointments/{id}",
+      "operations": [
+        {
+          "summary": "As a mentee can destroy/cancel a requested appointment",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Appointment ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Appointments#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

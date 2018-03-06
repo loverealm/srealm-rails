@@ -1,0 +1,17 @@
+= form_for @meeting, url: url_for(action: @meeting.new_record? ? :create : :update), remote: true, html: { class: "validate ujs_hide_modal #{@meeting.new_record? ? 'ujs_content_to' : 'ujs_modal_success_replace'}", 'data-prepend-to' => '#church_grow_church_page .meetings_list', 'data-closest-replace' => '.media' } do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'required form-control'
+  
+  .form-group
+    = f.label :day
+    = f.select :day, UserGroupMeeting::DAY_VALUES, {}, class: 'form-control required'
+
+  .form-group
+    = f.label :hour
+    = f.select :hour, hour_time_select_options(@meeting.hour), {}, class: 'form-control required'
+  
+  .form-group
+    = button_tag @meeting.new_record? ? 'Create Meeting' : 'Update Meeting', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Loading...')
+    
+  

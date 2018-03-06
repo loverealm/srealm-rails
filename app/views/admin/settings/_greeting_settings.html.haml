@@ -1,0 +1,110 @@
+#greeting_settings_tab.tab-pane
+  %br
+  .form-group
+    = label_tag '', 'Today\'s daily inspiration Label'
+    %small You can use %{title} to refer today inspiration's title
+    = text_field_tag 'setting[daily_inspiration_label]', Setting.get_setting(:daily_inspiration_label), class: 'form-control required'
+
+  %fieldset
+    %legend Greeting Art
+    .form-group
+      = label_tag '', 'Good Morning Art'
+      %small (760x110)
+      .media
+        .media-body
+          = file_field_tag 'setting[good_morning_art]', accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+        .media-right
+          - if(v = Setting.get_setting(:good_morning_art)).present?
+            = media_avatar_image(v, 35, include_link: true)
+
+    .form-group
+      = label_tag '', 'Good Afternoon Art'
+      %small (760x110)
+      .media
+        .media-body
+          = file_field_tag 'setting[good_afternoon_art]', accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+        .media-right
+          - if(v = Setting.get_setting(:good_afternoon_art)).present?
+            = media_avatar_image(v, 35, include_link: true)
+
+
+    .form-group
+      = label_tag '', 'Good Night Art'
+      %small (760x110)
+      .media
+        .media-body
+          = file_field_tag 'setting[good_night_art]', accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+        .media-right
+          - if(v = Setting.get_setting(:good_night_art)).present?
+            = media_avatar_image(v, 35, include_link: true)
+
+    .form-group
+      = label_tag '', 'Happy Birthday Art'
+      %small (760x110)
+      .media
+        .media-body
+          = file_field_tag 'setting[happy_birthday_art]', accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+        .media-right
+          - if(v = Setting.get_setting(:happy_birthday_art)).present?
+            = media_avatar_image(v, 35, include_link: true)
+
+    .form-group
+      = label_tag '', 'Welcome Art'
+      %small (760x110)
+      .media
+        .media-body
+          = file_field_tag 'setting[welcome_art]', accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+        .media-right
+          - if(v = Setting.get_setting(:welcome_art)).present?
+            = media_avatar_image(v, 35, include_link: true)
+
+  %fieldset
+    %legend Greeting Labels
+    %small You can use %{name} to refer user's full name
+    .form-group
+      = label_tag '', 'Good morning'
+      = text_field_tag 'setting[good_morning_label]', Setting.get_setting(:good_morning_label), class: 'form-control required'
+    .form-group
+      .form-group
+      = label_tag '', 'Good afternoon'
+      = text_field_tag 'setting[good_afternoon_label]', Setting.get_setting(:good_afternoon_label), class: 'form-control required'  
+    .form-group
+      .form-group
+      = label_tag '', 'Good night'
+      = text_field_tag 'setting[good_night_label]', Setting.get_setting(:good_night_label), class: 'form-control required'
+    .form-group
+      = label_tag '', 'Happy Birthday Label'
+      %small You can use %{name} to refer user's full name
+      = text_field_tag 'setting[happy_birthday_label]', Setting.get_setting(:happy_birthday_label), class: 'form-control required'
+    .form-group
+      = label_tag '', 'Welcome Label'
+      %small You can use %{name} to refer user's full name
+      = text_field_tag 'setting[welcome_label]', Setting.get_setting(:welcome_label), class: 'form-control required'
+
+  %fieldset
+    %legend Greeting Title Colors
+    .form-group
+      = label_tag '', 'Good morning'
+      = text_field_tag 'setting[good_morning_color_title]', Setting.get_setting(:good_morning_color_title), class: 'form-control required color_field'
+    .form-group
+      .form-group
+      = label_tag '', 'Good afternoon'
+      = text_field_tag 'setting[good_afternoon_color_title]', Setting.get_setting(:good_afternoon_color_title), class: 'form-control required color_field'  
+    .form-group
+      .form-group
+      = label_tag '', 'Good night'
+      = text_field_tag 'setting[good_night_color_title]', Setting.get_setting(:good_night_color_title), class: 'form-control required color_field'
+
+  %fieldset
+    %legend Greeting Text Colors
+    .form-group
+      = label_tag '', 'Good morning'
+      = text_field_tag 'setting[good_morning_color]', Setting.get_setting(:good_morning_color), class: 'form-control required color_field'
+    .form-group
+      .form-group
+      = label_tag '', 'Good afternoon'
+      = text_field_tag 'setting[good_afternoon_color]', Setting.get_setting(:good_afternoon_color), class: 'form-control required color_field'  
+    .form-group
+      .form-group
+      = label_tag '', 'Good night'
+      = text_field_tag 'setting[good_night_color]', Setting.get_setting(:good_night_color), class: 'form-control required color_field'

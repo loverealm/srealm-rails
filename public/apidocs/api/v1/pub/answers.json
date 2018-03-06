@@ -1,0 +1,186 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "answers",
+  "apis": [
+    {
+      "path": "/api/v1/pub/comments/{comment_id}/answers/{id}/toggle_like",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "comment_id",
+              "type": "integer",
+              "description": "Comment ID (Owner of the answer)",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Answer ID which will be liked/unliked",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "kind",
+              "type": "string",
+              "description": "Kind of action: like | unlike",
+              "required": true
+            }
+          ],
+          "notes": "Toggle like/unlike an answer of a specific Comment for current user",
+          "nickname": "Api::V1::Pub::Answers#toggle_like",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/comments/{comment_id}/answers",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "comment_id",
+              "type": "integer",
+              "description": "Comment ID (Owner of the answers)",
+              "required": true
+            }
+          ],
+          "notes": "Return all answers of a specific comment",
+          "nickname": "Api::V1::Pub::Answers#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/comments/{comment_id}/answers",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "comment_id",
+              "type": "integer",
+              "description": "Comment ID (Owner of the answer)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "body",
+              "type": "text",
+              "description": "Answer value (required if file is empty)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "file",
+              "type": "file",
+              "description": "Answer image/audio/video file",
+              "required": false
+            }
+          ],
+          "notes": "Create a new answer for a specific Comment",
+          "nickname": "Api::V1::Pub::Answers#create",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/comments/{comment_id}/answers/{id}",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "comment_id",
+              "type": "integer",
+              "description": "Comment ID (Owner of the answer)",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Answer ID which will be shown",
+              "required": true
+            }
+          ],
+          "notes": "Show an existent answer of a specific Comment",
+          "nickname": "Api::V1::Pub::Answers#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/comments/{comment_id}/answers/{id}",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "comment_id",
+              "type": "integer",
+              "description": "Comment ID (Owner of the answer)",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Answer ID which will be updated",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "body",
+              "type": "text",
+              "description": "New answer value (required if file is empty)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "file",
+              "type": "file",
+              "description": "Answer image/audio/video file",
+              "required": false
+            }
+          ],
+          "notes": "Update an existent answer of a specific Comment",
+          "nickname": "Api::V1::Pub::Answers#update",
+          "method": "patch"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/comments/{comment_id}/answers/{id}",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "comment_id",
+              "type": "integer",
+              "description": "Comment ID (Owner of the answer)",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Answer ID which will be destroyed",
+              "required": true
+            }
+          ],
+          "notes": "Destroy an existent answer of a specific Comment",
+          "nickname": "Api::V1::Pub::Answers#destroy",
+          "method": "delete"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

@@ -1,0 +1,28 @@
+%h1 Mentor Categories
+
+.text-right
+  = link_to 'New Mentor Category', url_for(action: :new), class: 'btn btn-primary btn-sm ujs_link_modal', remote: true, 'data-disable-with' => button_spinner, 'data-modal-title' => 'New Mentor Category'
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th Total Members
+      %th &nbsp;
+
+  %tbody
+    - @categories.each do |category|
+      %tr
+        %td= category.title
+        %td= category.description
+        %td= category.users.count
+        %td.text-right
+          = dropdown_builder do
+            = content_tag :li, link_to('Edit', url_for(action: :edit, id: category), class: "ujs_link_modal", remote: true, 'data-disable-with' => button_spinner, 'data-modal-title' => 'Edit Mentor Category')
+            = content_tag :li, link_to('Members', url_for(action: :members, id: category), class: "ujs_link_modal", remote: true, 'data-disable-with' => button_spinner, 'data-modal-title' => 'Category Members')
+            = content_tag :li, link_to('Add Members', url_for(action: :add_members, id: category), class: "ujs_link_modal", remote: true, 'data-disable-with' => button_spinner, 'data-modal-title' => 'Add Members')
+            = content_tag :li, link_to('Delete', url_for(action: :destroy, id: category), :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "")
+              
+
+= paginate @categories

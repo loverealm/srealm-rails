@@ -1,0 +1,49 @@
+= form_for @broadcast_message, url: url_for(action: :broadcast_sms, format: :html), multipart: true, data: { type: :html }, remote: true, html: {class: 'hook_caller ujs_hide_modal ujs_link_modal', 'data-modal-title' => 'Payment Process', 'data-callback'=>'ChurchManagement:broadcast_sms_form'} do |f|
+  .form-group
+    = f.label :from
+    = f.text_field :from, class: 'form-control required'
+
+  .form-group
+    = f.label :message
+    = f.text_area :message, class: 'form-control required', maxlength: 160
+  
+  .form-group
+    = f.label :to_kind, 'To'
+    = f.select :to_kind, {members: 'All members of this group', custom: 'Custom Phone Numbers'}.invert, {}, class: 'to_kind required form-control'
+    
+  .custom_tpl
+    .alert.alert-info Copy and paste all phone numbers here. Please Precede with Country Prefix. Ensure that every number occupies just one line.
+    .form-group
+      = f.label :raw_phone_numbers
+      = f.text_area :raw_phone_numbers, class: 'form-control required', rows: 8
+
+    .form-group.hidden
+      = f.label :custom_phones do
+        Custom Phone Numbers 
+        = link_to('(Sample Format)', '#', class: 'small ujs_modal_inline', 'data-modal-id' => 'sample_format_modal', 'data-content' => '<table><tr><td>+591 79716902</td></tr><tr><td>+31 19713902</td></tr><tr><td>+52 29713902</td></tr></table>', 'data-modal-title' => 'Sample Phone List')
+      = f.file_field :custom_phones, accept: '.xls,.xlsx,.csv'
+  
+  .members_tpl
+    %fieldset
+      %legend Restrictions
+    
+      .form-group
+        = f.label :age_range
+        = slide_range_tag_helper(f, :age_range, @broadcast_message.age_range)
+    
+      .form-group
+        = f.label :gender, 'Gender'
+        = f.select :gender, User::SEX.invert, {include_blank: 'All'}, class: 'form-control'
+  
+      - if can?(:manage_branches, @church) && @church.branches.any?
+        .form-group
+          = f.label :branches, 'Branches to include'
+          = f.collection_select :branches, @church.branches, :id, :name, {}, class: 'form-control', multiple: true
+    
+      .form-group
+        = f.label :countries, 'Countries'
+        = f.country_select :countries, {include_blank: 'All', include_hidden: false}, class: 'form-control', multiple: true
+    
+  .form-group
+    = button_tag 'Send Messages', class: 'btn btn-primary', 'data-disable-with'=>button_spinner('Saving...')
+  

@@ -1,0 +1,9 @@
+= form_for [:dashboard, :user_group, @promotion], remote: true, html: {class: 'hook_caller ujs_hide_modal ujs_link_modal', 'data-modal-title' => 'Payment Step', 'data-callback' => 'ChurchManagement:promote_form', "data-type" => :html} do |f|
+  .form-group
+    = f.label :website, 'Website to promote'
+    = f.url_field :website, class: 'form-control required'
+    
+  = render 'dashboard/churches_management/promotion_form', f: f
+    
+  .form-group.text-right
+    = button_tag @promotion.new_record? ? 'Create Promotion' : 'Update Promotion', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Saving...')

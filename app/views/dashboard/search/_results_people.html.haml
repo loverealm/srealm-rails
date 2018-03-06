@@ -1,0 +1,5 @@
+- items.decorate.each do |user|
+  = user.the_row(block_position: 'right', class: 'media_bordered', thumb_size: 40) do
+    .links.nowrap
+      = follow_button(user, class: 'btn-sm')
+      = current_user.the_friend_status_for(user, {class: 'btn-sm'})

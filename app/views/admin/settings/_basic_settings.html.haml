@@ -1,0 +1,15 @@
+#basic_settings_tab.tab-pane.active
+  %br
+  .form-group
+    = label_tag '', 'App Version'
+    = text_field_tag 'setting[app_version]', Setting.get_setting(:app_version), class: 'form-control'
+
+  .form-group
+    = label_tag '', 'Default hash tags'
+    = select_tag 'setting[default_hash_tags]', options_for_select(Setting.get_setting(:default_hash_tags).split(','), Setting.get_setting(:default_hash_tags).split(',')), multiple: true, class: 'form-control hook_caller', 'data-callback' => 'Common.tags_autocomplete'
+
+  .form-group
+    = label_tag '' do
+      Default following accounts
+      %small{style: 'font-weight: normal;'} (Comma separated list of mention keys.)
+    = text_area_tag 'setting[default_following_accounts]', Setting.get_setting(:default_following_accounts), class: 'form-control', rows: 6

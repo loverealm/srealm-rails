@@ -1,0 +1,16 @@
+- events.each do |event|
+  = event_row_widget(event, class: 'media_bordered') do
+    .nowrap
+      .dropdown.inline
+        %a.btn.dropdown-toggle.btn-bordered.btn-primary.btn-sm{"data-toggle" => "dropdown"}
+          %i.fa.fa-cog
+          %span.caret
+        %ul.dropdown-menu.dropdown-menu-right
+          = content_tag :li, link_to('Edit', edit_dashboard_user_group_event_path(id: event, user_group_id: @church), class: 'ujs_hide_modal ujs_link_modal', remote: true, 'data-disable-with'=> button_spinner('Loading...'), 'data-modal-title' => 'Edit Event')
+          = content_tag :li, link_to('Destroy', dashboard_user_group_event_path(id: event, user_group_id: @church), class: 'ujs_success_remove', 'data-closest-remove' => '.media', 'data-confirm' => 'Are you sure you want to delete this event?', remote: true, method: :delete)
+          = content_tag :li, '', class: 'divider'
+          = content_tag :li, link_to('Promotions', dashboard_user_group_event_promotions_path(event_id: event, user_group_id: @church), class: 'ujs_hide_modal ujs_link_modal', remote: true, 'data-disable-with'=> button_spinner('Loading...'), 'data-modal-title' => "Event Promotions: #{event.name}", 'data-modal-size' => 'modal-lg')
+
+      = link_to('Promote', new_dashboard_user_group_event_promotion_path(event_id: event, user_group_id: @church), class: 'btn btn-primary btn-sm btn-bordered ujs_link_modal', 'data-modal-title' => "Promote Event: #{event.name}", remote: true, 'data-disable-with'=> button_spinner('Loading...'))
+    
+= view_more_button(url_for(action: :grow_church_data, kind: params[:kind] || 'promote_events', page: events.next_page)) if events.try(:next_page)

@@ -1,0 +1,12 @@
+.content.status{content_widget_data(content)}
+  = render 'dashboard/contents/card_header', content: content
+  .content-body
+    .status-content-text{style: feed_font_size_text(content)}
+      = raw content.decorate.the_excerpt
+    
+    - if content.content_source_type == 'Event' && content.content_source
+      .event_feed.bordered.padding10
+        - event = content.content_source.decorate
+        = event.the_widget
+
+  = render 'dashboard/contents/card_footer', content: content

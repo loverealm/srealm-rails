@@ -1,0 +1,8 @@
+.modal-title Redeem Pledge
+= form_tag url_for(), method: :post, authenticity_token: true, class: 'ujs_hide_modal', remote: true do
+  = hidden_field_tag :amount, @payment.amount
+  .form-group
+    %label Amount
+    %span= number_to_currency @payment.amount
+
+  = render 'dashboard/payments/form', card_label: 'Redeem', recurring: false

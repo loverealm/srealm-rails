@@ -1,0 +1,31 @@
+.text-center
+  = image_tag(@event.photo.url, class: '', style: 'max-height: 220px; max-width: 100%;')
+%h4= @event.name
+
+%p
+  %strong Location:
+  = @event.location
+
+%p
+  %strong Date:
+  = l(@event.start_at, format: :short)
+  &nbsp;until 
+  = l(@event.end_at, format: :short)
+%p
+  %strong Price:
+  = @event.is_free? ? 'Free' : number_to_currency(@event.price)
+
+-if @event.ticket_url.present?
+  %p
+    %strong Tickets:
+    = @event.ticket_url
+    
+%p
+  %strong Description:
+  %br
+  %span.italic= @event.description
+
+.text-center.margin_top10
+  -#- if params[:include_payment] && can?(:buy_ticket, @event)
+  - if can?(:buy_ticket, @event)
+    = render template: 'dashboard/church_events/buy' unless @event.is_free?

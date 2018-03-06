@@ -1,0 +1,20 @@
+- current_user.invited_volunteer!
+- cookies[:shown_volunteer_invitation] = {value: true, expires: Time.current.end_of_day}
+#modal_invite_volunteers
+  .row
+    .col-md-3
+      = image_tag 'volunteer-image.jpg', style: 'width: 100%;'
+    .col-md-9
+      %p
+        %strong Get the prestigious ‘V’ mark by your name 
+        %span and all your posts by becoming a LoveRealm Volunteer. Help keep the community safe by becoming a Community watch dog; or perhaps run your own chat room. You can also become peer counselor or an evangelist by Inviting your church to join LoveRealm. Become a Prayer Warrior and pray for people who are hurting, or become a Creative contributor. You can also make more friends on your University Campus by becoming a LoveRealm Fellow.
+      %p.text-center
+        = link_to 'Learn More', '#', class: 'btn btn-primary'      
+              
+= content_for :script do
+  :javascript
+    jQuery(function(){
+      setTimeout(function(){
+        modal_tpl({title: 'Get the prestigious "V" Mark', content: $('#modal_invite_volunteers')}).modal(); 
+      }, 500);
+    });

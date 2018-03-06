@@ -1,0 +1,49 @@
+.comment.media.no_overflow.clearfix.hook_caller{'data-id': comment.id, id: "comment-#{comment.id}", 'data-callback' => 'Comment:init'}
+  .media-left
+    = user_avatar_widget(comment.user, 30, comment.created_at)
+
+  .comment-content.media-body
+    .comment-header.pull-left
+      = link_to comment.user.full_name(true, comment.created_at), user_profile_url(comment.user, comment.created_at), class: 'comment-author-name'
+      %span.time
+        = "#{time_ago_in_words(comment.created_at)} ago"
+    .pull-right.comment-actions.small.text-red
+      = link_to 'Reply', dashboard_comment_answers_path(comment, content_id: comment.content_id), class: 'reply_comment'
+      &middot;
+      = link_to toggle_vote_dashboard_comment_path(content_id: comment.content_id, id: comment.id), class: "content-action comment-like-action #{comment.is_liked_by?(current_user) ? 'active' : ''}" do
+        %span.icon.glyphicon.glyphicon-heart
+        %span.comment_votes_count
+          = comment.cached_votes_score
+      .pull-right.dropdown
+        &nbsp;&middot;&nbsp;
+        %a.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", href: '#'}
+          %i.fa.fa-cog
+          %span.caret
+        %ul.dropdown-menu.dropdown-menu-right
+          = content_tag :li do
+            = link_to new_report_path(target_type: :comment, target_id: comment.id), remote: true, 'data-disable-with' => button_spinner('Loading...'), class: 'ujs_link_modal' do
+              %span.icon.fa.fa-flag{"aria-hidden" => "true"}
+              Report
+          = content_tag :li, link_to('<i class="fa fa-pencil"></i> Edit'.html_safe, '#', :title => "Edit Comment", class: 'edit_comment_link') if can?(:edit, comment)
+          = content_tag :li, link_to('<i class="fa fa-trash"></i> Delete'.html_safe, dashboard_comment_path(id: comment, content_id: comment.content_id), class: 'ujs_success_hide del_comment', 'data-id' => comment.id, "data-closest-hide" => ".comment", 'data-confirm' => "Are you sure you want to delete this comment?", "data-disable-with" => button_spinner('Deleting...'), method: :delete, remote: true, :title => "Destroy Comment") if can? :modify, comment
+          = content_tag :li, link_to('<i class="fa fa-recycle"></i> Delete from app'.html_safe, mark_deleted_comment_admin_watchdog_action_path(comment), 'data-modal-title' => 'Delete this comment from app', class: 'watchdog_del_comment ujs_link_modal', method: :get, remote: true, 'data-modal-confirm' => "Are you sure you want to mark ot be deleted from app?", "data-disable-with" => button_spinner('Loading...')) if can? :mark_deleted_comment, comment
+
+    .clearfix
+
+    .comment-body{class: "#{'editable' if can?(:edit, comment)}"}
+      .the_content.word-break
+        - if comment.file.present?
+          = link_to(image_tag(comment.file.url(:thumb), class: 'maxwidth_100'), comment.file.url, class: 'gallery-item')
+        - else
+          .summary
+            = raw comment.the_summary
+          .full.hidden
+            = raw comment.body
+        
+      - if comment.user_id == current_user.try(:id)
+        = text_area_tag 'comment[body]', comment.body, autocomplete: 'off', class: 'required form-control hidden edit_comment_area mentionable', 'data-id'=>comment.id, 'data-url' => dashboard_comment_path(id: comment, content_id: comment.content_id)
+      
+      .comment-answers
+        .comment-answers-list
+          - comment.answers.eager_load(:user).reverse.each do |answer|
+            = render 'dashboard/comments/answer', answer: answer, comment: comment

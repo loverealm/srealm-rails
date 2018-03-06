@@ -1,0 +1,499 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "conversations",
+  "apis": [
+    {
+      "path": "/api/v2/pub/conversations/create_group",
+      "operations": [
+        {
+          "summary": "Create a new conversation group",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "group_title",
+              "type": "string",
+              "description": "Title for conversation group",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "participants",
+              "type": "array",
+              "description": "Array of participant user ids (User ids)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "image",
+              "type": "file",
+              "description": "Group Photo",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#create_group",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/start_conversation",
+      "operations": [
+        {
+          "summary": "Return an exist conversation between current_user and user_id, if it does not exist will create one and return it",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID with whom current user want to start conversation (Optional, required if email is empty)",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "user_email",
+              "type": "integer",
+              "description": "User email with whom current user want to start conversation (Optional, required if user id is empty)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "default_message",
+              "type": "text",
+              "description": "Default message text used on create conversation if it does not exist. (Optional)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "message",
+              "type": "text",
+              "description": "Message to send from current user to this conversation (Optional).",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#start_conversation",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/public_groups",
+      "operations": [
+        {
+          "summary": "Return the list of public conversation groups ordered by last activity",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page for pagination (default 20)",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "exclude_mine",
+              "type": "boolean",
+              "description": "Permit to exclude public conversations where current user is member of, default false (do not exclude)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#public_groups",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/suggested_mentor_conversation",
+      "operations": [
+        {
+          "summary": "Search for suggested counselor (generates a random official counselor) to start conversation",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "force",
+              "type": "boolean",
+              "description": "Boolean parameter to force or not the generation of a new counselor suggestion, default: false (reuse last suggestion for one hour)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#suggested_mentor_conversation",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/unread_message_count",
+      "operations": [
+        {
+          "summary": "Return the quantity of messages unread by current user for specific conversation",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#unread_message_count",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/read_messages",
+      "operations": [
+        {
+          "summary": "Marks current conversation as read by current user (last seen right now)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#read_messages",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/messages",
+      "operations": [
+        {
+          "summary": "return paginated messages for currrent conversation",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number of the pagination.",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of messages per page",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#messages",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/participants",
+      "operations": [
+        {
+          "summary": "List of participants of a specific conversation",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page for pagination (default 20)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#participants",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/start_typing",
+      "operations": [
+        {
+          "summary": "Trigger start typing for specific conversation",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#start_typing",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/stop_typing",
+      "operations": [
+        {
+          "summary": "Trigger stop typing for specific conversation",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#stop_typing",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/update_group",
+      "operations": [
+        {
+          "summary": "Update a specific conversation group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "group_title",
+              "type": "string",
+              "description": "Title for conversation group",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "image",
+              "type": "file",
+              "description": "Group Photo",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "new_members",
+              "type": "array",
+              "description": "Array of new members to add to current conversation (optional)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "del_members",
+              "type": "array",
+              "description": "Array of members to exclude from current conversation (optional)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "new_admins",
+              "type": "array",
+              "description": "Array of members marked as admin for current conversation (optional)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "del_admins",
+              "type": "array",
+              "description": "Array of members unmarked as admin for current conversation (optional)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#update_group",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/join_conversation",
+      "operations": [
+        {
+          "summary": " As a group admin, can add members to current conversation group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_ids",
+              "type": "array",
+              "description": "Array of ids of new user participants",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#join_conversation",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/leave_conversation",
+      "operations": [
+        {
+          "summary": "Leave specific conversation group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#leave_conversation",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/destroy_group",
+      "operations": [
+        {
+          "summary": "Destroy a specific conversation group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation to delete",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#destroy_group",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/join",
+      "operations": [
+        {
+          "summary": "Permit to current to join to a public conversation",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#join",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}/{user_id}/ban_member",
+      "operations": [
+        {
+          "summary": "ban a member from current conversation group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "user_id",
+              "type": "integer",
+              "description": "User ID to ban from current conversation group",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#ban_member",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations",
+      "operations": [
+        {
+          "summary": "List of conversations for current user",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Filter to only specific kind of conversations: single => 1 to 1  conversations |group => private group conversations |public => public groups where current member is member of",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page for pagination (default 20)",
+              "required": false
+            }
+          ],
+          "notes": "Return the list of conversations for current user",
+          "nickname": "Api::V2::Pub::Conversations#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/conversations/{id}",
+      "operations": [
+        {
+          "summary": "Return the full information of the current conversation with full participants included.",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "ID of conversation",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Conversations#show",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

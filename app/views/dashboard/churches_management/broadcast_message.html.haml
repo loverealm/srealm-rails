@@ -1,0 +1,34 @@
+= form_for @broadcast_message, url: url_for(action: :broadcast_message), remote: true, html: {class: 'hook_caller ujs_hide_modal', 'data-callback'=>'ChurchManagement:broadcast_message_form'} do |f|
+
+  .form-group
+    = f.label :message
+    = f.text_area :message, class: 'form-control required'
+
+  .form-group
+    = f.label :send_sms, 'Send SMS messages to users who didn\'t read message on LoveRealm'
+    .r= f.check_box :send_sms, class: ''
+  
+  %fieldset
+    %legend Restrictions
+  
+    .form-group
+      = f.label :age_range
+      = slide_range_tag_helper(f, :age_range, @broadcast_message.age_range)
+  
+    .form-group
+      = f.label :gender, 'Gender'
+      = f.select :gender, User::SEX.invert, {include_blank: 'All'}, class: 'form-control'
+
+    - if can?(:manage_branches, @church) && @church.branches.any?
+      .form-group
+        = f.label :branches, 'Branches to include'
+        = f.collection_select :branches, @church.branches, :id, :name, {}, class: 'form-control', multiple: true
+  
+    .form-group
+      = f.label :countries, 'Countries'
+      = f.country_select :countries, {include_blank: 'All', include_hidden: false}, class: 'form-control', multiple: true
+    
+    .form-group.text-right
+      = f.button 'Send Messages', class: 'btn btn-primary', 'data-disable-with'=> button_spinner('Loading...')    
+
+  

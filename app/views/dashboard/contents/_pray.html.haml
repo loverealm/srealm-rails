@@ -1,0 +1,12 @@
+.content.pray{content_widget_data(content)}
+  = render 'dashboard/contents/card_header', content: content
+  -# cache content.custom_cache_key('widget', 'last_activity_time') do
+  .content-body
+    .pray-content-text
+      %h3.text-danger.margin_top0
+        = content.title
+      .description{style: feed_font_size_text(content)}
+        = raw content.decorate.the_excerpt
+    = render 'dashboard/contents/prayers_list', content: content
+
+  = render 'dashboard/contents/card_footer', content: content

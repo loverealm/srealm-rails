@@ -1,0 +1,34 @@
+.hook_caller.live_video_form_panel{class: "#{'new_video' if content.new_record?}", data:{callback: 'ContentEditor:live_video_form', token: (token rescue ''), session: (session rescue ''), apikey: ENV['OPENTOK_KEY'] }}
+  - if content.new_record?
+    = "<script>loadJS('https://static.opentok.com/v2/js/opentok.min.js');</script>".html_safe
+    .row
+      .col-md-9.padding_right0
+        .status_panel.text-center
+          .preview_panel.bold.label.label-default Preview
+          .live_panel.bold.label.hidden.label-success Live
+        #live_video_panel
+          
+      .col-md-3.right_panel
+        = form_for content, url: [:dashboard, content], remote: true, html:{class: "new_video validate", 'data-type' => :html} do |f|
+          %h5 Live Video Description
+          .video_description
+            = f.hidden_field :owner_id
+            = f.hidden_field :user_group_id
+            = f.hidden_field :content_type
+              
+            - if content.new_record?
+              = f.fields_for :content_live_video, content.build_content_live_video do |lv|
+                = lv.hidden_field :session, value: session
+                
+            .form-group
+              = f.text_area :description, placeholder: 'Say something about this live video...', class: 'form-control mentionable', rows: 7
+              
+            .notifications
+              
+            .btns.hidden
+              = f.button 'Go Live', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Starting live video...')
+          
+  - else
+    = form_for content, url: [:dashboard, content], remote: true, html:{class: "validate", 'data-type' => :html} do |f|
+      .form-group
+        = f.text_area :description, placeholder: 'Say something about this live video...', class: 'form-control mentionable required'

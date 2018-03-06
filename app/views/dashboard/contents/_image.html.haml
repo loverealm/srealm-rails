@@ -1,0 +1,10 @@
+.content.image{content_widget_data(content)}
+  = render 'dashboard/contents/card_header', content: content
+  .content-body
+    .description{style: feed_font_size_text(content)}
+      = raw content.decorate.the_excerpt
+    = render 'dashboard/contents/media_playlist', content: content if content.content_images.any?
+                  
+  = render 'dashboard/contents/card_footer', content: content
+
+

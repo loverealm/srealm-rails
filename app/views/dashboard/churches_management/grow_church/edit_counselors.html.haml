@@ -1,0 +1,7 @@
+= form_for @church, url: url_for(action: :edit_counselors), method: :post, remote: true, html: {class: 'hook_caller ujs_hide_modal ujs_content_to', 'data-content-to'=>'#church_grow_church_page #counselors_list .panel-body', 'data-callback' => 'ChurchManagement:counselors_form'} do |f|
+  .form-group
+    %label Church Counselors
+    = select_tag 'user_group[counselor_ids][]', options_from_collection_for_select(User.all_mentors, :id, lambda{|u| u.full_name(false) }, @church.counselors.pluck(:id)), multiple: true, 'data-user-kind' => 'counselor', class: 'required counselors_list', placeholder: 'Type in here the name of the counselors you want to add to this church.'
+  .form-group.text-right
+    = button_tag 'Save Changes', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Saving...')
+  

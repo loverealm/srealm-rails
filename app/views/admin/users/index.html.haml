@@ -1,0 +1,59 @@
+.hook_caller{'data-callback' => 'admin_users_list_page'}
+  %h1 Users List
+  .row
+    .col-md-6
+      = search_form_for @q, url: url_for(action: :index) do |f|
+        .input-group
+          = f.search_field :full_name_or_email_cont, class: 'form-control', placeholder: 'Type here to filter...'
+          %span.input-group-btn
+            = button_tag 'Filter', class: 'btn btn-default'
+              
+  %table.table{id: 'users_list_table'}
+    %thead
+      %tr
+        %th #
+        %th Full Name
+        %th Email
+        %th Country
+        %th Regis. at
+        %th Last visit
+        %th Sign in count
+        %th= sort_link(@q, :roles, 'Roles')
+        %th
+    %tbody
+      - @users.each do |user|
+        %tr{'data-id' => user.id}
+          %td= user.id
+          %td= user.full_name
+          %td= user.email
+          %td= user.country
+          %td= l user.created_at, format: :short
+          %td
+            - if user.last_sign_in_at
+              = time_ago_in_words(user.last_sign_in_at)
+              &nbsp;ago
+          %td= user.sign_in_count
+          %td= user.roles.join(', ')
+          %td
+            .dropdown
+              %button.btn.btn-default.dropdown-toggle{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                %i.fa.fa-cog
+                %span.caret
+              %ul.dropdown-menu.dropdown-menu-right
+                = content_tag :li, link_to('Make banned', url_for(action: :make_banned, id: user), class: 'ban_link', method: :post, data: {confirm_text: "Are you sure you want to ban this user \"#{user.full_name(false)}\"? <br>Note: contents and messages will be removed too.", disable_with: button_spinner('Loading...')})
+                = content_tag :li, '', class: 'divider'
+                = content_tag :li, link_to('Make Promoted', url_for(action: :make_promoted, id: user), class: 'ujs_expression', remote: true, method: :post, data: {ujs_expression: 'parent().hide().next().show()', confirm: "Are you sure you want to add promote role to \"#{user.full_name(false)}\"?", disable_with: button_spinner('Loading...')}), class: "#{'hidden' if user.is_promoted?}"
+                = content_tag :li, link_to('Unmake Promoted', url_for(action: :unmake_promoted, id: user), class: 'ujs_expression', remote: true, method: :post, data: {ujs_expression: 'parent().hide().prev().show()', confirm: "Are you sure you want to cancel promoted role for \"#{user.full_name(false)}\"?", disable_with: button_spinner('Loading...')}), class: "#{'hidden' unless user.is_promoted?}"
+                = content_tag :li, '', class: 'divider'
+                = content_tag :li, link_to('Make Volunteer', url_for(action: :make_volunteer, id: user), class: 'ujs_expression', remote: true, method: :post, data: {ujs_expression: 'parent().hide().next().show()', confirm: "Are you sure you want to add volunteer role to \"#{user.full_name(false)}\"?", disable_with: button_spinner('Loading...')}), class: "#{'hidden' if user.is_volunteer?}"
+                = content_tag :li, link_to('Unmake Volunteer', url_for(action: :unmake_volunteer, id: user), class: 'ujs_expression', remote: true, method: :delete, data: {ujs_expression: 'parent().hide().prev().show()', confirm: "Are you sure you want to cancel volunteer role for \"#{user.full_name(false)}\"?", disable_with: button_spinner('Loading...')}), class: "#{'hidden' unless user.is_volunteer?}"
+                
+                - if can? :manage_watchdogs, User
+                  = content_tag :li, '', class: 'divider'
+                  = content_tag :li, link_to('Make Watchdog', url_for(action: :make_watchdog, id: user), class: 'ujs_expression', remote: true, method: :post, data: {ujs_expression: 'parent().hide().next().show()', confirm: "Are you sure you want to add watchdog role to \"#{user.full_name(false)}\"?", disable_with: button_spinner('Loading...')}), class: "#{'hidden' if user.is_watchdog?}"
+                  = content_tag :li, link_to('Unmake Watchdog', url_for(action: :unmake_watchdog, id: user), class: 'ujs_expression', remote: true, method: :delete, data: {ujs_expression: 'parent().hide().prev().show()', confirm: "Are you sure you want to cancel watchdog role for \"#{user.full_name(false)}\"?", disable_with: button_spinner('Loading...')}), class: "#{'hidden' unless user.is_watchdog?}"
+                  
+                = content_tag :li, '', class: 'divider'
+                = content_tag :li, (link_to 'Delete', url_for(action: :destroy, id: user), class: '', method: :delete, remote: true, 'data-disable-with' => 'Destroying...', 'data-confirm' => "Are you sure you want to delete \"#{user.full_name(false)}\" and all related contents?", title: "Delete #{user.full_name(false)}")
+  
+  = paginate @users

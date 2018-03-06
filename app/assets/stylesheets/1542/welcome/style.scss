@@ -1,0 +1,50 @@
+body.welcome.finish_registration, body.welcome.save_finish_registration{
+  .container{
+    padding-top: 0;
+  }
+  .finish_registration_panel{
+    position: relative;
+    .panel-heading{
+      border-bottom: 1px solid $LR-red;
+    }
+    .step1{
+      .hash_tags{
+        margin-right: -50px;
+        margin-top: 25px;
+        label{
+          margin-right: 50px;
+          input[type='checkbox']{
+            display: none;
+            & + span{
+              border: 1px solid $LR-red;
+              color: $LR-red;
+              width: 178px;
+              display: block;
+              padding: 10px;
+              font-weight: normal;
+              text-align: center;
+              cursor: pointer;
+            }
+            &:checked + span{
+              background-color: $LR-red;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+    
+    .step2{
+      
+    }
+    
+    .file_upload_btn{
+      position: absolute;
+      z-index: 1;
+      top: 137px;
+      left: 140px;
+      display: none;
+      @media only screen and (max-width : 480px) { top: 180px; }
+    }
+  }
+}

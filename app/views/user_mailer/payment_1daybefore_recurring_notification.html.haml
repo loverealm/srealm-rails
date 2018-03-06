@@ -1,0 +1,11 @@
+%p Dear #{@user.full_name(false)},
+
+- if @payment.goal == 'pledge'
+  %p Your #{@payment.goal} of #{number_to_currency(@payment.amount)} to #{@payment.payable.try(:name)} is due tomorrow. Malachi 3:10 says: “Bring the whole tithe into the storehouse, that there may be food in my house. Test me in this,” says the LORD Almighty, “and see if I will not throw open the floodgates of heaven and pour out so much blessing that you will not have room enough for it.”
+- else 
+  %p Your partner payment of #{number_to_currency(@payment.amount)} to #{@payment.payable.try(:name)} is due tomorrow. Proverbs 11:25 says that A generous person will prosper; whoever refreshes others will be refreshed.
+
+%p 
+  God Richly Bless you,
+  %br
+  The LoveRealm Team

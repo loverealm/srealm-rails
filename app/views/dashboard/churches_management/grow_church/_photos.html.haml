@@ -1,0 +1,4 @@
+- photos.each do |file|
+  .photo_item.post_relative.pull-left
+    = link_to(image_tag(file.file.url(:thumb)), file.file.url, class: 'grid-item gallery-item', 'data-gallery' => "church_photos_sidebar", title: file.file_file_name)
+    = link_to '<i class="fa fa-trash"></i>'.html_safe, destroy_photo_dashboard_user_group_path(id: @church, file_id: file), remote: true, class: 'btn btn-xs btn-danger btn-top-right-xs ujs_success_remove', 'data-closest-remove' => '.photo_item', 'data-disable-with' => button_spinner('Deleting...'), 'data-confirm' => 'Are you sure you want to delete this photo?', method: :delete

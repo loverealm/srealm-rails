@@ -1,0 +1,32 @@
+%h2 Prevented Offending users from commenting
+- if current_user.is_watchdog?
+  = form_tag url_for(action: :mark_prevent_commenting, id: -1), remote: true, method: :get, class: 'row validate hook_caller ujs_link_modal', 'data-modal-title' => 'Prevent offending user from commenting', 'data-callback' =>'Admin.fix_url_before_action' do
+    .col-md-4
+      = select_tag :id, [], class: 'form-control required hook_caller', 'data-url' => url_for(action: :search, kind: 'prevent_comment'), placeholder: 'Start typing here to search', 'data-callback' => 'Common.user_autocomplete'
+    .col-md-2.padding0
+      = button_tag 'Save', class: 'btn btn-default', 'data-disable-with' => button_spinner
+
+%table.table
+  %thead
+    %tr
+      %th #
+      %th User name
+      %th Watchdog
+      %th Until
+      %th Date
+      %th Confirmed at
+      %th Reverted at
+      %th
+  %tbody
+    - @items.each do |item|
+      %tr
+        %td= item.observed.id
+        %td= link_to item.observed.full_name(false), dashboard_profile_path(id: item.observed), target: '_blank'
+        %td= user_link_by_id(item.user_id)
+        %td= l(item.date_until, format: :short) if item.date_until
+        %td= l(item.created_at, format: :short)
+        %td= item.confirmed_at? ? l(item.confirmed_at, format: :short) : 'Pending'
+        %td= l(item.reverted_at, format: :short) if item.reverted_at?
+        %td.text-right= watchdog_restore_link(item, :revert_prevent_commenting)
+
+= paginate @items

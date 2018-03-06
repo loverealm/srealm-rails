@@ -1,0 +1,33 @@
+- user = resource rescue User.new
+.login-form.panel
+  = link_to('Resend Confirmation Email', new_user_confirmation_path(resource_name), class: 'confirmation-link') if params[:confirmation_required]
+  - unless is_home?
+    .panel-heading.bold.border_bottom Log in
+    
+  = form_for user, url: session_path(:user), html: {class: 'validate panel-body margin_bottom0'} do |f|
+    = render 'shared/form_error', model: user
+    .form-group
+      = f.email_field :email, class: 'required form-control', placeholder: 'Email', tabindex: 1, autofocus: true
+
+    .form-group
+      = button_tag 'Log in', class: 'btn btn-primary btn-bordered pull-right', tabindex: 3
+      .div{style: 'margin-right: 75px;'}
+        = f.password_field :password, class: 'required form-control', placeholder: 'Password', tabindex: 2
+
+    .btns
+      %label.checkbox-inline
+        = f.check_box :remember_me
+        Remember Me
+      &#046;
+      = link_to 'Forgot your password?', new_password_path(:user), class: 'small'
+      - unless is_home?
+        &#046;
+        = link_to 'Sign up', new_registration_path(:user)
+
+    %div.social_links.clearfix
+      = link_to  user_omniauth_authorize_path(:facebook), class: 'btn-facebook underline pull-left' do
+        %i.fa.fa-facebook
+        %span.small Login with Facebook
+      = link_to user_omniauth_authorize_path(:google_oauth2), class: 'btn-google underline pull-right' do
+        %i.fa.fa-google-plus
+        %span.small Login with Google+

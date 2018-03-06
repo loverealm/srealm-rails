@@ -1,0 +1,14 @@
+- group_convert = activity.trackable
+- if group_convert
+  - group = group_convert.user_group
+  = render layout: 'public_activity/layout', locals: {activity: activity} do
+    .media-left= user_avatar_widget activity.owner, 50, activity.created_at
+    .media-body
+      .media-heading
+        = link_to_user(activity.owner, {class: 'user-name', time: activity.created_at})
+      .notification-text
+        You were added to converted list members on #{group.the_group_label} "#{link_to(group.name, dashboard_user_group_path(group))}"
+    .media-right.small
+      %time.nowrap
+        = time_ago_in_words(activity.created_at)
+        &nbsp;ago

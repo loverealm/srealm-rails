@@ -1,0 +1,21 @@
+%h2 System Settings
+.row
+  = form_tag url_for(action: :save_settings), class: 'col-md-12 settings hook_caller', multipart: true, 'data-callback' => 'Admin:settings' do
+    %div
+      %ul.nav.nav-tabs{:role => "tablist"}
+        = content_tag :li, link_to('Basic Settings', '#basic_settings_tab', "data-toggle" => "tab"), class: 'active'
+        = content_tag :li, link_to('Greeting Settings', '#greeting_settings_tab', "data-toggle" => "tab")
+        = content_tag :li, link_to('Greeting by Countries', '#countries_greeting_settings_tab', "data-toggle" => "tab")
+        = content_tag :li, link_to('Attack Settings', '#attack_settings_tab', "data-toggle" => "tab")
+        = content_tag :li, link_to('Promoted User Settings', '#promoted_settings_tab', "data-toggle" => "tab")
+          
+      .tab-content
+        = render 'basic_settings'
+        = render 'attack_settings'
+        = render 'greeting_settings'
+        = render 'greeting_country_settings'
+        = render 'promoted_settings'
+                
+    -# Here additional setting fields (Don't forget to add the setting by migration)  
+    .form-group
+      = submit_tag 'Save Settings', class: 'btn btn-primary'

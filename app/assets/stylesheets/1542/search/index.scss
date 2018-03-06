@@ -1,0 +1,16 @@
+#search_page{
+  .sidebar_form{
+    .list-group-item{
+      input:checked + i{
+        color: $LR-red;
+        &:before{
+          content: "\f14a";
+        }
+      }
+      i{
+        font-size: 25px;
+        vertical-align: middle;
+      }
+    }
+  }
+}

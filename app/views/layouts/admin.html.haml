@@ -1,0 +1,25 @@
+%html.no-js{:lang => "en"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:charset => "utf-8"}/
+
+    %title= "Admin: #{params[:controller].split('/').last} - #{params[:action]}"
+
+    = stylesheet_link_tag    'application', 'admin_manifest', media: 'all'
+    %link{:href => "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", :rel => "stylesheet"}/
+    = csrf_meta_tags
+
+  %body.admin
+    = render 'components/header'
+
+    #main_container.container.page.panel
+      = render 'admin/shared/admin_navbar'
+
+      - flash.each do |key, value|
+        %div{:class => "alert alert-#{key}"}= value
+
+      .admin_content_panel
+        = yield
+        
+    = javascript_include_tag 'application', 'admin_manifest'
+    = yield :script

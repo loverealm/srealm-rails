@@ -1,0 +1,19 @@
+- if params[:type] == 'all'
+  .panel.panel-default
+    - {people: {label: 'Friends', items: @people}, contents: {label: 'Posts', items: @contents}, counselors: {label: 'Counselors', items: @counselors}, churches: {label: 'Churches', items: @churches}, groups: {label: 'Groups', items: @groups}, events: {label: 'Events', items: @events}}.each do |k, val|
+      .panel-heading.bold= val[:label]
+      - body = render "results_#{k}", items: val[:items].limit(4), limit: 4
+      .panel-body
+        - if body.present?
+          = body
+        - else
+          .msg Sorry, We could not find what you were looking for. Keep searching.
+      .panel-footer.text-center.transparent.underline= link_to 'See all', url_for(type: k, filter: params[:filter], extra_filter: params[:extra_filter]) if val[:items].count > 4 || (k == :churches && body)
+
+- else
+  = render "results_#{params[:type]}", items: @items
+  - if (params[:church_google_items] || @items.total_count) == 0
+    .well
+      %b Sorry, We could not find what you were looking for. Keep searching.
+        
+  = view_more_button(url_for(page: @items.current_page + 1, next_page_token: params[:next_page_token], type: params[:type], filter: params[:filter], extra_filter: params[:extra_filter], no_sidebar: true)) if @items.next_page || params[:next_page_token]

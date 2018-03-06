@@ -1,0 +1,45 @@
+.marketing_index_page.hook_caller{'data-callback' => 'marketing_index_page'}
+  %h2 Marketing
+  %ul.nav.nav-tabs{:role => "tablist"}
+    = content_tag :li, link_to('Send Email', '#send_email_form', "data-toggle" => "tab"), role: 'presentation', class: 'active'
+    = content_tag :li, link_to('Send Message', '#send_message_form', "data-toggle" => "tab"), role: 'presentation', class: ''
+    = content_tag :li, link_to('Download Numbers', url_for(action: :download_numbers))
+  
+  .tab-content
+    = form_tag url_for(action: :send_email), id: 'send_email_form', 'data-confirm' => 'Are you sure you want to send this email to all users?', remote: true, class: 'tab-pane active' do
+      .panel.panel-default
+        .panel-heading Send email to all active users
+        .panel-body
+          .form-group
+            = label_tag '', 'Subject'
+            = text_field_tag :subject, '', class: 'required form-control'
+
+          .form-group
+            = label_tag '', 'Test User Email'
+            %small If test user email is present, the email will be sent only to this user
+            = text_field_tag :test_email, '', class: 'form-control'
+  
+          .form-group
+            = label_tag '', 'Message'
+            %br
+            %small Please use these codes for replacement: {name} | {full_name} | {site_url}
+            = text_area_tag :message, '', class: 'required form-control'
+  
+          .form-group
+            %label.checkbox-inline
+              = check_box_tag :include_copyright
+              Include Copyright?
+              
+          .form-group
+            = button_tag 'Send Email', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Sending emails')
+    
+    = form_tag url_for(action: :send_message), id: 'send_message_form', 'data-confirm' => 'Are you sure you want to send this message to all users?', remote: true, class: 'tab-pane' do
+      .panel.panel-default
+        .panel-heading Send message to all users
+        .panel-body
+          .form-group
+            = label_tag '', 'Message'
+            = text_area_tag :message, '', class: 'required form-control'
+
+          .form-group
+            = button_tag 'Send Message', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Sending Messages')

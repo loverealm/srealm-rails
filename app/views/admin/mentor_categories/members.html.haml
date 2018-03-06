@@ -1,0 +1,19 @@
+- body = capture do
+  - @members.each do |user|
+    %tr
+      %td= link_to user.full_name(false), user_profile_url(user)
+      %td= user.the_biography(60)
+      %td.text-right
+        = dropdown_builder button_class: 'btn-sm', right: true do
+          = content_tag :li, link_to('Remove from Category', url_for(action: :remove_member, id: @category, user_id: user), method: :delete, 'data-confirm' => 'Are you sure?')
+  
+  - if @members.next_page
+    %tr
+      %td{colspan: '3'}
+        = view_more_button(url_for(action: :members, page: @members.next_page), 'inview_click', closest: 'tr')
+
+- if @members.first_page?
+  %table.table= body
+- else
+  = body
+  

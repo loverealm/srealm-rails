@@ -1,0 +1,28 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "appointments",
+  "apis": [
+    {
+      "path": "/api/v1/pub/users/{user_id}/appointments",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "mentor_id",
+              "type": "integer",
+              "description": "Mentor ID",
+              "required": true
+            }
+          ],
+          "notes": "Create appointment with mentor",
+          "nickname": "Api::V1::Pub::Appointments#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

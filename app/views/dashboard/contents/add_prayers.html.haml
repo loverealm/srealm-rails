@@ -1,0 +1,9 @@
+= form_tag url_for(action: :add_prayers), method: :post, class: 'hook_caller ujs_hide_modal', 'data-callback' => 'ContentManager:invite_pray_form', remote: true do
+  .form-group
+    = label_tag :users_prayer_ids, 'Invite friends on LoveRealm'
+    = select_tag :users_prayer_ids, [], {multiple: true, style: 'width: 100%; display: block;', placeholder: "Please select Users to pray.", 'data-excluded' => @content.content_prayers.pluck(:user_id).join(','), class: ''}
+  .form-group
+    = label_tag :emails, 'Invite friends via email'
+    = select_tag :emails, '', class: 'form-control tags_input', multiple: true, data: {placeholder: 'Please enter your emails'}
+  .form-group.text-right
+    = button_tag('Send Invitation', class: 'btn btn-primary', 'data-disable-with' => button_spinner)

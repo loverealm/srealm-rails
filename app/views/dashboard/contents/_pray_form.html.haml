@@ -1,0 +1,13 @@
+.hook_caller{'data-callback' => 'ContentEditor:pray_form'}
+  = form_for content, url: [:dashboard, content], multipart: true, remote: true, html: {class: 'simple_form', id: "content_pray_form", 'data-suggested-btn' => 'Send prayer request', 'data-suggested-title' => 'Select from the list below more people to pray with you'} do |f|
+    = f.hidden_field :owner_id
+    = f.hidden_field :user_group_id
+    = f.hidden_field :content_type, value: 'pray'
+    .form-group
+      = f.text_field :title, placeholder: "What do you want to pray about?", maxlength: 150, class: 'form-control required'
+    .form-group
+      = f.text_area :description, placeholder: 'Please explain your request in more detail', class: 'required form-control mentionable'
+    - if content.new_record? && content.owner_id
+      = hidden_field_tag 'content[users_prayer_ids][]', current_user.id
+    - else
+      = f.select :users_prayer_ids, options_from_collection_for_select(content.requested_prayers, :id, lambda{|u| u.full_name(false)}, content.requested_prayers.pluck(:id)), {include_hidden: false}, multiple: true, style: 'width: 100%; display: block;', placeholder: "Please select people to pray with you", class: ''

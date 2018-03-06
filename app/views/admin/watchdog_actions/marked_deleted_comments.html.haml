@@ -1,0 +1,28 @@
+%h2 Deleted violating comments
+- if current_user.is_watchdog?
+  .alert.alert-info.skip_dismiss To delete a particular comment, tap the 'down' icon in the top right corner of the post's card. Select 'Delete from app'
+
+%table.table
+  %thead
+    %tr
+      %th #
+      %th Body
+      %th Owner
+      %th Watchdog
+      %th Date
+      %th Confirmed at
+      %th Reverted at
+      %th
+  %tbody
+    - @items.each do |item|
+      %tr
+        %td= item.observed.id
+        %td= item.observed.summary(120)
+        %td= user_link_by_id(item.observed.user_id)
+        %td= user_link_by_id(item.user_id)
+        %td= l(item.created_at, format: :short)
+        %td= item.confirmed_at? ? l(item.confirmed_at, format: :short) : 'Pending'
+        %td= l(item.reverted_at, format: :short) if item.reverted_at?
+        %td.text-right= watchdog_restore_link(item, :revert_deleted_comment)
+
+= paginate @items

@@ -1,0 +1,8 @@
+- @payments.each do |payment|
+  %tr
+    %td= l(payment.payment_at, format: :short)
+    %td= number_to_currency(payment.amount)
+
+- if @payments.next_page
+  %tr
+    %td{colspan: 2}= view_more_button(url_for(action: :index, page: @payments.next_page), '', closest: 'tr')  

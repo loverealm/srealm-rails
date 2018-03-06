@@ -1,0 +1,7 @@
+.validating-form
+  = form_tag send_main_dashboard_user_group_requests_path(user_group_id: @church), class: 'ujs_content_to ujs_hide_modal', 'data-prepend-to' => '#church_grow_church_page .church_requests_list', remote: true do
+    .form-group
+      = label_tag '', 'Select a Church'
+      = select_tag 'id', options_from_collection_for_select(UserGroup.churches.main.where.not(id: @church.branches.pluck(:id) + @church.all_branch_requests.pluck(:id) + [@church.id] + [@church.parent_id]), :id, :name), class: 'required form-control'
+    .form-group
+      = button_tag 'Send Request', class: 'btn btn-primary', 'data-disable-with' => button_spinner

@@ -1,0 +1,16 @@
+.row
+  .col-md-6.col-md-offset-3
+    .signup-form.panel
+      .panel-heading.border_bottom.bold Forgotten your password?
+      .panel-body
+        %p
+          %small We can help you recover your password.
+        = form_for resource, url: password_path(resource_name), html:{class: 'validate', method: :post} do |f|
+          = render 'shared/form_error', model: resource
+
+          .form-group
+            = f.email_field :email, class: 'required form-control', placeholder: 'Email', autofocus: true
+
+          .clearfix
+            = button_tag 'Send me password reset instructions', class: 'btn btn-primary pull-left'
+            = link_to 'Log in', session_path(:user), class: 'pull-right btn underline'

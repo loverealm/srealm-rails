@@ -1,0 +1,21 @@
+%p Hi #{@user.first_name},
+- messages = Message.where(id: @messages_ids).to_a
+- senders = User.where(id: Message.where(id: @messages_ids).pluck(:sender_id).uniq).to_a
+- if senders.count == 1
+  %p #{senders.first.full_name(false, messages.first.created_at)} sent you the following #{messages.count > 1 ? 'messages' : 'message'} on #{link_to 'LoveRealm', root_url}:
+  - messages.each do |me|
+    %p
+      %i= me.the_text_body
+  %br
+  %p= link_to 'Please Reply to this message.', dashboard_conversations_url(conversation_id: messages.first.conversation_id)
+  
+- else
+  %p #{senders.first.full_name} and #{pluralize(senders.count - 1, 'other')} messaged you on #{link_to 'LoveRealm', root_url}. #{link_to 'Please reply their messages.', dashboard_conversations_url}
+
+%br
+%p
+  Kind Regards,
+  %br
+  The Team at #{link_to 'LoveRealm', root_url}
+
+= email_copyright(@user)

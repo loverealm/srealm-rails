@@ -1,0 +1,23 @@
+= form_for user, url: url_for(action: :my_preferences_edit), method: :post, remote: true, html: {class: 'hook_caller ujs_hide_modal', 'data-callback' => 'ProfileManager:my_preferences_edit'} do |f|
+  .form-group
+    = f.label :preferred_age, 'What’s your preferred age for friends on LoveRealm?'
+    = slide_range_tag_helper(f, :preferred_age, user.preferred_age)
+
+  .form-group
+    = f.label :preferred_sex, 'What’s your preferred sex for friends on LoveRealm?'
+    = f.select :preferred_sex, User::SEX.invert, {include_blank: 'All'}, class: 'form-control'
+
+  .form-group
+    = f.label :preferred_countries, 'What are your preferred Countries'
+    = f.country_select :preferred_countries, {include_blank: 'All', include_hidden: false}, class: 'form-control required', multiple: true
+    
+  .form-group
+    = f.label :preferred_denominations, 'What are your preferred Denominations'
+    = f.select :preferred_denominations, User::DENOMINATIONS.invert, {include_blank: 'All', include_hidden: false}, class: 'form-control required', multiple: true
+    
+  .form-group
+    = f.label :preferred_friendship, 'What are your Interest?'
+    = f.select :preferred_friendship, User::INTERESTS.invert, {}, class: 'form-control required'
+
+  .form-group.text-right
+    = f.button 'Save Changes', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Saving...')

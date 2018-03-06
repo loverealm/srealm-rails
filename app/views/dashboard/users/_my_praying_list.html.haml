@@ -1,0 +1,13 @@
+- content_prayers.each do |content|
+  .media.media_bordered{'data-id' => content.id}
+    .media-left
+      = link_to "<i class='fa fa-circle-thin fa-2x fa-stack-1x'></i> <i class='fa fa-hover fa-check fa-stack-1x'></i>".html_safe, answer_pray_dashboard_content_path(content.id), remote: true, class: 'ujs_link_modal fa-stack ujs_content_to ujs_success_remove', data: {'prepend-to' => '#sidebar .prayers-answered', 'partial-content' => '.praying_item .media', 'closest-remove' => '.media'}, 'data-disable-with' => button_spinner('...'), 'data-modal-title' => '', title: 'Mark as answered!'
+    .media-body
+      .media-heading
+        = link_to content.the_title, dashboard_content_path(content)
+      %p
+        %small
+          %i #{content.content_prayers_accepted.count} Praying - 
+          = link_to 'Invite people to pray', add_prayers_dashboard_content_path(content), class: 'ujs_link_modal btn-invite-pray', 'data-modal-title'=>'Invite more people to pray', remote: true, 'data-disable-with'=>button_spinner('Loading...')            
+
+= view_more_button(my_praying_list_dashboard_users_path(page: content_prayers.next_page), '') if content_prayers.next_page

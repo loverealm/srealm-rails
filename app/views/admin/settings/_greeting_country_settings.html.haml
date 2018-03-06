@@ -1,0 +1,68 @@
+#countries_greeting_settings_tab.tab-pane.hook_caller{'data-callback' => 'Admin:country_greetings'}
+  .form-group
+    = link_to "Add Country", '#', class: 'btn btn-default pull-right btn_add_country'
+    .a{style: 'margin-right: 112px'}
+      = country_select :countries, nil, {include_blank: 'Select a country to add greetings'}, class: 'form-control'
+
+  - (["xx"] + Setting.where('settings.key like ?', "%_art_country").group(:key).pluck(:key).map{|key| key.split("_").first }).uniq.each do |country| 
+    .panel.panel-default.country_block{class: "#{country} #{'hidden' if country == 'xx'}"}
+      .panel-heading.title
+        = ISO3166::Country.new(country).try(:name)
+        .pull-right
+          = label_tag nil, class: 'text-red', style: 'font-size: 12px;' do
+            = check_box_tag "del_country[#{country}]"
+            Delete Country
+
+      .panel-body
+        .form-group
+          = label_tag '', 'Good Morning Art'
+          %small (760x110)
+          .media
+            .media-body
+              = file_field_tag "setting[#{country}_good_morning_art_country]", accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+            .media-right.nowrap
+              - if(v = Setting.get_setting("#{country}_good_morning_art_country")).present?
+                = media_avatar_image(v, 35, include_link: true, class: 'inline')
+                = label_tag nil, class: 'text-red', style: 'font-size: 12px;' do
+                  = check_box_tag "clear_file[#{country}_good_morning_art_country]"
+                  Clear
+
+
+        .form-group
+          = label_tag '', 'Good Afternoon Art'
+          %small (760x110)
+          .media
+            .media-body
+              = file_field_tag "setting[#{country}_good_afternoon_art_country]", accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+            .media-right.nowrap
+              - if(v = Setting.get_setting("#{country}_good_afternoon_art_country")).present?
+                = media_avatar_image(v, 35, include_link: true, class: 'inline')
+                = label_tag nil, class: 'text-red', style: 'font-size: 12px;' do
+                  = check_box_tag "clear_file[#{country}_good_afternoon_art_country]"
+                  Clear
+
+        .form-group
+          = label_tag '', 'Good Night Art'
+          %small (760x110)
+          .media
+            .media-body
+              = file_field_tag "setting[#{country}_good_night_art_country]", accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+            .media-right.nowrap
+              - if(v = Setting.get_setting("#{country}_good_night_art_country")).present?
+                = media_avatar_image(v, 35, include_link: true, class: 'inline')
+                = label_tag nil, class: 'text-red', style: 'font-size: 12px;' do
+                  = check_box_tag "clear_file[#{country}_good_night_art_country]"
+                  Clear
+
+        .form-group
+        = label_tag '', 'Happy Birthday Art'
+        %small (760x110)
+        .media
+          .media-body
+            = file_field_tag "setting[#{country}_happy_birthday_art_country]", accept: 'image/gif,image/jpeg,image/png,image/jpg', autocomplete: 'off', class: 'filestyle'
+          .media-right.nowrap
+            - if(v = Setting.get_setting("#{country}_happy_birthday_art_country")).present?
+              = media_avatar_image(v, 35, include_link: true, class: 'inline')
+              = label_tag nil, class: 'text-red', style: 'font-size: 12px;' do
+                = check_box_tag "clear_file[#{country}_happy_birthday_art_country]"
+                Clear

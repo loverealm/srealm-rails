@@ -1,0 +1,11 @@
+= render layout: 'public_activity/layout', locals: {activity: activity} do
+  .media-body
+    %span.glyphicon.glyphicon-remove
+    %small.text-muted= a.created_at.strftime('%H:%M:%S %-d %B %Y')
+    %br/
+    %strong= activity.owner ? activity.owner.full_name : 'Guest'
+    deleted a story.
+  .media-right.small
+    %time.nowrap
+      = time_ago_in_words(activity.created_at)
+      &nbsp;ago

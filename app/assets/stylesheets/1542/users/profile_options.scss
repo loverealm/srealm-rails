@@ -1,0 +1,109 @@
+.profile-options {
+  margin-bottom: $content_bottom_padding;
+  position: relative;
+  z-index: 3;
+  padding-top: 30px !important;
+  .col-avatar{
+    float: left;
+    width: 45px;
+  }
+  .col-form{
+    margin-left: 50px;
+    form{ 
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .close_content_form{
+    display: none;
+    font-size: 20px;
+    position: absolute;
+    right: -8px;
+    top: -3px;
+    z-index: 2;
+  }
+  &.focus .close_content_form{
+    display: block !important;
+  }
+  &.focus + #content-form-backdrop{
+    display: block !important;
+  }
+  
+  .note-editor{
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0px;
+    .note-statusbar{
+      display: none;
+    }
+    .note-toolbar{
+      background: none;
+      border: none;
+      position: relative;
+      margin-left: -50px;
+      text-align: left;
+      > .note-btn-group{
+        position: absolute;
+        bottom: -86px;
+      }
+      .btn{
+        background-color: transparent;
+        border: none;
+      }
+    }
+  }
+  .profile-options-buttons{
+    border-top: 1px solid #bbb;
+    padding-top: 3px;
+    margin-top: 0;
+    overflow: visible;
+    a.btn-sm{
+      color: #333;
+      border: 1px solid #ccc;
+      &.btn-active{
+        color: $LR-red;
+        border-color: $LR-red;
+        //text-decoration: underline;
+      }
+    }
+    .btn-tabs{
+      position: relative;
+      top: -37px;
+      z-index: 2;
+      white-space: nowrap;
+      //overflow: hidden;
+      @media only screen and (max-width: 760px){
+        .more_items{
+          display: inline-block !important;
+          & ~ a{
+            display: none;
+          }
+        }
+      }
+    }
+    .submit-btn-panel{
+      position: absolute;
+      right: 10px;
+      bottom: 2px;
+    }
+  }
+  .profile-options-panels {   
+    .option-panel{
+      display: none;
+      min-height: 174px;
+      padding-bottom: 48px;
+    }
+  }
+}
+
+
+.post-author-image  img {
+  float: left;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.status-panel textarea {
+  height: 103px;
+}

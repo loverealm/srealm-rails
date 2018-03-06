@@ -1,0 +1,15 @@
+- if activity.owner
+  = render layout: 'public_activity/layout', locals: {activity: activity} do
+    .media-left= user_avatar_widget activity.owner, 50, activity.created_at if activity.owners_ids.count == 1
+    .media-body
+      .media-heading
+        - if activity.owners_ids.count > 1
+          = activity.user_owners.map{|u| link_to_user(u, mark: false) }.to_sentence.html_safe
+        - else
+          = link_to_user(activity.owner, {class: 'user-name', time: activity.created_at})
+      .notification-text
+        #{activity.trackable.is_pray? && activity.owners_ids.count == 1 ? 'is praying with you' : "loves your #{link_to activity.trackable.the_kind, dashboard_content_path(id: activity.trackable_id)}".html_safe}
+    .media-right.small
+      %time.nowrap
+        = time_ago_in_words(activity.created_at)
+        &nbsp;ago

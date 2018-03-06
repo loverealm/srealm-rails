@@ -1,0 +1,48 @@
+.management_header.hook_caller{'data-callback' => 'ChurchManagement:heading'}
+  -#%h1.title #{@church.the_group_label} Management Panel
+  %h1 Welcome #{current_user.first_name} to your #{@church.the_group_label} management area
+  %h5{style: 'font-weight: normal;'} What do you want to do?
+  -#%ul.nav.nav-tabs.margin_bottom20
+  .churches_management_dashboard_menu
+    = link_to('Home', dashboard_user_group_path(@church), class: 'btn')
+    = link_to 'View Data/Analytics', url_for(action: :index), class: "btn #{current_class_menu_item(actions: [:index])}"
+    = link_to "Grow your #{@church.the_group_label}", url_for(action: :grow_church), class: "btn #{current_class_menu_item(actions: [:grow_church])}"
+    = link_to 'Extra', '#', class: 'btn active' if @enable_other_menu
+    -#= link_to "Invite people to join your #{@church.the_group_label}", url_for(action: :invite_members), class: 'btn ujs_link_modal', 'data-disable-with' => button_spinner('Loading...'), remote: true, 'data-modal-title'=>'Invite your church members to join your church online', id: 'church_invite_btn'
+    -#= link_to "Member Management", url_for(action: :members, newer: true), class: "btn #{current_class_menu_item(actions: [:members])}", 'data-modal-size' => 'modal-lg', 'data-disable-with' => button_spinner('Loading...'), remote: false, 'data-modal-title'=>'Member Management'
+    .dropdown.inline
+      %button#dropdownMenu1.btn.dropdown-toggle{"aria-expanded" => "true", class: "#{current_class_menu_item(actions: [:members])}", "data-toggle" => "dropdown", :type => "button"}
+        Member Management
+        %span.caret
+      %ul.text-left.dropdown-menu{"aria-labelledby" => "dropdownMenu1"}
+        = content_tag :li, (link_to "Member Directory", url_for(action: :members, newer: true))
+        = content_tag :li, (link_to "Add Member", url_for(action: :new_members), class: ' ujs_link_modal', 'data-disable-with' => button_spinner('Loading...'), remote: true, 'data-modal-title'=>'Add Members')
+        = content_tag :li, (link_to "Bulk Member Upload", url_for(action: :invite_members), class: ' ujs_link_modal', 'data-disable-with' => button_spinner('Loading...'), remote: true, 'data-modal-title'=>'Invite your church members to join your church online')
+
+  .clearfix
+         
+  = content_for :container_class, 'panel'
+  - if can? :manage_branches, @church
+    .branches.row.text-right.vertical-align
+      .col-sm-offset-9.col-sm-3
+        - if @church.is_main_group?
+          - if @church.branches.any?
+            .media.valign-middle
+              .media-left
+                %label Branches:
+              .media-body
+                = select_tag 'current_branch', options_from_collection_for_select([@church] + @church.branches.to_a, :id, :name, @church.id), class: 'form-control'
+          - else
+            .text-right
+              %label Branches:
+              = 'No Branches' unless @church.branches.any?
+        - else
+          %strong Main Branch:
+          .dropdown.inline
+            %span=@church.main_branch.name 
+            = link_to '#', class: 'dropdown-toggle', "data-toggle" => "dropdown" do
+              %span.caret
+            %ul.dropdown-menu.dropdown-menu-right
+              = content_tag :li, link_to('Cancel Main Branch', cancel_main_branch_dashboard_user_group_requests_path(user_group_id: @church), class: 'ujs_success_remove', 'data-closest-remove' => '.dropdown', remote: true, 'data-disable-with' => 'Loading...', 'data-confirm' => 'Are you sure you want leave the main branch?')
+            
+  %br          

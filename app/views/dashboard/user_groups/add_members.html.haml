@@ -1,0 +1,6 @@
+= form_tag url_for(action: :add_members), remote: true, class: 'ujs_hide_modal hook_caller', 'data-callback' => 'UserGroupPage:add_members_form' do
+  .clearfix
+    .pull-right.p_btn{style: 'width: 63px;'}
+      = button_tag 'Add', class: 'btn btn-primary btn-sm btn-block', 'data-disable-with' => button_spinner('...')
+    .p_users{style: 'margin-right: 65px;'}
+      = select_tag :new_members, '', multiple: true, class: 'form-control required', placeholder: 'Enter member names', 'data-notin-group' => @group.id    

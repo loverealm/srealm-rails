@@ -1,0 +1,29 @@
+%h3 Push Notifications List
+= link_to 'Add Push Notification', url_for(action: :new), class: 'btn btn-primary'
+%table.table-w100.table
+  %thead
+    %tr
+      %th #
+      %th Title
+      %th Subtitle
+      %th Feed
+      %th Registered at
+      %th Registered by
+  %tbody
+    - @breaking_news.each do |item|
+      %tr
+        %td
+          = item.id
+        %td
+          = item.title
+        %td
+          = item.subtitle
+        %td
+          - if item.content.present?
+            = link_to item.content.the_title, dashboard_content_path(item.content), target: :blank
+        %td
+          = item.created_at
+        %td
+          = item.user.full_name
+
+= paginate @breaking_news

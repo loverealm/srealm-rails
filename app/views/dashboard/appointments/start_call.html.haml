@@ -1,0 +1,50 @@
+- content_for :container_class, 'panel'
+- content_for :head do
+  :javascript
+    window['CURRENT_VIDEO_COUNSELING'] = #{@appointment.id}
+  = javascript_include_tag 'https://static.opentok.com/v2/js/opentok.min.js'
+%h1 Video Counseling
+#video_call_appointment.hook_caller{data: {id: @appointment.id, callback: 'AppointmentCall:video_call', api_key: ENV['OPENTOK_KEY'], session_id: @appointment.session_id, session_token: @token_id, ping_call: url_for(action: :ping_call), is_ended: "#{@appointment.finished?}"}}
+  .row
+    .col-md-9
+      #video_call_subscriber
+        
+    .col-md-3
+      .margin_bottom20
+        .controls1
+          = link_to('Finish Call', url_for(action: :end_call), class: 'btn btn-success hidden btn-block end_call', remote: true, 'data-disable-with' => button_spinner, 'data-confirm' => 'Are you sure you want to finish this video counseling?')
+          = link_to('Cancel Call', url_for(action: :cancel_call), class: 'btn btn-primary hidden btn-block cancel_call margin_top0', remote: true)
+          = link_to('Video Call', url_for(action: :start_call, only_notification: true), remote: true, class: 'btn btn-default hidden btn-block start_call margin_top0')
+        .controls2
+          = @other_participant.the_mentor_chat_link(class: 'btn btn-default btn-block', label: '<i class="fa fa-wechat"></i> Chat'.html_safe)
+          .errors_panel
+          
+      .div.receiver_thumb.margin_bottom20
+        .div
+          %strong Receiver
+          (#{@other_participant.the_online_status} #{@other_participant.full_name(false)})
+        .img
+          = image_tag(@other_participant.avatar_url, style: 'with: 100%;', alt: @other_participant.full_name(false))
+      
+      .div
+        %strong You
+        (#{current_user.full_name(false)})
+      #video_call_publisher
+      
+      .video_controls
+        =# link_to('<i class="fa fa-video-camera"></i>'.html_safe, '#', class: 'btn toggle_camera')
+      
+      .hidden
+        .jconfirm-body
+          - if flash[:payment_error_skip_default]
+            .alert.alert-error= flash[:payment_error_skip_default]
+          .div The video counseling has been successfully finished!!!
+          
+        .jconfirm-buttons
+          - if current_user.mentor? || @appointment.payment.try(:paid?)
+            = link_to('Continue', home_path, class: 'btn button btn-primary next_link')
+          - else
+            = link_to('Continue', url_for(action: :donation), class: 'btn button btn-primary next_link ujs_success_remove ujs_skip_close_modal ujs_link_modal', 'data-closest-remove' => '.jconfirm', remote: true, 'data-disable-with' => button_spinner, 'data-modal-title' => 'Show your appreciation')
+          
+  
+  

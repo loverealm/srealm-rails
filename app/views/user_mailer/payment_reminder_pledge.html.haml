@@ -1,0 +1,9 @@
+%p Hi #{@user.first_name},
+
+%p  A quick reminder to pay your pledge to #{@payment.payable.name}. #{link_to 'Click here to pay now!', dashboard_user_finances_url(pledge_id: @payment.id)}
+
+%p
+  Kind Regards, <br>
+  Dr. Yaw Ansong Jnr<br>
+  CEO<br>
+  #{link_to 'LoveRealm Inc.', root_url}

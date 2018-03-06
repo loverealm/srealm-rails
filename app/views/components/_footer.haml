@@ -1,0 +1,15 @@
+- unless @already_copyright_rendered
+  - cls, @already_copyright_rendered = (custom_class rescue ''), true
+  .footer-links.text-center
+    %a{:href => "/home/about_us", class: cls} About Us
+    %a{:href => "/home/help", class: cls} Help
+    %a{:href => "/home/press", class: cls} Press
+    %a{:href => "/home/terms", class: cls} Terms
+    %a{:href => "/home/privacy_policy", class: cls} Privacy
+    %a{:href => "/home/feedback", class: cls} Feedback
+    %a{:href => "/home/careers", class: cls} Careers
+    %a{:href => "/home/about_jesus", class: cls} About Jesus
+    %a{:href => "/", class: cls}
+      &copy;
+      = Time.now.year
+      LoveRealm

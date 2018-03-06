@@ -1,0 +1,8 @@
+%p Dear #{@user.first_name},
+
+%p It's #{@content.user.full_name(false)}. I really need you to pray for me.  #{link_to 'Please login / sign up to LoveRealm', dashboard_content_url(@content.id)} to accept my prayer request. 
+
+%p
+  Regards,
+  %br
+  = @content.user.first_name

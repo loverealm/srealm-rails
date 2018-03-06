@@ -1,0 +1,13 @@
+= form_for @church.user_group_manual_values.new, url: url_for(action: :new_manual_value), method: :post, remote: true, html:{ class: 'ujs_hide_modal ujs_eval', 'data-ujs-eval' => 'window["ujs_expression_caller"].closest(".modal").data("ujs_link_caller").parent().siblings(".active").find("a").click()' } do |f|
+  = f.hidden_field :kind, value: params[:kind]
+  .form-group
+    = f.label :date, 'Date'
+    = date_picker_input do
+      = f.text_field :date, class: 'required form-control'
+
+  .form-group
+    = f.label :value, 'Quantity'
+    = f.number_field :value, class: 'form-control required'
+
+  .form-group
+    = button_tag 'Save Data', class: 'btn btn-primary', 'data-disable-with'=>button_spinner  

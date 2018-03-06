@@ -1,0 +1,25 @@
+:css
+  .media-heading {
+    text-align: center;
+    font-size: larger;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+  .story-card {
+    border-bottom-style: groove;
+  }
+
+%h2 Most Popular on LoveRealm this week
+
+.popular-stories.row
+  - @contents.each do |story|
+    .story-card.col-md-3
+      %h4.media-heading
+        = link_to story.title, dashboard_content_url(story)
+      = link_to dashboard_content_url(story), class: 'media-right' do
+        = image_tag(story.image.url(:medium), class: 'media-object')
+
+%p From the Team at #{link_to "LoveRealm", root_url}.
+
+= email_copyright(@user)

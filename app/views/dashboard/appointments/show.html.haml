@@ -1,0 +1,30 @@
+.form-group
+  = label_tag nil, 'User: ', class: 'display-blockk'
+  = @appointment.mentee.full_name(false, @appointment.created_at)
+  
+.form-group
+  = label_tag nil, 'Counselor: ', class: 'display-blockk'
+  = @appointment.mentor.full_name(false)
+
+.form-group
+  = label_tag nil, 'Kind: ', class: 'display-blockk'
+  = @appointment.decorate.the_kind
+
+.form-group
+  = label_tag nil, 'Schedule for: ', class: 'display-blockk'
+  = localize(@appointment.schedule_for, format: :short)
+
+- if @appointment.re_schedule_for
+  .form-group
+    = label_tag nil, 'Re Schedule for: ', class: 'display-blockk'
+    = localize(@appointment.re_schedule_for, format: :short)
+
+.form-group
+  = label_tag nil, 'Sent at: ', class: 'display-blockk'
+  = localize(@appointment.created_at, format: :short)    
+
+- unless @appointment.is_video?
+  .form-group
+    = label_tag nil, 'Location: ', class: 'display-blockk'
+    = @appointment.location
+    = render_map_location @appointment.latitude, @appointment.longitude

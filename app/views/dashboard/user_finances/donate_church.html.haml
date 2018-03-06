@@ -1,0 +1,11 @@
+= form_tag make_payment_dashboard_user_group_path(id: 'xxx'), authenticity_token: true, class: 'ujs_hide_modal hook_caller validate', remote: true, 'data-callback' => 'MyFinances.make_donation' do
+  = hidden_field_tag 'payment_kind', 'donation'
+  .form-group
+    %label Church
+    = select_tag :user_group_id, [], 'data-url' => search_dashboard_user_groups_path(filter: 'church'), placeholder: 'Type here to find your church', 'data-callback' => 'Common.user_autocomplete', class: 'required hook_caller'
+  .form-group
+    %label Amount
+    .input-group
+      = number_field_tag :amount, '', class: 'form-control required', placeholder: 'Enter Amount', min: 10
+      %span.input-group-addon= I18n.translate('number.currency.format.unit')
+  .payment_panel.hidden= render 'dashboard/payments/form', recurring: false, card_label: 'Donate'

@@ -1,0 +1,45 @@
+= form_for @church.church_member_invitations.new, url: url_for(action: :invite_members), remote: true, html:{class: 'validate hook_caller ujs_hide_modal', 'data-type'=>"json", 'data-callback' => 'ChurchManagement:invite_members'} do |f|
+  .alert.alert-info This feature allows you to send out a free SMS invite to your existing church members asking them to join this group. Tap on 'Upload' to upload the contact details of your members.
+  #accordion.panel-group
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          %a{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseOne", class: 'display-block'} Step 1
+      #collapseOne.panel-collapse.collapse.in
+        .panel-body
+          .form-group
+            = f.label :file do
+              Contacts List
+              = link_to '(Download template)', '/templates/church_contacts_tpl.xlsx', target: '_blank', class: 'small underline'
+            %br
+            = f.file_field :file, class: 'required', accept: '.xlsx,.xls'
+          .form-group.text-center
+            = link_to 'Next', '#', class: 'btn btn-primary next_btn'
+            
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          %a{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseTwo", class: 'display-block'} Step 2
+      #collapseTwo.panel-collapse.collapse
+        .panel-body
+          .form-group
+            = f.label :pastor_name, 'What is the name of your pastor?'
+            = f.text_field :pastor_name, class: ' form-control required'
+          .form-group.text-center
+            = link_to 'Next', '#', class: 'btn btn-primary next_btn'
+            
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          %a{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapseThree", class: 'display-block'} Step 3
+      #collapseThree.panel-collapse.collapse
+        .panel-body
+          .hidden.sms_msg_tpl= f.object.sms_tpl 
+          .well-sm.well.small.sms_msg
+          .form-group.text-center
+            = button_tag 'Send', class: 'btn btn-primary', 'data-disable-with' => button_spinner, 'data-confirm' => 'Are you sure you want to send the invitations?'
+
+
+  
+  
+  

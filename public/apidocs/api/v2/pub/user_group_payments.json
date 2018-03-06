@@ -1,0 +1,178 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "user_group_payments",
+  "apis": [
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/payments/revenue_data",
+      "operations": [
+        {
+          "summary": "Return user group revenue data",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Filter by period: this_week|today|this_month|this_year",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupPayments#revenue_data",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/payments",
+      "operations": [
+        {
+          "summary": "List of payments of current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Filter payments by goal: tithe,offertory,pledge,partner,donation",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Filter by period: this_week|today|this_month|this_year, default empty",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupPayments#index",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/user_groups/{user_group_id}/payments",
+      "operations": [
+        {
+          "summary": "Create a new payment for current group",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "amount",
+              "type": "integer",
+              "description": "Payment amount (GHS)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "goal",
+              "type": "string",
+              "description": "Payment goal: tithe|offertory|pledge|partner|donation",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "pledge_date",
+              "type": "date",
+              "description": "Pledge payment date (required if goal is pledge). format: 2017-10-28",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "payment_method",
+              "type": "string",
+              "description": "Payment method: paypal|stripe|rave (PAYMENT PARAMS)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "stripe_token",
+              "type": "string",
+              "description": "Stripe payment token (required if stripe method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "stripe_transaction_id",
+              "type": "string",
+              "description": "Stripe transaction ID (required if stripe method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "paypal_token",
+              "type": "string",
+              "description": "Paypal payment token (required if paypal method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "rave_token",
+              "type": "string",
+              "description": "Rave payment token (required if rave method)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "save_card",
+              "type": "boolean",
+              "description": "Permit to save current transaction card token to be used it in the future. Only for Rave, Stripe",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "payment_card_id",
+              "type": "integer",
+              "description": "Permit to pay using saved card token. Get list of saved cards here: GET /api/v2/pub/user_finances/cards",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "payment_recurring_period",
+              "type": "string",
+              "description": "Permit to repeat this transaction many times (Recurring Payment), where: number value means => every x days OR string value must be => daily,weekly,monthly,quarterly,biannually,yearly.",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::UserGroupPayments#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

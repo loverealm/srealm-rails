@@ -1,0 +1,27 @@
+%h2 Counselor Reports
+%table.table-w100.table
+  %thead
+    %tr
+      %th #
+      %th User name
+      %th Counselor name
+      %th Reason
+      %th Registered at
+      %th
+  %tbody
+    - @counselor_reports.each do |report|
+      %tr
+        %td
+          = report.id
+        %td
+          = report.user.full_name
+        %td
+          = report.mentor.try(:full_name)
+        %td
+          = report.reason
+        %td
+          = report.created_at
+        %td
+          = link_to 'Delete', url_for(id: report, action: :destroy), method: :delete, data: { confirm: 'Are you sure?' }
+
+= paginate @counselor_reports

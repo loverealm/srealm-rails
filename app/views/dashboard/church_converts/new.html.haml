@@ -1,0 +1,7 @@
+= form_tag url_for(action: :create), remote: true, class: 'hook_caller ujs_hide_modal validate', 'data-callback' => 'ChurchManagement:new_converts_form' do
+  .form-group
+    = label_tag :members, 'New Members'
+    = select_tag :members, [], multiple: true, 'data-url' => url_for(action: :search_new), class: 'sel_members required', 'data-notin-group' => @church.id, placeholder: 'Type in here the name of the user you want to add to be converted.'
+  
+  .form-group
+    = button_tag 'Submit', class: 'btn btn-primary', 'data-disable-with'=>button_spinner  

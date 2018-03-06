@@ -1,0 +1,6 @@
+- (groups.is_a?(Array) ? groups : groups.decorate).each do |group|
+  - if (is_mine rescue group.is_in_conversation?(current_user.id))
+    = group.conversation_row_widget(thumb_size: 30, class: 'media_bordered valign-middle conversation-item')
+  - else
+    = group.public_conversation_row_widget(thumb_size: 30, class: 'media_bordered valign-middle conversation-item')
+= view_more_button(url_for(action: :list, page: groups.next_page, kind: params[:kind], format: :html)) if groups.try(:next_page)

@@ -1,0 +1,36 @@
+- if false
+  .form-group
+    = f.label :photo, 'Banner'
+    .media
+      .media-body
+        = f.file_field :photo, class: 'filestyle', required: !f.object.photo.present?, accept: file_upload_image_formats, 'data-buttonBefore'=> true
+      .media-right
+        = media_avatar_image(f.object.photo.url(:thumb), 35) if f.object.photo.present?
+  
+.form-group
+  = f.label :locations, 'Locations'
+  = f.country_select :locations, {include_blank: 'All', include_hidden: false}, class: 'form-control', multiple: true
+
+.form-group
+  = f.label :age_range, 'Age'
+  = slide_range_tag_helper(f, :age_range, f.object.get_age_range)
+
+.form-group
+  = f.label :gender, 'Gender'
+  = f.select :gender, User::SEX.invert, {include_blank: 'All'}, class: 'form-control'
+
+.form-group
+  = f.label :demographics
+  = f.select :demographics, User::DENOMINATIONS.invert, {include_blank: 'All', include_hidden: false}, class: 'form-control required', multiple: true
+
+%hr
+.form-group
+  = f.label :budget
+  .input-group
+    = f.number_field :budget, class: 'form-control required', step: '1', min: '1'
+    .input-group-addon= I18n.t('number.currency.format.unit')
+
+.form-group
+  = f.label :period_until
+  = date_picker_input do
+    = f.text_field :period_until, class: 'period required form-control'

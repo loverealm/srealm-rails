@@ -1,0 +1,12 @@
+= form_tag url_for(broadcast_id: broadcast.id), remote: true, method: :post, class: 'validate ujs_hide_modal' do
+  - unless current_user.credits >= broadcast.amount
+    .alert.alert-danger.skip_dismiss.alert-sm Sorry! You do not have enough credits. Please click here to top up your credits so that you can send SMS messages
+  .form-group
+    %label Amount
+    %span= number_to_currency broadcast.amount
+    
+  .text-center
+    = button_tag 'Send Messages', class: 'btn btn-primary', 'data-disable-with' => button_spinner
+    
+  
+   

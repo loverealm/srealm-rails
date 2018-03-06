@@ -1,0 +1,8 @@
+$content  = $('#content-<%= @content.id %>');
+$loadMore = $content.find('.load-more-comments');
+$content.find('.content-comments > .comments').prepend($('<%= j render @comments.reverse, as: :comment %>'));
+<% if @comments.next_page %>
+$loadMore.attr('href', '<%= comments_dashboard_content_path(content_id: @content, page: @comments.next_page)%>');
+<% else %>
+$loadMore.parent().hide();
+<% end %>

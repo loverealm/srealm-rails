@@ -1,0 +1,13 @@
+%nav.navbar.home-navbar{:role => "navigation"}
+  .container
+    .navbar-header
+      %button.navbar-toggle.collapsed{"aria-expanded" => "false", "data-target" => "#public-top-nav-bar", "data-toggle" => "collapse", :type => "button"}
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to(image_tag("brand-1542.png"), home_path, class: 'navbar-brand')
+    #public-top-nav-bar.collapse.navbar-collapse
+      %ul.nav.navbar-nav
+        = content_tag :li, link_to('About', '/home/about_us')
+        = content_tag :li, link_to('Church Growth', '#')

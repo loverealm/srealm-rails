@@ -1,0 +1,35 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "public",
+  "apis": [
+    {
+      "path": "/api/v2/send_feedback",
+      "operations": [
+        {
+          "summary": "Creates a new feedback for Loverealm",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "subject",
+              "type": "string",
+              "description": "Feedback topic of the feedback: Bug/Error | Feature Request | Suggestion | Miscellaneous",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Feedback description",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Public#send_feedback",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

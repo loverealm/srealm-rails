@@ -1,0 +1,3 @@
+- users.each do |user|
+  = user_row_widget(user, truncate: 0, thumb_size: 30, link: false, include_status: true, class: 'media_bordered valign-middle conversation-item')
+= view_more_button(url_for(action: :online_friends, page: @users.next_page)) if @users.try(:next_page)

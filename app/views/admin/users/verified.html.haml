@@ -1,0 +1,52 @@
+%h2 Verified Users
+.row
+  .col-md-6
+    = search_form_for @q, url: url_for(qq: :t) do |f|
+      .input-group
+        = f.search_field :full_name_or_email_cont, class: 'form-control', placeholder: 'Type here to filter...'
+        %span.input-group-btn
+          = button_tag 'Filter', class: 'btn btn-default'
+          
+%table.table
+  %thead
+    %tr
+      %th #
+      %th User name
+      %th Newbie
+      %th Registered at
+      %th Current sign in at
+      %th Sign in count
+      %th
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.id
+        %td= user.full_name
+        %td= user.is_newbie
+        %td= user.created_at
+        %td= user.current_sign_in_at
+        %td= user.sign_in_count
+        %td.text-right
+          = dropdown_builder button_class: 'btn-xs', right: true do
+            = content_tag :li, link_to('Make unverified', url_for(action: :make_unverified, id: user), class: 'ujs_success_remove', 'data-closest-remove' => 'tr', method: :put, remote: true, 'data-confirm' => 'Are you sure you want to make unverified this user?', 'data-disable-with' => button_spinner)
+          
+
+= paginate @users
+= link_to 'Add  Users', '#', 'data-toggle'=>'modal', 'data-target'=>'#non_verified_users_modal', class: 'btn btn-primary'
+
+= form_tag url_for(action: :save_verified), {:role => "dialog", :tabindex => "-1", id: 'non_verified_users_modal', class: 'modal fade'} do
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4.modal-title Add Verified Users
+      .modal-body
+        %p
+          = select_tag :verified_users, options_from_collection_for_select(User.non_verified, :id, :full_name), class: 'form-control required', multiple: true, 'data-placeholder'=>'Please Select Users'
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+        %button.btn.btn-primary{:type => "submit"} Make users verified
+= content_for :script do
+  :javascript
+    jQuery(function(){ init_admin_verified_users() })

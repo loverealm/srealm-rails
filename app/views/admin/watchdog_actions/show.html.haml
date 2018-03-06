@@ -1,0 +1,37 @@
+.form-group
+  %label Watchdog:
+  %span= @record.user.full_name
+  
+.form-group
+  %label Created at:
+  %span= l(@record.created_at, format: :long)
+
+.form-group
+  %label Confirmed at:
+  %span= @record.confirmed_at ? l(@record.confirmed_at, format: :long) : ''
+
+- if @record.user_confirm
+  .form-group
+    %label Confirmed by:
+    %span= @record.user_confirm.full_name
+
+.form-group
+  %label Reason:
+  .small= @record.reason
+
+- if @record.reverted_at
+  .form-group
+    %label Reverted by:
+    %span= @record.reverted_by.full_name
+  
+  .form-group
+    %label Reverted at:
+    %span= l(@record.reverted_at, format: :long)
+    
+  .form-group
+    %label Reverted Reason:
+    .small= @record.reverted_reason
+  
+  
+
+    

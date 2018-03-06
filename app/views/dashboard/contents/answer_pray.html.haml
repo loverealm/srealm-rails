@@ -1,0 +1,24 @@
+.clearfix
+  = image_tag 'celebrate-congrats-love-drink.png', class: 'pull-left'
+  .msg.text-center
+    %h2.margin_top0 Congratulations!
+    .text-big
+      Your prayer request has been answered!!! 
+    %br
+    = link_to 'Share your testimony with the world', url_for(share: true), class: ' btn btn-primary ujs_hide_modal', remote: true, 'data-disable-with' => button_spinner('Sharing...')
+    %br
+    %br
+        
+  .hidden.praying_item
+    = render 'dashboard/users/my_praying_list_answered', content_prayers: @items
+
+
+
+
+
+
+
+
+
+
+

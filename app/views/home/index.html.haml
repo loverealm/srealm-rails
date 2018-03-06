@@ -1,0 +1,14 @@
+.row.home_index.hook_caller{'data-callback' => 'init_public_home_page'}
+  .col-md-8.text-white.col-left
+    .inner
+      %h1 Welcome to LoveRealm
+      %p.text-big
+        Connect with your believers worldwide - and your church! Share mind boggling questions and prayer requests anonymously. Find friendships, counselors and Godly relationships. Grow your church!
+      
+      %p.mobile_links
+        = link_to image_tag("google-play.png"), ENV['ANDROID_APP_URI'], class: 'app-market'
+        = link_to image_tag("app-store.png"), ENV['IOS_APP_URI'], class: 'app-market'
+        
+  .col-md-4.col-right
+    = render 'devise/sessions/form'
+    = render 'devise/registrations/form'

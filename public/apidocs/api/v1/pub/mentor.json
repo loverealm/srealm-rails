@@ -1,0 +1,178 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "mentor",
+  "apis": [
+    {
+      "path": "/api/v1/pub/mentors/{id}/set_default",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Mentor ID which will be the default counselor for current user",
+              "required": true
+            }
+          ],
+          "notes": "Set a default counselor for current user",
+          "nickname": "Api::V1::Pub::Mentor#set_default",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/mentors/my_revenue",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Report period: this_year|past_year|6_months_ago, default: this_year.",
+              "required": false
+            }
+          ],
+          "notes": "Return monthly revenue in a period of current mentor",
+          "nickname": "Api::V1::Pub::Mentor#my_revenue",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/mentors/my_full_revenue",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Report period: this_year|past_year|6_months_ago, default: this_year.",
+              "required": false
+            }
+          ],
+          "notes": "Return monthly full revenue in a period of current mentor",
+          "nickname": "Api::V1::Pub::Mentor#my_full_revenue",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/mentors/my_counselor",
+      "operations": [
+        {
+          "notes": "Return assigned counselor to current user",
+          "nickname": "Api::V1::Pub::Mentor#my_counselor",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/mentors/my_church_counselors",
+      "operations": [
+        {
+          "notes": "Return list of counselors of current user's church",
+          "nickname": "Api::V1::Pub::Mentor#my_church_counselors",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/mentors/search",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Text to search in counselors name",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page in pagination (default 10)",
+              "required": false
+            }
+          ],
+          "notes": "Search counselors",
+          "nickname": "Api::V1::Pub::Mentor#search",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/mentors/counseling_chats",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page in pagination (default 20)",
+              "required": false
+            }
+          ],
+          "notes": "Return all chats with counselors",
+          "nickname": "Api::V1::Pub::Mentor#counseling_chats",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/mentors",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Filter for certain kind of counselors: other_counselors|official_counselors, default empty and returns all counselors",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "current pagination page",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page in pagination",
+              "required": false
+            }
+          ],
+          "notes": "List of all mentors/counselors",
+          "nickname": "Api::V1::Pub::Mentor#index",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

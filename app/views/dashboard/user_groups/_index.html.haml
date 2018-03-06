@@ -1,0 +1,12 @@
+- groups.each do |group|
+  .media.media_bordered
+    .media-left
+      = user_group_image_widget(group, 60)
+    .media-body
+      .title
+        = link_to(group.name, dashboard_user_group_path(group))
+      .descr
+        = group.the_description
+              
+- if groups.next_page
+  = view_more_button(dashboard_user_groups_path(page: groups.next_page, per_page: (per_page rescue 20)))

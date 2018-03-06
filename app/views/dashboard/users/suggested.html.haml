@@ -1,0 +1,9 @@
+%ol.breadcrumb
+  %li
+    = link_to 'Home', home_path
+  %li Suggested Users
+
+%h2 Suggested Users
+
+#users.row
+  = render 'dashboard/users/suggested', users: @users

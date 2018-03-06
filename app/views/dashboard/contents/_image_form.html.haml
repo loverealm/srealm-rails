@@ -1,0 +1,35 @@
+.picture_form_w.hook_caller{'data-callback' => 'ContentEditor:media_form'}
+  - tmp_images_key = "#{Time.current.to_i}-#{rand(9990...9999)}-#{current_user.id}"
+  = form_tag upload_image_dashboard_contents_path, 'data-type' => 'json', class: 'file_uploader reset_on_success secondary_form', id: 'images_file_uploader_form', remote: true do
+    = hidden_field_tag :tmp_images_key, tmp_images_key
+    %a.btn.btn-default.upload_image
+      %i.glyphicon.glyphicon-picture
+      %span Upload Picture/Video/Audio
+      = file_field_tag 'images[]', class: 'image_file', accept: 'image/gif,image/jpeg,image/png,image/jpg,video/*,.flv,audio/*', autocomplete: 'off', required: true, multiple: true
+
+  - if content.id
+    = simple_form_for(content, url: [:dashboard, content], multipart: true, method: :put, remote: true, html:{id: 'edit_picture_form' }) do |f|
+      = hidden_field_tag :tmp_images_key, tmp_images_key
+      .form-group.image_ids_panel
+        = check_box_tag 'content[content_image_ids][]', '', false, class: 'required no_visible', minlength: '1', maxlength: '10'
+        %ul.images
+          - content.content_images.each do |image|
+            %li
+              %a.btn.btn-xs.btn-danger.remove_item{title: 'Remove Image'}
+                %i.glyphicon.glyphicon-trash
+              = check_box_tag 'content[content_image_ids][]', image.id, true, class: 'no_visible'
+              = image_tag(image.image.url(:thumb))
+      .form-group
+        = f.text_area :description, placeholder: 'Say something about this picture', class: 'required form-control mentionable'
+
+  - else
+    = simple_form_for content, url: [:dashboard, content], multipart: true, remote: true, html: {id: "picture_form"} do |f|
+      = hidden_field_tag :tmp_images_key, tmp_images_key
+      = f.input_field :owner_id, as: :hidden
+      = f.input_field :user_group_id, as: :hidden
+      = f.input_field :content_type, as: :hidden, value: :image
+      .form-group.image_ids_panel
+        = check_box_tag 'content[content_image_ids][]', '', false, class: 'required no_visible', minlength: '1', maxlength: '10'
+        %ul.images
+      .div
+        = f.text_area :description, placeholder: 'Say something about this picture', class: 'required form-control mentionable'

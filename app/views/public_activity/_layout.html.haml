@@ -1,0 +1,3 @@
+.notification{class: "#{'highlight' if activity.created_at > @notifications_checked_at }"}
+  .notification-content.media
+    = yield

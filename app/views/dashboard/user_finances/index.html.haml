@@ -1,0 +1,36 @@
+= javascript_include_tag 'https://www.gstatic.com/charts/loader.js'
+- content_for :container_class, 'panel'
+- if params[:pledge_id] && (payment = current_user.payments.find_by_id(params[:pledge_id])).present?
+  = link_to 'abc', url_for(action: :ask_pledge, id: payment), remote: true, class: 'ujs_link_modal hidden hook_caller', 'data-callback' => 'Common.open_link' if payment.pending?
+  
+#my_finances_page.hook_caller{'data-callback' => 'MyFinances:init'}
+  .text-right
+    = link_to 'Payments', url_for(action: :index), class: 'underline ujs_content_to', remote: true, 'data-content-to'=>'#finances_body', 'data-disable-with' => button_spinner
+    &nbsp; | 
+    = link_to 'Tithe and Partnerships', url_for(action: :tithe_partner), class: 'underline ujs_content_to', remote: true, 'data-content-to'=>'#finances_body', 'data-disable-with' => button_spinner
+    &nbsp; | 
+    = link_to 'Pledges', url_for(action: :pledges), class: 'underline ujs_content_to', remote: true, 'data-content-to'=>'#finances_body', 'data-disable-with' => button_spinner
+    - if current_user.mentor?
+      &nbsp; | 
+      = link_to 'Counseling Revenue', my_revenue_dashboard_counselors_path, remote: true, class: 'underline ujs_link_modal', data:{disable_with: button_spinner, modal_title: 'My Counseling Revenue', modal_size: 'modal-lg'}
+  %br
+  %br
+      
+  .row
+    .col-md-3
+      - @cards.each do |payment_card|
+        .panel{class: payment_card.is_default ? 'panel-primary' : 'panel-default'}
+          .panel-heading.clearfix
+            .credit_card_logo.pull-left{class: payment_card.logo}
+            .pull-right{style: 'margin-top: 5px;'}
+              = dropdown_builder(class: '', button_class: 'btn-xs') do
+                = content_tag :li, (link_to 'Make Default', url_for(action: :make_card_default, id: payment_card.id), method: :put, class: '') unless payment_card.is_default?
+                = content_tag :li, (link_to 'Delete card', url_for(action: :delete_card, id: payment_card), method: :delete, class: 'ujs_success_remove', 'data-closest-remove' => '.panel', 'data-disable-with' => button_spinner, 'data-confirm' => 'Are you sure you want delete this payment card?', remote: true)
+          .panel-body.text-center
+            XXXX XXXX XXXX #{payment_card.last4}
+          .panel-footer.small.transparent
+            Expire on 
+            = payment_card.expire_at
+            
+    #finances_body.col-md-9
+      = render template: 'dashboard/user_finances/payments'

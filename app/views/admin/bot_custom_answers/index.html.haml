@@ -1,0 +1,22 @@
+%h2 Bot answers
+= link_to 'Add new answer', new_admin_logged_user_message_bot_custom_answer_path
+%h5
+  = "Message: #{@message.try(:text)}"
+
+%table.table-w100
+  %thead
+    %tr
+      %th #
+      %th Answer text
+      %th Action
+  %tbody
+    - @bot_answers.each do |answer|
+      %tr
+        %td
+          = answer.id
+        %td
+          = answer.try(:text)
+        %td
+          .row
+            .col-md-3
+              = link_to "Delete", admin_logged_user_message_bot_custom_answer_path(@message, answer), :method => :delete, :data => { :confirm => 'Are you sure?' }

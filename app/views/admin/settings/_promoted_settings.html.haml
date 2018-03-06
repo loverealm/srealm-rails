@@ -1,0 +1,15 @@
+#promoted_settings_tab.tab-pane
+  %br
+  .form-group
+    = label_tag :period_increment, 'Period Method'
+    .input-group
+      %span.input-group-addon Likes to increment
+      = number_field_tag 'setting[promoted_likes_qty]', Setting.get_setting(:promoted_likes_qty), class: 'form-control required'
+      %span.input-group-addon every (minutes)
+      = number_field_tag 'setting[promoted_likes_period]', Setting.get_setting(:promoted_likes_period), class: 'form-control required'
+
+  .form-group
+    %label
+      Factor method
+    .d
+      = check_box_tag 'setting[promoted_factor_way]', 1, Setting.get_setting(:promoted_factor_way) == '1'

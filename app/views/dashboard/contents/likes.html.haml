@@ -1,0 +1,8 @@
+- @users.each do |user|
+  - media_right = capture do
+    = current_user.the_friend_status_for(user, class: 'btn-sm', time: user.voted_at)
+  - av = capture do
+    = content_tag :span, '', title: user.vote_scope.titleize, class: "reaction_icon #{user.vote_scope} auto_tooltip", style: 'position: absolute; right: 4px; margin-top: -18px;'
+  = user_row_widget(user, {time: user.voted_at, media_left: av, class: 'media_bordered', media_right: media_right})
+  
+= view_more_button(url_for(action: :likes, page: @users.next_page, kind: params[:kind])) if @users.try(:next_page)

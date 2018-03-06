@@ -1,0 +1,28 @@
+= form_for @devotion, url: url_for(action: @devotion.new_record? ? :create : :update), data: { type: :json }, remote: true, html:{class: "hook_caller ujs_hide_modal #{' ujs_modal_success_replace ' unless @devotion.new_record? } #{' ujs_content_to ' if @devotion.new_record? }", 'data-prepend-to' => '#church_grow_church_page .daily_devotions_list', 'data-closest-replace' => '.media', 'data-callback' => 'ChurchManagement:devotions_form'} do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, required: true, class: 'form-control'
+
+  .form-group
+    = f.label :image
+    .media
+      .media-body
+        = f.file_field :image, required: !@devotion.image.present?, class: 'filestyle', 'data-buttonText' => 'Choose Image', 'data-buttonBefore'=> true
+      .media-right
+        = media_avatar_image(@devotion.image.url, 35) if @devotion.image.present?
+
+  .form-group
+    = f.label :description
+    = f.text_area :description, required: true, rows: 20, class: 'editor'
+  .form-group
+    = f.label '', 'Related Hash Tags'
+    = select_tag 'content[hash_tags_data]', options_from_collection_for_select(@devotion.hash_tags, :name, :name, @devotion.hash_tags.pluck(:name)), class: 'tags', multiple: true, placeholder: 'Start writing your hash tags'
+
+  .form-group
+    = f.label :publishing_at
+    = f.text_field :publishing_at, class: 'form-control required datepicker'
+
+  .form-group
+    = button_tag @devotion.new_record? ? 'Publish' : 'Update', class: "btn btn-primary post-status", data: {disable_with: button_spinner('Loading...')}
+
+    

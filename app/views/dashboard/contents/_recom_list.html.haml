@@ -1,0 +1,16 @@
+-@recommended_list.each do |recommend|
+  .content-header
+    .media
+      = link_to_user(recommend[:user], {class: 'media-left'}) do
+        = show_avatar(recommend[:user], "thumb")
+
+      .media-body
+        .media-heading
+          = link_to_user(recommend[:user], {class: 'content-author'})
+          %time
+            = recommend[:title]
+            = recommend[:count]
+
+          .controls
+            = link_to question_dashboard_content_path(content, :receiver_id => recommend[:user], :content_id => content.id),  remote: true,  class: 'btn btn-primary', id: 'ask' do
+              Ask

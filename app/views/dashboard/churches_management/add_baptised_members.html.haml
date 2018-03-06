@@ -1,0 +1,6 @@
+= form_tag url_for(action: :add_baptised_members), remote: true, class: 'hook_caller ujs_hide_modal ujs_eval', 'data-ujs-eval' => 'ujs_eval_callback($("#baptism_data_graphic"))', 'data-callback'=>'ChurchManagement:baptised_members_form' do
+  .form-group
+    = select_tag :baptised_members, [], multiple: true, class: 'form-control required', placeholder: 'Please type here to search for members', 'data-url'=>url_for(action: :search_non_baptised_members)
+  .form-group.text-right
+    = button_tag 'Save', class: 'btn btn-primary', 'data-disable-with' => button_spinner
+  

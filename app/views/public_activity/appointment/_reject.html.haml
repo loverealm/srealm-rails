@@ -1,0 +1,14 @@
+- if activity.trackable.present?
+  = render layout: 'public_activity/layout', locals: {activity: activity} do
+    .media-left= user_avatar_widget activity.owner, 50, activity.created_at
+    .media-body
+      .media-heading
+        = link_to_user(activity.owner, {class: 'user-name', time: activity.created_at})
+
+      .notification-text
+        Your appointment requested for #{I18n.l activity.trackable.schedule_for, format: :long} has been declined.
+
+    .media-right.small
+      %time.nowrap
+        = time_ago_in_words(activity.created_at)
+        &nbsp;ago

@@ -1,0 +1,15 @@
+#attack_settings_tab.tab-pane
+  %br
+  .form-group
+    = label_tag '', 'Attack excessive requests'
+    = text_field_tag 'setting[attack_banned_msg]', Setting.get_setting(:attack_banned_msg), class: 'form-control required'
+
+  .form-group
+    = label_tag '', 'Blacklist Ip Addresses'
+    %p.help-block
+      Separated by commas
+    = text_field_tag 'setting[blacklist_ips]', Setting.get_setting(:blacklist_ips), class: 'form-control'
+
+  .form-group
+    = label_tag '', 'Blacklist banned message'
+    = text_field_tag 'setting[blacklist_message]', Setting.get_setting(:blacklist_message), class: 'form-control required'

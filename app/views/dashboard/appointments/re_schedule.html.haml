@@ -1,0 +1,15 @@
+= import_google_places_library unless @appointment.is_video?
+= form_for @appointment, url: url_for(action: :re_schedule), method: :post, remote: true, html: {class: 'hook_caller ujs_hide_modal ujs_modal_success_replace', 'data-closest-replace' => '.media', 'data-callback' => 'Appointment:form', style: 'min-height: 420px;' } do |f|
+  .form-group
+    = date_picker_input(time: true, time_settings: {stepping: 15, minDate: 'now', sideBySide: true}) do
+      = f.text_field :re_schedule_for, class: 'form-control required', value: @appointment.the_date
+  
+  - unless @appointment.is_video?
+    .form-group.loc_field
+      = label_tag :location, 'Church Location'
+      = f.hidden_field :longitude, class: 'lng_field'
+      = f.hidden_field :latitude, class: 'lat_field'
+      .map_area{style: 'height: 300px; width: 100%;'}
+              
+  .form-group
+    = button_tag 'Re Schedule', class: 'btn btn-primary', 'data-disable-with' => button_spinner

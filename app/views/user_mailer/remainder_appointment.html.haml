@@ -1,0 +1,8 @@
+%p Dear #{@user.full_name(false)},
+%p 
+  Your have a #{@appointment.is_video? ? 'video' : 'walk in'} counseling appointment with #{@user2.full_name(false)}
+  - if @time_key == 'before_30'
+    in 30 minutes
+  - else
+    tomorrow at #{I18n.l(@appointment.schedule_for, format: :short)}
+%p= link_to 'www.loverealm.com', root_url

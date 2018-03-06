@@ -1,0 +1,16 @@
+- prayers, qty_visible = content.prayers.to_a, 5
+.prayer_list.margin_top10
+  .row.small.text-gray.italic
+    .col-sm-12
+      = "#{prayers.count} Praying"
+      - if can? :invite_prayers, content
+        &nbsp;-&nbsp; 
+        = link_to 'Invite people to pray', add_prayers_dashboard_content_path(content), class: 'ujs_link_modal btn-invite-pray', 'data-modal-title'=>'Invite friends to pray', remote: true, 'data-disable-with'=>button_spinner('Loading...')
+  
+  .user_prayers.margin_top5
+    - prayers.each_with_index do |recommended_user, index|
+      .post-author-image.inline{class: "#{'hidden' if index >= qty_visible}"}
+        = user_avatar_widget(recommended_user, 35) do
+          - if index == (qty_visible-1) && prayers.size > qty_visible
+            %span.plus_text{onclick: "$(this).closest('.post-author-image').siblings().removeClass('hidden'); $(this).remove(); return false;"} +#{prayers.size-qty_visible}
+

@@ -1,0 +1,83 @@
+#church_grow_church_page{
+  .photos_list{
+    .photo_item{
+      margin: 2px;
+      border: 1px solid #eee;
+      max-width: 48%;
+      a{
+        display: block;
+      }
+      img{
+        max-width: 100%;
+        max-height: 150px;
+      }
+    }
+    form{
+      padding-top: 30px;
+      padding-bottom: 30px;
+      width: 48%;
+    }
+  }
+}
+
+#churches_management_dashboard{
+  .widget1{
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding-right: 0;
+    .r{
+      float: right;
+      width: 40px;
+      text-align: center;
+      font-size: 30px;
+      color: #fff;
+      i{
+        display: inline-block;
+        line-height: 64px;
+      }
+    }
+    .l{
+      border-right: 40px solid #C2962B;
+      margin-right: 0px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      &.red{
+        border-right-color: #C62817;
+      }
+      &.green{
+        border-right-color: #72BE49;
+      }
+    }
+  }
+}
+
+.churches_management_dashboard_menu{
+  margin-bottom: 20px;
+  > a, button{
+    margin-right: 20px;
+    border: 1px solid $LR-red;
+    padding: 10px 20px;
+    border-radius: 10px;
+    &.active, &:hover{
+      background-color: $LR-red;
+      color: #fff;
+    }
+  }
+  
+}
+
+@media print {
+  body.churches_management{
+    .management_header{
+      h5, div{
+        display: none;
+      }
+    }
+    .btn-top-right, .w_report_periods .dropdown, .link_all_btn{
+      display: none;
+    }
+    a[href]:after {
+      content:"" !important;
+    }
+  }
+}

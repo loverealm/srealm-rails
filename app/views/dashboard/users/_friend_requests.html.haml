@@ -1,0 +1,17 @@
+- users.each do |user|
+  .media.media_bordered
+    .media-left
+      = user_avatar_widget(user, 60)
+    .media-body
+      .row
+        .col-xs-6
+          %h4.media-heading #{user.full_name}
+          .descr
+            = user.the_biography
+        .col-xs-6.text-right
+          = link_to "Reject", url_for(action: :reject_friend, user_id: user), method: :post, class: 'btn btn-black btn-reject', remote: true, 'data-disable-with' => button_spinner
+          = link_to "Accept", url_for(action: :accept_friend, user_id: user), method: :post, class: 'btn btn-primary btn-accept', remote: true, 'data-disable-with' => button_spinner
+
+- if users.next_page
+  .text-right
+    = link_to('Load more', url_for(page: users.next_page, kind: 'friend_requests'), class: 'btn ujs_success_replace', 'data-closest-replace' => '.text-right', remote: true, 'data-disable-with' => button_spinner('Loading...'))   

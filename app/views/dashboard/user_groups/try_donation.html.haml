@@ -1,0 +1,8 @@
+= form_tag url_for(action: :make_payment), authenticity_token: true, class: 'ujs_hide_modal hook_caller', remote: true, 'data-callback' => 'UserGroupPage:donation_form_dialog' do
+  = hidden_field_tag 'payment_kind', 'donation'
+  = hidden_field_tag 'amount', params[:amount]
+  .form-group
+    %label Amount: #{number_to_currency(params[:amount])}
+  .panel.panel-default
+    .panel-heading.bold Card details
+    .panel-body= render 'dashboard/payments/form', recurring: false, card_label: 'Complete Order'

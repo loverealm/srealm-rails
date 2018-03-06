@@ -1,0 +1,15 @@
+= render layout: 'public_activity/layout', locals: {activity: activity} do
+  .media-left= user_avatar_widget activity.owner, 50, activity.created_at
+  .media-body
+    .media-heading
+      = link_to_user(activity.owner, {class: 'user-name', time: activity.created_at})
+
+    .notification-text
+      - if activity.trackable
+        added the #{link_to activity.trackable.content_type.to_s.downcase, dashboard_content_path(a.trackable)}
+      - else
+        added the story that is currently deleted.
+  .media-right.small
+    %time.nowrap
+      = time_ago_in_words(activity.created_at)
+      &nbsp;ago

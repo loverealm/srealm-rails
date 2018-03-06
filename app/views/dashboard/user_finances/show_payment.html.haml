@@ -1,0 +1,52 @@
+%p
+  %label Amount:
+  %span= number_to_currency(@payment.amount)
+
+%p
+  %label Payment at:
+  %span= l(@payment.payment_at, format: :long)
+
+%p
+  %label Payment Method:
+  %span= @payment.payment_kind.to_s.titleize
+
+%p
+  %label Payment Type:
+  %span= @payment.goal.to_s.titleize
+
+- if @payment.last4?
+  %p
+    %label Payment Card:
+    %span= @payment.card_number_mask
+
+- if @payment.recurring_period
+  %p
+    %label Recurring Status:
+    %span= @payment.is_active_recurring ? 'Active' : 'Stopped'
+
+  %p
+    %label Recurring Amount:
+    %span= number_to_currency @payment.get_recurring_amount
+  
+  %p
+    %label Recurring Period:
+    %span= @payment.recurring_period.to_s.is_i? ? "Every #{@payment.recurring_period} days" : Payment::RECURRING_OPTIONS[@payment.recurring_period.to_sym]
+
+  %p
+    %label Recurring Transactions:
+    %span= @payment.sub_transactions.completed.count
+
+  %p
+    %label Recurring Transactions Amount:
+    %span= number_to_currency @payment.sub_transactions.completed.sum(:amount)
+
+  - if @payment.recurring_error
+    %p
+      %label Transaction Errors:
+      %span= @payment.recurring_error.gsub("\n", '<br>').html_safe
+  
+  - if @payment.recurring_stopped_at
+    %p
+      %label Stopped at:
+      %span= l(@payment.recurring_stopped_at, format: :long)
+      

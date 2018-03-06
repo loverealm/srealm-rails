@@ -1,0 +1,9 @@
+.modal-title Edit Recurring Amount
+= form_tag url_for(), method: :post, class: 'ujs_hide_modal', remote: true do
+  .form-group
+    .input-group
+      = text_field_tag :recurring_amount, @payment.get_recurring_amount, class: 'required number form-control', min: 10, placeholder: 'Enter Amount'
+      %span.input-group-addon= I18n.translate('number.currency.format.unit')
+        
+  .text-center
+    = button_tag 'Update', class: 'btn btn-primary', 'data-disable-with' => button_spinner

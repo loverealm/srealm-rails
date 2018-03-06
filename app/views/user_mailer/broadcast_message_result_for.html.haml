@@ -1,0 +1,6 @@
+%p Dear #{@user.first_name},
+%p You have #{@qty} members who didn't read your message sent at: #{I18n.l(@broadcast.created_at, format: :long)}. Would you like to send sms to them?
+%p= link_to('Yes, I would like to send sms to them.', broadcast_message_confirm_sms_dashboard_user_group_churches_management_index_url(user_group_id: @broadcast.user_group_id, broadcast_id: @broadcast.id))
+%br
+%p Kind Regards,
+%p The #{link_to 'LoveRealm', root_url} team

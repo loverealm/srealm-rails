@@ -1,0 +1,42 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "messages",
+  "apis": [
+    {
+      "path": "/api/v1/pub/messages",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "conversation_id",
+              "type": "integer",
+              "description": "Conversation ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "body",
+              "type": "string",
+              "description": "Message text body",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "image",
+              "type": "file",
+              "description": "Message image body",
+              "required": false
+            }
+          ],
+          "notes": "Create new message",
+          "nickname": "Api::V1::Pub::Messages#create",
+          "method": "post"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

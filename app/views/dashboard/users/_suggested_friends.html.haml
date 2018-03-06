@@ -1,0 +1,15 @@
+- users.each do |user|
+  .media.media_bordered
+    .media-left
+      = user_avatar_widget(user, 60)
+    .media-body
+      .row
+        .col-xs-6
+          %h4.media-heading
+            = link_to_user(user, {class: ''})
+          .descr
+            = user.the_biography
+        .col-xs-6.text-right
+          = link_to('Remove', ignore_suggested_friend_dashboard_users_path(user_id: user), class: 'btn btn-ignore btn-black btn-sm', method: :post, remote: true, 'data-disable-with' => button_spinner)
+          = link_to 'Become Friends', send_friend_request_dashboard_users_path(user_id: user), class: 'btn btn-primary become_friends btn-sm', remote: true, method: :post, 'data-disable-with' => button_spinner
+= view_more_button(url_for(action: :suggested_friends, page: users.next_page), 'inview_click btn btn-primary margin_bottom10') if users.next_page          

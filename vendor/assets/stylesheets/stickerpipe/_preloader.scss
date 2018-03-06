@@ -1,0 +1,61 @@
+
+.sp-preloader {
+	background: white;
+	display: table;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 9;
+}
+
+.sp-preloader-content {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+$preloader-spinner-margin: 40px auto !default;
+$preloader-size: 40px !default;
+$preloader-spinner-color: #9e9e9e !default;
+
+.sp-preloader-chasing-dots {
+	$animationDuration: 2.0s;
+
+	margin: $preloader-spinner-margin;
+	width: $preloader-size;
+	height: $preloader-size;
+	position: relative;
+	text-align: center;
+	animation: sp-preloader-chasingDotsRotate $animationDuration infinite linear;
+
+	.sp-preloader-child {
+		width: 60%;
+		height: 60%;
+		display: inline-block;
+		position: absolute;
+		top: 0;
+		background-color: $preloader-spinner-color;
+		border-radius: 100%;
+		animation: sp-preloader-chasingDotsBounce $animationDuration infinite ease-in-out;
+	}
+
+	.sp-preloader-dot2 {
+		top: auto;
+		bottom: 0;
+		animation-delay: - $animationDuration/2;
+	}
+}
+
+@keyframes sp-preloader-chasingDotsRotate {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes sp-preloader-chasingDotsBounce {
+	0%, 100% {
+		transform: scale(0);
+	} 50% {
+		  transform: scale(1.0);
+	}
+}

@@ -1,0 +1,4 @@
+- items.decorate.each do |mentor|
+  = mentor.the_mentor_row_item(kind: true) do
+    = mentor.the_mentor_chat_link class: 'btn-xs btn btn-default'
+    = mentor.the_mentor_video_link(extra_class: 'btn-xs')

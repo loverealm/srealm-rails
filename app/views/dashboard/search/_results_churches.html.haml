@@ -1,0 +1,26 @@
+- limit = (limit rescue nil)
+= import_google_places_library
+.page_churches{'data-callback' => 'SearchManager:map_churches', class: "#{'hook_caller' unless limit}"}
+  - data = user_group_add_map_results(items, params[:filter])
+  - data = data.slice(0, limit) if limit
+  - data.to_a.each do |church|
+    .media.media_bordered{'data-lat' => church.latitude, 'data-lng' => church.longitude}
+      - if church.id
+        .media-left
+          = user_group_image_widget(church, 60)
+        .media-body
+          .name= link_to church.name, dashboard_user_group_url(church)
+          .descr.small= church.the_description(100)
+          .qty.small.text-gray
+            Members: #{church.total_members}
+        .media-right
+          = church.decorate.the_status_btn
+      - else
+        .media-left
+          = media_avatar_image(church.photo, 60)
+        .media-body
+          .name= church.name
+          .descr.small= church.the_description(100)
+        .media-right.nowrap
+          = link_to 'Invite to join LoveRealm', '#', class: 'btn btn-primary btn-invite-external btn-sm', data: {title: church.name, place_id: church.place_id, remote_url: google_place_info_dashboard_search_index_path(place_id: church.place_id)}
+          = link_to 'Join', '#', class: 'btn btn-primary btn-bordered btn-join-external btn-sm', data: {title: church.name}

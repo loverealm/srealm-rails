@@ -1,0 +1,4 @@
+= javascript_include_tag 'application'
+= render '/shared/trackers/google_remarketing_tag'
+= render '/shared/trackers/google_conversion_pixel' if track_conversion?
+= yield :script

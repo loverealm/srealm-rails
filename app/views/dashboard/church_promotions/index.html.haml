@@ -1,0 +1,22 @@
+.table-responsive
+  %table.table.table-bordered
+    %tr
+      %th Published At
+      %th Until
+      %th Website
+      %th Locations
+      %th Age
+      %th Gender
+      %th Budget
+      %th Demographics
+    - @promotions.each do |promotion|
+      %tr
+        %td= l promotion.created_at, format: :short
+        %td= l promotion.period_until, format: :short
+        %td=promotion.website
+        %td=promotion.the_locations
+        %td=promotion.the_age_range
+        %td=promotion.the_gender
+        %td=number_to_currency(promotion.budget)
+        %td=promotion.the_demographics.join(',')
+    

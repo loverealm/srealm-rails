@@ -1,0 +1,3 @@
+- @items.newer.eager_load(:user).each do |convert|
+  = raw convert.user.decorate.the_row(class: 'media_bordered')
+= view_more_button(url_for(page: @items.next_page)) if @items.next_page

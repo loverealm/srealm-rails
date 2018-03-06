@@ -1,0 +1,16 @@
+%h1 Banned Users List
+%table.table
+  %thead
+    %tr
+      %th Full Name
+      %th Email
+      %th
+  %tbody
+    - @banned_users.each do |user|
+      %tr{'data-id' => user.id}
+        %td= user.full_name
+        %td= user.email
+        %td
+          = link_to 'Activate user', unban_admin_user_path(user), data:{confirm: 'Are you sure you want to make active this user?'}, method: :post
+          
+= paginate @banned_users

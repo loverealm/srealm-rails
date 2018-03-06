@@ -1,0 +1,17 @@
+- content_for :container_class, 'panel'
+#inbox_page.content-with-sidebar.row.o_chat.hook_caller{'data-callback' => 'init_inbox_page', 'data-id' => params[:conversation_id]}
+  #conversations_list.col-md-4
+    .conversations_panel.closed
+      .panel_header.clearfix
+        .col-xs-6
+          Inbox
+        .col-xs-6.text-right.btns
+          .dropdown.inline
+            = link_to('<i class="fa fa-gear"></i>'.html_safe, '#', class: 'btn_settings btn dropdown-toggle', 'data-toggle' => 'dropdown', title: 'Settings')
+            %ul.dropdown-menu.dropdown-menu-right
+              = content_tag :li, link_to('Create Group', create_group_dashboard_conversations_path, class: 'ujs_link_modal', remote: true, title: 'Create Group Conversation', 'data-disable-with' => button_spinner('Loading...'))
+              = content_tag :li, link_to('Search Conversation', search_dashboard_conversations_path, class: 'ujs_link_modal btn_search', remote: true, title: 'Search Conversations', 'data-disable-with' => button_spinner('Loading...'))
+      .panel_body
+        
+  #single_conversation.col-md-8
+    

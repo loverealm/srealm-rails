@@ -1,0 +1,87 @@
+.dashboard.welcome .footer {
+	color: #fff;
+
+	a {
+		color: #fff;
+	}
+}
+.registrations {
+	.navbar-default {
+		background: transparent;
+		height: 80px;
+	}
+}
+
+.file.optional.user_avatar {
+	opacity: 0;
+	height: 1px;
+	margin-bottom: 0;
+
+	input ,label {
+		height: 1px !important;
+	}
+}
+
+.form-inputs.last-step-welcome {
+	input[type="text"] {
+		width: 100%;
+		background: transparent;
+		border: 2px solid #ccc;
+		padding: 8px;
+	}
+
+	select {
+		background: transparent;
+		border: 2px solid #ccc;
+		padding: 8px;
+
+		&.country-select {
+			width: 100%;
+		}
+	}
+}
+
+.welcome_third {
+
+	.simple_form {
+
+		textarea {
+			width: 100%;
+			background: transparent;
+			border: 2px solid #ccc;
+			padding: 8px;
+		}
+	}
+
+	select#user_sex {
+		width: 45%;
+		float: left;
+	}
+
+	input.datepicker {
+		float: right;
+		background: transparent;
+		border: 2px solid #ccc;
+		height: 39px;
+		width: 185px !important;
+		// height: 42px;
+	}
+
+}
+
+@media screen and (max-width: 767px) {
+    .info-holder #follow_form, .info-holder .bio {
+    	display: none;
+    }
+    .container-fluid {
+    	padding: 0;
+    }
+
+    .tab-content {
+    	padding-bottom: 10px;
+    }
+
+    .footer {
+    	margin-top: 50px;
+    }
+}

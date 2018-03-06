@@ -1,0 +1,22 @@
+%ol.breadcrumb
+  %li
+    = link_to 'Home', home_path
+  %li Notifications
+
+%h2 Notifications
+.row
+  .col-md-8
+    .panel
+      .panel-body
+        = render partial: 'notification_group', locals: { grouped_activities: @grouped_activities, activities: @activities }
+  .col-md-4
+    .panel
+      .panel-heading
+        %h4
+          %i.header-icon.fa.fa-bell 
+          New Notifications 
+      .panel-body.text-center.padding_top0
+        .fa-4x
+          = @qty_new_notifications
+
+    = raw ad_widget_sidebar

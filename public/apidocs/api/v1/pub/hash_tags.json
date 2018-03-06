@@ -1,0 +1,48 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "hash_tags",
+  "apis": [
+    {
+      "path": "/api/v1/pub/hash_tags/trending_now",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "limit",
+              "type": "integer",
+              "description": "Indicates the quantity of items to return, default 16",
+              "required": false
+            }
+          ],
+          "notes": "Return all trending now hash tags",
+          "nickname": "Api::V1::Pub::HashTags#trending_now",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/hash_tags/preselected",
+      "operations": [
+        {
+          "notes": "Returns manually selected hashtags",
+          "nickname": "Api::V1::Pub::HashTags#preselected",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/hash_tags",
+      "operations": [
+        {
+          "notes": "Return all hash tags",
+          "nickname": "Api::V1::Pub::HashTags#index",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

@@ -1,0 +1,99 @@
+= import_google_places_library
+= form_for @group, url: @group.new_record? ? url_for(action: :create) : url_for(action: :update, id: @group), remote: true, multipart: true, html:{id: 'user_group_form', class: "hook_caller ujs_hide_modal #{'edit_form' unless @group.new_record?}", autocomplete: 'off', 'data-callback' => 'UserGroupForm:init', 'data-meetings-support' => UserGroup::MEETINGS_SUPPORT.join(',')}, data: { type: :json } do |f|
+  #user_group_wizard.panel-group
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          = link_to('Group Type', '#user_group_wizard1', 'data-toggle'=>'collapse', 'data-parent' => '#user_group_wizard')
+      #user_group_wizard1.panel-collapse.collapse.in
+        .panel-body
+          .form-group
+            = f.select :kind, UserGroup::KINDS.invert, {}, class: 'form-control required group_kind'  
+          .text-center.p_btn
+
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          = link_to('Group Settings', '#user_group_wizard2', 'data-toggle'=>'collapse', 'data-parent' => '#user_group_wizard')
+      #user_group_wizard2.panel-collapse.collapse
+        .panel-body
+          .text-center
+            = image_tag(@group.image.url)
+          .form-group.text-center
+            .w_image
+              = f.file_field :image, class: 'filestyle', accept: 'image/gif,image/jpeg,image/png,image/jpg', title: @group.new_record? ? "Group’s Avatar" : "Edit Group’s Avatar" 
+        
+          .form-group
+            = f.text_field :name, class: 'form-control required', placeholder: 'Enter Group Name'
+        
+          .form-group
+            = f.text_area :description, class: 'form-control required', placeholder: 'Enter Group Description'
+
+          .form-group
+            %label Privacy Level
+            .checkbox
+              %p
+                %label
+                  = f.radio_button :privacy_level, 'open'
+                  Open
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                %small In Open, anyone can find group and Join
+              %p
+                %label
+                  = f.radio_button :privacy_level, 'closed'
+                  Closed
+                &nbsp; &nbsp; &nbsp; &nbsp; 
+                %small Under closed, members must only be approved.
+
+          .form-group
+            %label Group’s Tags
+            = f.collection_select :hashtag_ids, HashTag.all, :id, :name, {include_hidden: false}, class: 'required form-control', multiple: true
+                      
+          .form-group.text-center.p_btn
+
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          = link_to('Members', '#user_group_wizard3', 'data-toggle'=>'collapse', 'data-parent' => '#user_group_wizard')
+      #user_group_wizard3.panel-collapse.collapse
+        .panel-body
+          .form-group
+            %label Members
+            = select_tag 'user_group[new_participant_ids][]', @group.members.map{|m| "<option value='#{m.id}' data-avatar_url='#{m.avatar_url}' data-is_admin='#{@group.is_admin?(m.id)}' selected>#{m.full_name(false)}</option>" }.join('').html_safe, multiple: true, class: 'required participants', 'data-exclude'=>current_user.id, placeholder: 'Type in here the name of the user you want to add to this group.'
+          .text-center.p_btn
+            
+
+.form_tpl.hidden
+  .only_churches_tpl
+    .form-group
+      = label_tag :location, 'Church Location'
+      = hidden_field_tag 'user_group[longitude]', @group.longitude, class: 'required lng_field'
+      = hidden_field_tag 'user_group[latitude]', @group.latitude, class: 'lat_field'
+      .map_area{style: 'height: 300px; width: 100%;'}
+      
+    .form-group
+      %label Church Counselors
+      .form-group
+        = select_tag 'user_group[counselor_ids][]', options_from_collection_for_select(User.all_mentors, :id, lambda{|u| u.full_name(false) }, @group.counselors.pluck(:id)), multiple: true, 'data-user-kind' => 'counselor', class: 'required counselors_list'
+    
+    .form-group
+      %label Main Church
+      .form-group
+        = select_tag 'user_group[request_root_branch]', options_from_collection_for_select(UserGroup.churches.main, :id, :name, @group.parent_id), class: 'no_select2 form-control', include_blank: '--No Main Church--'
+    
+  .meetings_tpl
+    .meetings_list
+      - ([UserGroupMeeting.new] + @group.meetings.to_a).each do |meeting|
+        .meeting-item.row{class: "#{'tpl' unless meeting.id.present?}", style: 'margin-bottom: 5px;'}
+          .col-sm-5
+            = text_field_tag "user_group[meetings_attributes][][title]", meeting.title, class: 'form-control required', placeholder: 'What is your meeting called?'
+          .col-sm-3
+            = select_tag "user_group[meetings_attributes][][day]", options_for_select(UserGroupMeeting::DAY_VALUES, meeting.day), class: 'form-control required'
+          .col-sm-3
+            = select_tag "user_group[meetings_attributes][][hour]", hour_time_select_options(meeting.hour), class: 'form-control required'
+          .col-sm-1
+            = hidden_field_tag "user_group[meetings_attributes][][id]", meeting.id
+            = check_box_tag "user_group[meetings_attributes][][_destroy]", 1, false, class: 'hidden'
+            = link_to '#', class: 'btn btn-primary btn-xs btn-del-meeting', title: 'Delete Meeting' do
+              %i.fa.fa-trash
+          

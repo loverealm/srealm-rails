@@ -1,0 +1,252 @@
+@import "variables";
+@import "icons";
+@import "mixins";
+
+@import "modal";
+@import "perfect-scrollbar";
+@import "preloader";
+
+.stickerpipe-popover {
+	border: 1px solid $popoverBorderColor;
+	border-radius: $popoverBorderRadius;
+	position: absolute;
+
+	box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.15);
+	-moz-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.15);
+	-webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.15);
+
+	> .stickerpipe {
+		border-radius: $popoverBorderRadius;
+	}
+
+	.sp-arrow,
+	.sp-arrow:after {
+		position: absolute;
+		display: block;
+		width: 0;
+		height: 0;
+		border-color: transparent;
+		border-style: solid;
+	}
+
+	.sp-arrow {
+
+		@media (max-width: $screen-sm-min) {
+			& {
+				display: none;
+			}
+		}
+
+		bottom: -11px;
+		margin-left: 1px;
+		border-top-color: rgba(0,0,0,.25);
+		border-width: 11px;
+		border-bottom-width: 0;
+
+		&:after {
+			bottom: 1px;
+			margin-left: -10px;
+			content: " ";
+			border-top-color: $contentBackground;
+			border-width: 10px;
+			border-bottom-width: 0;
+		}
+	}
+}
+
+.stickerpipe {
+	background: $contentBackground;
+	width: 100%;
+
+	.sp-store {
+		background: white;
+	}
+
+	.sp-tabs {
+		@include flexbox();
+
+		background-color: white;
+		border-bottom: 1px solid $popoverBorderColor;
+		border-radius: $popoverBorderRadius $popoverBorderRadius 0 0;
+		width: 100%;
+		white-space: nowrap;
+
+		.sp-tabs-scrollable-container {
+			flex: 1;
+			float: left;
+			overflow: hidden;
+			position: relative;
+
+			.sp-tabs-scrollable-content {
+				@include flexbox();
+
+				left: 0;
+				position: relative;
+				transition: 300ms;
+				white-space: nowrap;
+			}
+		}
+
+		.sp-tab-item {
+			display: inline-table;
+			cursor: pointer;
+			padding: 6px;
+			position: relative;
+
+			img {
+				border-radius: 50%;
+				height: $tabImageSize;
+				width: $tabImageSize;
+
+				opacity: .5;
+
+				&:hover {
+					opacity: .7;
+				}
+			}
+
+			&.sp-tab-active {
+				background: rgba(0, 0, 0, 0.1);
+				color: orange;
+
+				img {
+					opacity: 1;
+				}
+
+				&.sp-control-tab,
+				&.sp-control-button {
+					> span {
+						opacity: 0.9;
+					}
+				}
+			}
+
+			&.sp-control-tab,
+			&.sp-control-button {
+
+				margin: 0;
+				padding: 12px;
+
+				&:hover > span {
+					opacity: .7;
+				}
+
+				> span {
+					display: inline-block;
+					opacity: .5;
+				}
+
+				&.sp-tab-next-packs,
+				&.sp-tab-store {
+					border-left: 1px solid $popoverBorderColor;
+					border-radius: 0;
+				}
+
+				&.sp-tab-prev-packs,
+				&.sp-tab-history {
+					border-right: 1px solid $popoverBorderColor;
+				}
+
+
+				&.sp-tab-prev-packs,
+				&.sp-tab-next-packs {
+					padding-left: 0;
+					padding-right: 0;
+				}
+			}
+		}
+	}
+
+	.sp-unwatched-content::after {
+		content: "";
+		width: 10px;
+		height: 10px;
+		display: block;
+		position: absolute;
+		background-color: #f60;
+		border-radius: 50%;
+		top: 32px;
+		left: 35px;
+	}
+
+
+	.sp-scroll-content {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.sp-emojis,
+	.sp-stickers {
+		border-radius: 0 0 $popoverBorderRadius $popoverBorderRadius;
+		display: table;
+	}
+
+	.sp-emojis {
+		padding: 8px 16px;
+
+		.sp-emoji {
+			display: inline-table;
+			float: left;
+			padding: 8px;
+			cursor: pointer;
+
+			&:hover {
+				background: rgba(0, 0, 0, 0.1);
+				border-radius: 5px;
+			}
+
+			img {
+				height: $emojiImageSize;
+				width: $emojiImageSize;
+			}
+		}
+	}
+
+	.sp-stickers {
+		.sp-sticker-item,
+		.sp-sticker-placeholder {
+			float: left;
+			display: inline-table;
+		}
+
+		.sp-sticker-placeholder {
+			background: rgba(0, 0, 0, 0.1);
+			border-radius: 50%;
+			height: $stickerPlaceholderSize;
+			width: $stickerPlaceholderSize;
+			margin: (($stickerImageSize - $stickerPlaceholderSize) / 2) + (2 * 6px);
+		}
+
+		.sp-sticker-item {
+			cursor: pointer;
+			display: inline-table;
+			float: left;
+			margin: 9px;
+			padding: 3px;
+
+			&:not(.sp-sticker-placeholder):hover {
+				background: rgba(0, 0, 0, 0.1);
+				border-radius: 5px;
+			}
+
+			img {
+				height: $stickerImageSize;
+				width: $stickerImageSize;
+			}
+		}
+	}
+
+	.sp-recent-empty {
+		text-align: center;
+		margin-top: 135px;
+		font-size: 20px;
+	}
+
+
+}
+
+.stickerpipe-sticker {
+	max-width: 100%;
+}
+@include sprites($spritesheet-sprites);
+@include retina-sprites($retina-groups);

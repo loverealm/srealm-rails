@@ -1,0 +1,11 @@
+%p Dear #{@user.first_name},
+%p You have the following unread conversations:
+%table
+  - @user.unread_conversations.decorate.each do |conversation|
+    - conversation.set_current_user(@user)
+    %tr
+      %th= link_to conversation.the_title, dashboard_conversations_url(conversation_id: conversation.id)
+      %td #{conversation.count_pending_messages_for(@user)} messages
+    
+%p Kind Regards,
+%p The #{link_to 'LoveRealm', root_url} team

@@ -1,0 +1,132 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "apis": [
+    {
+      "path": "/apidocs/api/v2/public.{format}",
+      "description": "Public"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_credits.{format}",
+      "description": "UserCredits"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_finances.{format}",
+      "description": "UserFinances"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/search.{format}",
+      "description": "Search"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/conversations.{format}",
+      "description": "Conversations"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/messages.{format}",
+      "description": "Messages"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/notifications.{format}",
+      "description": "Notifications"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/contents.{format}",
+      "description": "Contents"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/users.{format}",
+      "description": "Users"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_groups.{format}",
+      "description": "UserGroups"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_group_meetings.{format}",
+      "description": "UserGroupMeetings"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_group_devotions.{format}",
+      "description": "UserGroupDevotions"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_group_member_invitations.{format}",
+      "description": "UserGroupMemberInvitations"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_group_payments.{format}",
+      "description": "UserGroupPayments"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_group_converts.{format}",
+      "description": "UserGroupConverts"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_group_files.{format}",
+      "description": "UserGroupFiles"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_group_events.{format}",
+      "description": "UserGroupEvents"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/user_group_branches.{format}",
+      "description": "UserGroupBranches"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/bible.{format}",
+      "description": "Bible"
+    },
+    {
+      "path": "/apidocs/api/v2/pub/appointments.{format}",
+      "description": "Appointments"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/dashboard.{format}",
+      "description": "Dashboard"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/mentor.{format}",
+      "description": "Mentor"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/comments.{format}",
+      "description": "Comments"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/answers.{format}",
+      "description": "Answers"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/hash_tags.{format}",
+      "description": "HashTags"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/questions.{format}",
+      "description": "Questions"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/pictures.{format}",
+      "description": "Pictures"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/users.{format}",
+      "description": "Users"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/appointments.{format}",
+      "description": "Appointments"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/messages.{format}",
+      "description": "Messages"
+    },
+    {
+      "path": "/apidocs/api/v1/pub/contents.{format}",
+      "description": "Contents"
+    }
+  ],
+  "authorizations": null
+}

@@ -1,0 +1,26 @@
+- unless params[:page]
+  = render 'header'
+  = form_tag url_for(action: :members, actions: params[:actions], newer: params[:newer]), method: :get, remote: false, class: 'ujs_content_to', 'data-content-closest' => '.modal-body' do
+    .input-group
+      %span.input-group-addon #{@members.total_count} #{params[:search].present? ? 'Results' : 'Members'}
+      = text_field_tag :search, params[:search], placeholder: 'Type here to search members...', class: 'form-control'
+      %span.input-group-btn= button_tag 'Search', class: 'btn btn-primary', 'data-disable-with' => button_spinner
+
+
+- @members.select('users.*, user_relationships.created_at as member_at').decorate.each do |user|
+  = user.the_row({class: 'media_bordered', thumb_size: 45}) do
+    - del_link = user.id != current_user.id ? (content_tag :li, link_to('Delete', url_for(action: :delete_member, user_id: user.id), remote: true, 'data-disable-with' => button_spinner, method: :delete, data: {confirm: 'Are you sure you want to exclude this member from current group?'}, class: 'ujs_success_remove', 'data-closest-remove' => '.media')) : ''
+    - if @church.is_admin?(user)
+      .text-right
+        %span.display-block.label.label-default Administrator
+        = dropdown_builder right: true, button_class: 'btn-xs', list_class: 'text-left' do
+          = content_tag :li, link_to('Unmake Administrator', url_for(action: :toggle_admin, flag: false, user_id: user.id), data: {confirm: 'Are you sure you want to cancel administrator role of this user?'}, remote: true, 'data-disable-with' => button_spinner, class: 'ujs_content_to', 'data-content-closest' => '.text-right') if user.id != current_user.id
+          = del_link
+    - else
+      .text-right
+        = dropdown_builder right: true, button_class: 'btn-xs', list_class: 'text-left' do
+          = content_tag :li, link_to('Make Administrator', url_for(action: :toggle_admin, flag: true, user_id: user.id), data: {confirm: 'Are you sure you want to make administrator this member?'}, remote: true, 'data-disable-with' => button_spinner, class: 'ujs_content_to', 'data-content-closest' => '.text-right')
+          = del_link
+    .text-right.text-tiny.nowrap= l(user.member_at, format: :short)    
+    
+= view_more_button(url_for(action: :members, page: @members.next_page, newer: params[:newer], search: params[:search], actions: params[:actions])) if @members.next_page

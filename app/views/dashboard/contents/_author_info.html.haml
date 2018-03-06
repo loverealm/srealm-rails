@@ -1,0 +1,8 @@
+.author-info
+  = user_avatar_widget(content.user, 60, content.created_at)
+  .sub-heading
+    STORY TOLD BY
+  .author-name
+    = link_to content.user.full_name(true, content.created_at), user_profile_url(content.user, content.created_at)
+  .author-bio
+    = content.user.the_biography(100, content.created_at)

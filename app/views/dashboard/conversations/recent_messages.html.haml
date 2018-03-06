@@ -1,0 +1,3 @@
+- (messages.is_a?(Array) ? messages : messages.decorate).each do |message_conversation|
+  = message_conversation.conversation_row_widget
+= view_more_button(url_for(action: :recent_messages, page: messages.next_page), '_invisible') if messages.try(:next_page)

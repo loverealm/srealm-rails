@@ -1,0 +1,8 @@
+- ContentDecorator.decorate_collection(devotions).each do |devotion|
+  - right = capture do
+    .small
+      = link_to 'Edit', edit_dashboard_user_group_daily_devotion_path(user_group_id: @church, id: devotion), class: 'ujs_link_modal underline', remote: true, 'data-disable-with' => button_spinner('...'), 'data-modal-title' => 'Edit Daily Devotion'
+      %br
+      = link_to 'Destroy', dashboard_user_group_daily_devotion_path(user_group_id: @church, id: devotion), class: 'underline ujs_success_remove', 'data-closest-remove' => '.media', remote: true, 'data-disable-with' => button_spinner('...'), 'data-confirm' => 'Are you sure you want to delete this daily devotion?', method: :delete
+  = devotion.the_daily_devotion_row_widget({block_right: right, class: 'media_bordered'})
+    

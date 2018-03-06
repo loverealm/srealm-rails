@@ -1,0 +1,12 @@
+= form_tag url_for(action: :reject), 'data-confirm' => 'Are you sure you want to REJECT this AD?', method: :post, class: 'validate' do
+  
+  .form-group
+    %label Created at
+    %span= l(@ad.created_at, format: :short)
+    
+  .form-group
+    %label Reason
+    = text_area_tag :reason, '', class: 'form-control required'
+    
+  .text-center
+    = button_tag 'Reject', class: 'btn btn-primary', 'data-disable-with' => button_spinner

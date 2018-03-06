@@ -1,0 +1,47 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    = display_meta_tags site: t('site_name'), reverse: true, separator: '|'
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+    %meta{:name => "commonHash", :content => "#{ENV['FCM_PUBLIC_TOPIC']}"}/
+    = stylesheet_link_tag 'libraries/twitterfontana/manifest'
+    = javascript_include_tag "https://cdn.pubnub.com/sdk/javascript/pubnub.4.3.3.js"
+    :javascript
+      var pubnubDemo = new PubNub({subscribeKey: '#{ENV['PUB_NUB_SUBSKEY']}'});
+    %style{id: 'zoom_style'}
+      
+  %body
+    %nav.navbar.navbar-default.navbar-fixed-top
+      .navbar-header
+        %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+          %i.icon-bar
+          %i.icon-bar
+          %i.icon-bar
+
+      .row
+        .col-md-4
+          %h1
+            = link_to(image_tag('logo-simple.png'), root_path)
+        .col-md-4.hash_tag_title.text-center
+          = @hash_tag.name
+        #controls.col-md-4.text-right
+          %button.btn.btn-default.navbar-btn.zoom_plus_btn{:type => "button"}
+            %i.glyphicon.glyphicon-zoom-in
+          %button.btn.btn-default.navbar-btn.zoom_minus_btn{:type => "button"}
+            %i.glyphicon.glyphicon-zoom-out
+              
+          %button.btn.btn-default.navbar-btn.pause-resume{:type => "button"}
+            %i.icon-pause
+           
+          %button.btn.btn-default.navbar-btn.fullscreen{:type => "button"}
+            %i.icon-expand
+          &nbsp;
+          
+    #live_board.fontana{'data-hashtag-url' => live_board_dashboard_contents_path(hash_tag: '#'), 'data-hash-tag' => @hash_tag.name }
+    .progress.progress-striped.active
+      .progress-bar
+    :javascript
+      var INITIAL_CONTENTS = #{raw @contents.map{|content| { id: "content-#{content.id}", created_at: content.created_at.to_i  * 1000, text: content.description, user: {screen_name: content.user.mention_key, name: content.user.full_name, profile_image_url: content.user.avatar.url}} }.to_json }
+    = javascript_include_tag 'libraries/twitterfontana/manifest'
+    = link_to("Join the discussion by downloading the LoveRealm app on the Google Play and APP Store, and post with the hashtag #{@hash_tag.name}", 'http://www.loverealm.com/dl', id: 'app_download')

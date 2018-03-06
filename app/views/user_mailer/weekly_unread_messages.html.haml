@@ -1,0 +1,26 @@
+:css
+  .item{
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+  .story-card {
+    border-bottom-style: groove;
+  }
+
+%h2 Unread Messages
+
+.items
+  - @messages.limit(10).each do |message|
+    .item
+      .t
+        %strong= message.the_sender_name
+        \ - 
+        %small= l(message.created_at, format: :short)
+      .d= message.the_text_body
+
+%p= link_to 'See messages here.', dashboard_conversations_url
+
+%p From the Team at #{link_to "LoveRealm", root_url}.
+      

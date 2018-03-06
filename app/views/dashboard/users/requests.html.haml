@@ -1,0 +1,27 @@
+.pending-friends-panel
+  .text-right.invite_friends
+    = link_to "Friends <span class='badge'>#{current_user.qty_friends}</span>".html_safe, friends_dashboard_users_path, class: ''
+    &nbsp;|&nbsp;
+    = link_to 'Invite Friends', dashboard_invites_path, class: ''
+  %fieldset
+    %legend Friend Requests
+    .pending-friends-list
+      = render 'friend_requests', users: @users
+      - if @users.empty?
+        .well No new requests
+  
+  %fieldset
+    %legend Pending Prayer Requests
+    - if(_l = current_user.content_prayers.no_answered.pending).any?
+      = render 'dashboard/users/my_praying_list_requests', content_prayers: _l.page(1).per(3)
+    - else
+      %p.empty_msg Pending prayer requests list is empty
+
+  %fieldset.suggested-users
+    %legend Suggested Friends
+    = render 'suggested_friends', users: current_user.suggested_friends(1, 10), widget: true
+    
+  .row.well-sm.white
+    .col-md-9
+    .col-md-3.text-right
+      = link_to 'SEE ALL', suggested_friends_dashboard_users_path

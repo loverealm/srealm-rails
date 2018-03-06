@@ -1,0 +1,17 @@
+.content-with-sidebar.row
+  .col-md-9
+    .panel
+      .panel-body
+        %h1 Counselors List
+        - if current_user.default_mentor_id.present?
+          .underline.panel-heading.panel-title.bold Default Counselor
+          - mentor = current_user.default_mentor.decorate
+          = mentor.the_mentor_row_item do
+            = dropdown_builder right: true do
+              = content_tag :li, mentor.the_mentor_chat_link(class: '')
+              = content_tag :li, mentor.the_mentor_video_link(class: '')
+          
+          .underline.panel-heading.panel-title.bold.margin_top10 Other Counselors
+        = render template: 'dashboard/counselors/list'
+          
+  = render 'dashboard/contents/sidebar'        

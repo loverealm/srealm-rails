@@ -1,0 +1,19 @@
+- body = capture do
+  - @appointments.eager_load(:mentee).decorate.each do |appointment|
+    = appointment.the_row_item(class: 'media_bordered')
+  = view_more_button(url_for(action: :index, page: @appointments.next_page, kind: params[:kind])) if @appointments.try(:next_page)
+
+- unless request.xhr?
+  .content-with-sidebar.row
+  .col-md-9
+    .panel
+      .panel-body
+        %h1 Appointments
+        %hr
+        = body
+
+  = render 'dashboard/contents/sidebar'        
+  
+- else
+  = body
+       

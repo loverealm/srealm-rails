@@ -1,0 +1,8 @@
+%h2 Dr. Love
+
+.row
+  .col-md-4
+    %ul.nav.nav-pills
+      %li
+        = link_to "User messages: #{@messages_count}",  admin_logged_user_messages_path
+  .col-md-4

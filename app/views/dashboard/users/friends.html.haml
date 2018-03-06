@@ -1,0 +1,8 @@
+.content-with-sidebar.row
+  .col-md-9.friends-page
+    .panel.panel-transparent
+      .panel-heading
+        %h2.panel-title My Friends
+      .panel-body
+        = render 'friends', users: @users
+  = render 'dashboard/contents/sidebar'

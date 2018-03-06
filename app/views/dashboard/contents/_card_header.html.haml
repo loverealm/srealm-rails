@@ -1,0 +1,57 @@
+- if content.shares_count > 0 && !(content.shares_count == 1 && content.is_shared_by?(current_user))
+  - sharers = current_user.content_following_sharers(content.id).limit(2).to_a
+  .content-share-info.small
+    %span.glyphicon.glyphicon-share{"aria-hidden" => "true"}
+    - if sharers.count == 2
+      = raw "#{number_to_string_other(content.shares_count - 2, sharers.map{|sh| link_to_user(sh.user, {time: sh.created_at, mark: false}) })} shared"
+    - else
+      = raw "#{number_to_string_other(content.shares_count - (sharers.first ? 1 : 0), sharers.first ? [link_to_user(sharers.first.user, {time: sharers.first.created_at, mark: false})] : [])} shared"
+    - if content.user.id == current_user.id
+      your
+    - else
+      = link_to_user(content.user, {time: content.created_at, ownerize: true, mark: false})
+    = content.the_kind
+        
+- owner = content.owner_id.present? ? content.owner : content.user
+.content-header
+  .media.no_overflow
+    .media-left
+      = user_avatar_widget(owner, 32, content.created_at)
+    
+    .media-body
+      .media-heading
+        - if content.is_group_feed? && params[:controller] != 'dashboard/user_groups'
+          - group = content.user_group
+          = link_to_user(content.user, {time: content.created_at, class: 'content-author'})
+          posted in 
+          = link_to(group.name, dashboard_user_group_path(group)) 
+        - else
+          - if content.owner_id
+            = link_to_user(owner, {time: content.created_at, class: 'content-author'})
+            %span.glyphicon.glyphicon-chevron-right
+          = link_to_user(content.user, {time: content.created_at, class: 'content-author'})
+        = link_to dashboard_content_path(content), class: 'text-gray small' do
+          %time
+            = posted_time content
+        = extra_heading rescue ''
+
+        .pull-right.dropdown
+          %button.btn.dropdown-toggle.btn-sm.transparent{"data-toggle" => "dropdown", :type => "button"}
+            %i.fa.fa-cog
+            %span.caret
+          %ul.dropdown-menu.dropdown-menu-right
+            = content_tag :li, link_to('<i class="fa fa-eye"></i> View'.html_safe, dashboard_content_path(content))
+            - if can?(:edit, content)
+              %li
+                = link_to edit_dashboard_content_path(content), remote: true, title: 'Edit Media Content',  class: 'content-control-item edit_content_lnk', 'data-disable-with' => button_spinner('Loading...') do
+                  %span.fa.fa-pencil
+                  Edit
+              %li
+                = link_to dashboard_content_path(content), method: :delete, title: 'Destroy Content', remote: true,  class: 'content-control-item content-destroy ujs_success_hide', 'data-closest-hide' => '.content', 'data-disable-with' => button_spinner('Deleting...'), data: { confirm: 'Are you sure?' } do
+                  %span.fa.fa-trash
+                  Delete
+              %li
+                = link_to new_report_path(target_type: :content, target_id: content.id), title: 'Report Content', remote: true, class: 'ujs_link_modal content-control-item', 'data-disable-with' => button_spinner('Loading...') do
+                  %span.icon.fa.fa-flag{"aria-hidden" => "true"}
+                  Report
+            = content_tag :li, link_to('<i class="fa fa-recycle"></i> Delete from app'.html_safe, mark_deleted_content_admin_watchdog_action_path(content), class: 'ujs_link_modal watchdog_del_content', 'data-modal-title' =>'Delete this content from app', method: :get, remote: true, 'data-modal-confirm' => "Are you sure you want to mark to be deleted from app?", "data-disable-with" => button_spinner('Loading...')) if can? :mark_deleted_content, content

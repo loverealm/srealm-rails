@@ -1,0 +1,71 @@
+.buttons {
+	text-align: center;
+}
+
+.button {
+	display: inline-block;
+    color: #333;
+    text-decoration: none;
+    border: 2px solid $primary-color;
+    font-family: arial, serif;
+    padding: 6px 20px;
+    font-size: 16px;
+}
+
+.button.button-lg {
+	padding: 10px 30px;
+}
+
+.button.active, .button:hover {
+	background-color: $primary-color;
+	color: #fcfcfc;
+}
+.btn.btn-black{
+  background-color: #000000;
+  color: #fff;
+  &:active, &:hover{
+    border-color: #555;
+  }
+}
+.btn.btn-bordered{
+  background-color: transparent;
+  &.btn-default{ &:focus, &:active, &:hover, &{ color: #333; border-color: #ccc; } }
+  &.btn-warning{ &:focus, &:active, &:hover, &{ color: #eea236; border-color: #eea236; } }
+  &.btn-success{ &:focus, &:active, &:hover, &{ color: #4cae4c; border-color: #4cae4c; } }
+  &.btn-info{ &:focus, &:active, &:hover, &{ color: #46b8da; border-color: #46b8da; } }
+  &.btn-primary{ &:focus, &:active, &:hover, &{ color: $primary-color; border-color: $primary-color; } }
+  &.btn-danger{ &:focus, &:active, &:hover, &{ color: #d43f3a; } }
+  &.btn-black{ &:focus, &:active, &:hover, &{ color: $black; border-color: $black; } }
+  &:focus, &:active, &:hover{
+    background-color: transparent;
+    text-decoration: underline;
+  }
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn{
+  &, &:focus, &:active, &:hover{
+    background-color: #ccc;
+    border-color: #a7aaa9;
+    opacity: 1;
+  }
+}
+.button + .button {
+	margin-left: 10px;
+}
+
+input.no_visible{
+  width: 0;
+  height: 0;
+  position: relative;
+  z-index: -2;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+}
+
+div.submitting_layer{
+  background-color: #fff;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}

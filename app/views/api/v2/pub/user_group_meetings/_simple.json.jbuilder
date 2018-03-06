@@ -1,0 +1,1 @@
+json.extract! meeting, :id, :title, :day, :hour, :description

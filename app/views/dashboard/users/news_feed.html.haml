@@ -1,0 +1,37 @@
+.content-with-sidebar.row
+  = render 'dashboard/contents/leftbar'
+    
+  #content_feed.col-md-6.content-feed
+    - if !cookies[greeting_cookie].present? || current_user.id == 10047 #greetings
+      .greetings_panel.hook_caller{id: 'greetings_panel', data: greetings_panel_data}
+        .invisible.inn
+          %h3
+            %span.greeting
+          %p #{current_user.the_daily_inspiration_label.gsub('\n', '<br>').html_safe}
+          = link_to 'Get Inspired', dashboard_content_path(current_user.the_current_devotion), class: 'btn btn-primary btn-devotion'
+          = link_to '<span class="glyphicon glyphicon-remove-circle"></span>'.html_safe, '#', class: 'btn btn-xs close_btn', id: 'greeting_close_btn'
+
+    = render 'dashboard/users/profile_options'
+    #anonymous_mode.panel.clearfix.hook_caller{'data-callback' => 'Dashboard:init_anonymous_switcher'}
+      .col-xs-2.bold
+        Mode: 
+      .col-xs-10
+        .line
+        .row
+          .col-xs-5.text-center.mode{class: "#{'inactive' if current_user.is_anonymity?}"}
+            %span.ball
+            %a.text-gray{title: 'Switch to identity revealed'} Identity Revealed
+          .col-xs-4.text-center.col-xs-offset-3.mode{class: "#{'inactive' unless current_user.is_anonymity?}", 'data-title'=>'Enabling Anonymous Mode', 'data-confirm' => 'The essence of anonymity is to create a free and enabling environment for you to share your thoughts and issues without guilt or shame. You will be PERMANENTLY BANNED, if you are found abusing this feature through trolling, profanity and other activities against our community standards. Do you promise to play by the rules?'}
+            %span.ball
+            %a.text-gray{title: 'Switch to anonymous mode'} Anonymous
+
+    #contents{data: {'live-feed-reload-url' => home_path(page: 1)}}
+      - if params[:action] == 'news_feed'
+        .panel.hook_caller{'data-callback' => 'ContentManager.widget_popular_content', 'data-url' => widget_popular_content_dashboard_contents_path(format: :js) }
+          .panel-heading.border_bottom.bold Trending on LoveRealm
+          .panel_body.padding_top10
+            .div.text-center{style: 'line-height: 100px;'}= button_spinner
+      
+      = render partial: 'dashboard/contents/list', locals: {contents: (@past_contents || []) + @contents.to_a, next_page: @contents.next_page}
+
+  = render 'dashboard/contents/sidebar'

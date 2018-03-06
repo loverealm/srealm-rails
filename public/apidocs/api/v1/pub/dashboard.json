@@ -1,0 +1,126 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "dashboard",
+  "apis": [
+    {
+      "path": "/api/v1/pub/dashboard",
+      "operations": [
+        {
+          "summary": "Current user's news feed",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page used in pagination (default 20)",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "filter",
+              "type": "string",
+              "description": "Permit to filter for specific kind of contents: video|question|status|daily_story|story|image|pray|live_video",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "exclude",
+              "type": "string",
+              "description": "Permit to exclude specific content ID",
+              "required": false
+            }
+          ],
+          "notes": "Return the news feed for current user",
+          "nickname": "Api::V1::Pub::Dashboard#show",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/app_version",
+      "operations": [
+        {
+          "notes": "Return the current mobile app version",
+          "nickname": "Api::V1::Pub::Dashboard#app_version",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/today_devotion",
+      "operations": [
+        {
+          "notes": "Return the daily devotion for today",
+          "nickname": "Api::V1::Pub::Dashboard#today_devotion",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/today_greetings",
+      "operations": [
+        {
+          "notes": "Return greetings information for today. Note: If today is current user's birthday, then labels::birthday will have value if not it is empty",
+          "nickname": "Api::V1::Pub::Dashboard#today_greetings",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/online_users",
+      "operations": [
+        {
+          "notes": "Return array of all online users",
+          "nickname": "Api::V1::Pub::Dashboard#online_users",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/settings",
+      "operations": [
+        {
+          "notes": "Return all settings configured for current user. Also includes payment methods service information.",
+          "nickname": "Api::V1::Pub::Dashboard#settings",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v1/pub/{mode}/switch_background_mode",
+      "operations": [
+        {
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "mode",
+              "type": "string",
+              "description": "Current mode: background | foreground",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "device_token",
+              "type": "string",
+              "description": "Current device token",
+              "required": true
+            }
+          ],
+          "notes": "Switch the background status of mobile apps. This will permit to avoid some unnecessary push notifications to background apps",
+          "nickname": "Api::V1::Pub::Dashboard#switch_background_mode",
+          "method": "put"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

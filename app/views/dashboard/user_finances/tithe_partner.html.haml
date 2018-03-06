@@ -1,0 +1,73 @@
+- st = 'Recurring Payment Stopped'
+- data_tithe = capture_haml_proc do
+  - @tithe.decorate.each do |payment|
+    %tr
+      %td.text-letf{style: 'width: 70px;'}
+        = link_to('<i class="fa fa-eye"></i>'.html_safe, url_for(action: :show_payment, id: payment.id), title: 'View Details', class: 'ujs_link_modal btn btn-default btn-xs', 'data-disable-with' => button_spinner(''), remote:true, 'data-modal-title' => 'Payment Details')
+        = link_to('<i class="fa fa-trash"></i>'.html_safe, url_for(action: :stop_recurring, id: payment), method: :post, class: 'ujs_success_hide btn btn-xs btn-primary ujs_expression', 'data-ujs-expression' => "closest('tr').find('td.status').html('#{st}').closest('tr').find('.edit').remove()", title: 'Stop Recurring', 'data-closest-replace' => 'tr', 'data-disable-with' => button_spinner(''), 'data-confirm' => 'Are you sure you want to stop this recurring payment?', remote: true) if payment.is_active_recurring
+      %td= payment.payable.name
+      %td.text-tiny.status{style: 'width: 130px;'}= st unless payment.is_active_recurring
+      %td{style: 'width: 40px;'}= link_to 'Edit', url_for(action: :edit_recurring, id: payment), class: 'small underline ujs_link_modal edit', remote: true, 'data-disable-with' => button_spinner if payment.is_active_recurring
+      %td{style: 'width: 50px;'}= number_to_currency payment.amount
+      %td{style: 'width: 50px;'}= number_to_currency payment.total_amount
+        
+  - if @tithe.try(:next_page)
+    %tr
+      %td{colspan: 6}= view_more_button url_for(page: @tithe.next_page, kind: 'tithe'), '', closest: 'tr'
+
+- data_partner = capture_haml_proc do
+  - @partner.decorate.each do |payment|
+    %tr
+      %td.text-letf{style: 'width: 70px;'}
+        = link_to('<i class="fa fa-eye"></i>'.html_safe, url_for(action: :show_payment, id: payment.id), title: 'View Details', class: 'ujs_link_modal btn btn-default btn-xs', 'data-disable-with' => button_spinner(''), remote:true, 'data-modal-title' => 'Payment Details')
+        = link_to('<i class="fa fa-trash"></i>'.html_safe, url_for(action: :stop_recurring, id: payment), method: :post, class: 'ujs_success_hide btn btn-xs btn-primary ujs_expression', 'data-ujs-expression' => "closest('tr').find('td.status').html('#{st}').closest('tr').find('.edit').remove()", title: 'Stop Recurring', 'data-closest-replace' => 'tr', 'data-disable-with' => button_spinner(''), 'data-confirm' => 'Are you sure you want to stop this recurring payment?', remote: true) if payment.is_active_recurring
+      %td= payment.payable.name
+      %td.text-tiny.status{style: 'width: 130px;'}= st unless payment.is_active_recurring
+      %td{style: 'width: 40px;'}= link_to 'Edit', url_for(action: :edit_recurring, id: payment), class: 'small underline ujs_link_modal edit', remote: true, 'data-disable-with' => button_spinner if payment.is_active_recurring
+      %td{style: 'width: 50px;'}= number_to_currency payment.amount
+      %td{style: 'width: 50px;'}= number_to_currency payment.total_amount
+
+  - if @partner.try(:next_page)
+    %tr
+      %td{colspan: 6}= view_more_button url_for(page: @partner.next_page, kind: 'partner'), '', closest: 'tr'      
+
+- if params[:page]
+  = data_tithe.call if params[:kind] == 'tithe'
+  = data_partner.call if params[:kind] == 'partner'
+  
+- else
+  .panel.panel-default
+    .panel-heading.bold.clearfix 
+      .pull-left Tithe
+      .pull-right= number_to_currency @tithe.except(:limit, :offset).unscope(where: :parent_id).sum(:amount)
+    - if @tithe.total_count == 0
+      .panel-body
+        %p.italic You are not yet paying tithe to any Church. Pay your Tithe.
+    - else
+      %table.table
+        %tr
+          %th{style: 'width: 70px;'}
+          %th Recipient Organization
+          %th Status
+          %th{style: 'width: 40px;'}
+          %th{style: 'width: 50px;'} Amount
+          %th{style: 'width: 50px;'} Sub Total
+        %tbody= data_tithe.call
+  
+  .panel.panel-default
+    .panel-heading.bold.clearfix
+      .pull-left Partnerships
+      .pull-right= number_to_currency @partner.except(:limit, :offset).unscope(where: :parent_id).sum(:amount)
+    - if @tithe.total_count == 0
+      .panel-body
+        %p.italic You have not yet partnered with any Organization. Become a partner
+    - else
+      %table.table
+        %tr
+          %th{style: 'width: 70px;'} 
+          %th Recipient Organization
+          %th Status
+          %th{style: 'width: 40px;'}
+          %th{style: 'width: 50px;'} Amount
+          %th{style: 'width: 50px;'} Sub Total
+        %tbody= data_partner.call

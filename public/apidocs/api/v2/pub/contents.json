@@ -1,0 +1,986 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "contents",
+  "apis": [
+    {
+      "path": "/api/v2/pub/contents/create_status",
+      "operations": [
+        {
+          "summary": "Create a status feed",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Text feed content (This content supports for html tags)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "owner_id",
+              "type": "integer",
+              "description": "User owner of the feed (situations when someone is writing in other's wall, like: happy birthday Pepe)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends (default public)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID where this content is published for",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#create_status",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/create_pray",
+      "operations": [
+        {
+          "summary": "Create a pray feed",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "title",
+              "type": "string",
+              "description": "Title of the pray feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Description of the pray feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "users_prayer_ids",
+              "type": "array",
+              "description": "User ids requested for praying",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "owner_id",
+              "type": "integer",
+              "description": "User owner of the feed (situations when someone is writing in other's wall, like: happy birthday Pepe)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends (default public)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID where this content is published for",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#create_pray",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/create_media",
+      "operations": [
+        {
+          "summary": "Create an media feed",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Description of the media feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "content_images_attributes[][image]",
+              "type": "file",
+              "description": "Multiple images/audios/videos to include in the feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "owner_id",
+              "type": "integer",
+              "description": "User owner of the feed (situations when someone is writing in other's wall, like: happy birthday Pepe)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends (default public)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID where this content is published for",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#create_media",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/create_question",
+      "operations": [
+        {
+          "summary": "Create a question feed",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "title",
+              "type": "string",
+              "description": "Title of the question feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Description of the question feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user_recommended_ids",
+              "type": "array",
+              "description": "User ids recommended to answer this question",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "owner_id",
+              "type": "integer",
+              "description": "User owner of the feed (situations when someone is writing in other's wall, like: happy birthday Pepe)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends (default public)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID where this content is published for",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#create_question",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/create_live_video",
+      "operations": [
+        {
+          "summary": "Create a new live video streaming (Once the live video is created, live streaming is auto started and other people can see the streaming...)",
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Text feed content",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "session",
+              "type": "text",
+              "description": "Live video session key (generated by \"prepare live video endpoint\")",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "owner_id",
+              "type": "integer",
+              "description": "User owner of the feed (situations when someone is writing in other's wall, like: happy birthday Pepe)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends (default public)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "user_group_id",
+              "type": "integer",
+              "description": "User Group ID where this content is published for",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#create_live_video",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/get_praying_recommended_users",
+      "operations": [
+        {
+          "summary": "Return system recommended users to pray for a pray feed according the title and content",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "excluded_users[]",
+              "type": "array",
+              "description": "Array of ID's of all excluded users",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "limit",
+              "type": "integer",
+              "description": "Indicates the quantity of items to return, default 10",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "title",
+              "type": "string",
+              "description": "Pray feed title",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "content",
+              "type": "text",
+              "description": "Pray feed description",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#get_praying_recommended_users",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/widget_popular_content",
+      "operations": [
+        {
+          "summary": "Most popular public content on the site in this moment. The period range is last hour.",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page used in pagination (default 4)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#widget_popular_content",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/trending_now",
+      "operations": [
+        {
+          "summary": "Return trending contents visible for current user",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page used in pagination (default 5)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#trending_now",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/prepare_live_video",
+      "operations": [
+        {
+          "summary": "Prepare live video streaming ready to be started",
+          "nickname": "Api::V2::Pub::Contents#prepare_live_video",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/my_praying_requests",
+      "operations": [
+        {
+          "summary": "Return all praying requests to current user",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "content_id",
+              "type": "integer",
+              "description": "Filter the specific praying request of a content (Content ID)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#my_praying_requests",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/my_praying_feeds",
+      "operations": [
+        {
+          "summary": "Return all praying feeds created by current user (not marked as answered yet)",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#my_praying_feeds",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/my_answered_prayers",
+      "operations": [
+        {
+          "summary": "Return all praying feeds marked as answered which current user was praying for",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#my_answered_prayers",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/my_praying_feeds_of_others",
+      "operations": [
+        {
+          "summary": "Return all praying feeds accepted by current user (not marked as answered yet)",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Indicates number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Indicates the quantity of items per page, default 20",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#my_praying_feeds_of_others",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/stop_live_video",
+      "operations": [
+        {
+          "summary": "Stop live video streaming of current content (Note: After finished, the playback .mp4 file is not ready immediately but it is notified by FCM \"content_live_video_uploaded\" to content channel)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#stop_live_video",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/update_live_video",
+      "operations": [
+        {
+          "summary": "Update an existent live video feed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Text feed content",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#update_live_video",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/update_status",
+      "operations": [
+        {
+          "summary": "Update an existent status feed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Text feed content (This content supports for html tags)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends, only_family (default public)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#update_status",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/update_pray",
+      "operations": [
+        {
+          "summary": "Update an existent pray feed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "title",
+              "type": "string",
+              "description": "Title of the pray feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Description of the pray feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "users_prayer_ids",
+              "type": "array",
+              "description": "User ids requested for praying",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends, only_family (default public)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#update_pray",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/update_media",
+      "operations": [
+        {
+          "summary": "Update an existent media feed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Description of the media feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "content_images_attributes[][image]",
+              "type": "file",
+              "description": "Multiple images/audios/videos to include in the feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "content_image_ids[]",
+              "type": "integer",
+              "description": "Array of all media ids, exclude media ids to remove them",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends, only_family (default public)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#update_media",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/update_question",
+      "operations": [
+        {
+          "summary": "Update an existent question feed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "title",
+              "type": "string",
+              "description": "Title of the question feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "description",
+              "type": "text",
+              "description": "Description of the question feed",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user_recommended_ids",
+              "type": "array",
+              "description": "User ids recommended to answer this question",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "privacy_level",
+              "type": "string",
+              "description": "Privacy level for this post: public, only_me, only_friends, only_family (default public)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#update_question",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/add_prayers",
+      "operations": [
+        {
+          "summary": "Add extra prayers to a pray feed (Only owner of the feed can invite more prayers)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "users_prayer_ids",
+              "type": "array",
+              "description": "Array of user ids to add as prayers for current pray feed (required if phone numbers is empty)",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "phone_numbers",
+              "type": "array",
+              "description": "Array of phone numbers to invite as prayers for current pray feed, sample: [{number: 123123, name: \"Owen\"}, {number: 090909, name: \"Matt\"}]",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#add_prayers",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/add_people_answer_question",
+      "operations": [
+        {
+          "summary": "Add users to answer a question feed (Only feed owner can add users)",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "user_recommended_ids",
+              "type": "array",
+              "description": "Array of user ids (required if phone numbers is empty)",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "phone_numbers",
+              "type": "array",
+              "description": "Array of phone numbers to invite to answer this question, sample: [{number: 123123, name: \"Owen\"}, {number: 090909, name: \"Matt\"}]",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#add_people_answer_question",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/prayer_reject",
+      "operations": [
+        {
+          "summary": "Current user rejects a praying request",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#prayer_reject",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/prayer_accept",
+      "operations": [
+        {
+          "summary": "Current user accepts a praying request of current pray feed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#prayer_accept",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/stop_praying",
+      "operations": [
+        {
+          "summary": "Stop praying of current user for current praying feed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#stop_praying",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/likes",
+      "operations": [
+        {
+          "summary": "Return the likes/reactions of current content",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "kind",
+              "type": "string",
+              "description": "Permit to filter the kind of reaction: love, wow, pray, amen, angry, sad (default empty and return all reactions)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#likes",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/answer_pray",
+      "operations": [
+        {
+          "summary": "Mark current pray feed as answered",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#answer_pray",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/answer_pray_share",
+      "operations": [
+        {
+          "summary": "Share testimony of answered praying feed",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#answer_pray_share",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/share",
+      "operations": [
+        {
+          "summary": "Shares current content",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#share",
+          "method": "post"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/suggested_videos",
+      "operations": [
+        {
+          "summary": "Suggested videos related to a specific video content",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content ID",
+              "required": true
+            },
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number of pagination",
+              "required": false
+            },
+            {
+              "paramType": "query",
+              "name": "per_page",
+              "type": "integer",
+              "description": "Quantity of items per page used in pagination (default 10)",
+              "required": false
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#suggested_videos",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/stop_sharing",
+      "operations": [
+        {
+          "summary": "Stop sharing current content",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#stop_sharing",
+          "method": "delete"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}/{file_id}/content_file_visit",
+      "operations": [
+        {
+          "summary": "Marks as visited current content file, it means: increment the the quantity of visitors/viewers for current content file.",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID owner of the file",
+              "required": true
+            },
+            {
+              "paramType": "path",
+              "name": "file_id",
+              "type": "integer",
+              "description": "Content file ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#content_file_visit",
+          "method": "get"
+        }
+      ]
+    },
+    {
+      "path": "/api/v2/pub/contents/{id}",
+      "operations": [
+        {
+          "summary": "Return the full information of a single content",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Content feed ID",
+              "required": true
+            }
+          ],
+          "nickname": "Api::V2::Pub::Contents#show",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

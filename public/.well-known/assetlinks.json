@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.loverealm.loverealmmobile",
+    "sha256_cert_fingerprints":
+    ["23:3F:6A:82:15:25:9B:C5:17:F4:BA:53:D6:A7:31:BD:C1:AD:4E:80:52:29:55:D2:9E:66:4F:CD:A3:50:03:09"]
+  }
+}]

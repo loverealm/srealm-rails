@@ -1,0 +1,32 @@
+- data = capture_haml_proc do
+  - @pledges.each do |payment|
+    %tr
+      %td{style: 'width: 50px'}= link_to('<i class="fa fa-trash"></i>'.html_safe, url_for(action: :delete_pledge, id: payment), method: :delete, class: 'ujs_success_remove btn btn-xs btn-primary', title: 'Remove Pledge', 'data-closest-remove' => 'tr', 'data-disable-with' => button_spinner(''), 'data-confirm' => 'Are you sure you want to remove this Pledge?', remote: true) unless payment.payment_at?
+      %td= payment.payable.name
+      %td.text-center{style: 'width: 100px;'}= link_to 'Redeem', url_for(action: :redeem_pledge, id: payment), remote: true, class: 'ujs_link_modal', 'data-modal-expression' => 'remove()', 'data-disable-with' => button_spinner
+      %td.text-right{style: 'width: 80px;'}= number_to_currency payment.amount
+  
+  - if @pledges.try(:next_page)
+    %tr
+      %td{colspan: 4}= view_more_button url_for(page: @pledges.next_page), '', closest: 'tr'
+
+- if params[:page]
+  = data.call
+  
+- else
+  .panel.panel-default
+    .panel-heading.bold.clearfix 
+      .pull-left Pledges
+      .pull-right= number_to_currency @pledges.except(:limit, :offset).completed.sum(:amount)
+    - if @pledges.total_count == 0
+      .panel-body
+        %p.italic You have no pledges yet
+    - else
+      %table.table
+        %tr
+          %th{style: 'width: 50px'}
+          %th Recipient Organization
+          %th{style: 'width: 80px;'} 
+          %th{style: 'width: 50px;'} Sub Total
+        
+        = data.call

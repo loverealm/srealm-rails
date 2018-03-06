@@ -1,0 +1,24 @@
+= import_google_places_library
+= form_for user, url: url_for(action: :information_edit), method: :post, remote: true, html: {class: 'hook_caller ujs_content_to ujs_hide_modal', 'data-callback' => 'ProfileManager:edit_information', 'data-content-to' => '#user-profile-page .user_preferences_panel'} do |f|
+  .form-group
+    = f.label :city
+    = f.text_field :city, class: 'form-control required city_field'
+
+  .form-group
+    = f.label :education, 'Education Level'
+    = f.select :education, User::EDUCATION_LEVELS.invert, {}, class: 'form-control required'
+
+  .form-group
+    = f.label :ethnicity, 'Ethnicity'
+    = f.select :ethnicity, User::ETHNICITIES.invert, {}, class: 'form-control required'
+
+  .form-group
+    = f.label :profession, 'Profession'
+    = f.select :profession, [[user.the_profession, user.profession]], {}, class: 'form-control required profession_select', 'data-url' => user_professions_dashboard_search_index_path, placeholder: 'Type in here the name of your profession.'
+    
+  .form-group
+    = f.label :denomination, 'Denomination'
+    = f.select :denomination, User::DENOMINATIONS.invert, {}, class: 'form-control required'
+
+  .form-group.text-right
+    = f.button 'Save Changes', class: 'btn btn-primary', 'data-disable-with' => button_spinner('Saving...')

@@ -1,0 +1,66 @@
+%header
+  %nav.navbar.navbar-custom.navbar-fixed-top.main_header
+    .container
+      .navbar-header
+        %button.navbar-toggle.collapsed{"aria-expanded" => "false", "data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+
+        = link_to home_path, class: 'navbar-brand' do
+          = image_tag "brand-1542.png"
+
+      .collapse.navbar-collapse
+        - if current_user
+          %form.navbar-form.search-form.nav.navbar-nav{:role => "search", :action => "/dashboard/search", :method => "get", id: 'main_header_search'}
+            .form-group-w
+              %input.form-control{id: 'main_search', :placeholder => '&#xF002; Search'.html_safe, :type => "text", :autocomplete => "off", :name => 'filter', value: (yield :searched_value), required: true}
+            %button.btn.btn-black.submit-btn{type: 'submit'}
+              %i.fa.fa-search
+                
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              = link_to home_path, class: "text-center #{current_class_menu_item(controllers: 'dashboard/users', actions: 'news_feed')}" do
+                %i.fa.fa-home.header-icon
+                = tv '.home'
+            %li
+              = link_to dashboard_notifications_path, class: "text-center #{current_class_menu_item(controllers: 'dashboard/notifications', actions: 'index')}" do
+                %i.header-icon.fa.fa-bell{id: 'notification_menu'}
+                  - if current_user.unread_notification_count > 0
+                    %span.counter.badge{'data-qty' => current_user.unread_notification_count}
+                      = humanize_number current_user.unread_notification_count
+                = tv '.notifications'
+            %li
+              = link_to dashboard_conversations_path, class: "text-center #{current_class_menu_item(controllers: 'dashboard/conversations', actions: 'index')}" do
+                %i.header-icon.fa.fa-comments{id: 'messages_menu_link'}
+                  - if current_user.unread_messages_count > 0
+                    %span.counter.badge{'data-qty' => current_user.unread_messages_count}
+                      = humanize_number current_user.unread_messages_count
+                = tv '.messages'
+            %li
+              - qty_requests = current_user.prayer_requests_qty + current_user.qty_pending_friends
+              = link_to pending_friends_dashboard_users_path, remote: true, 'data-disable-with' => "<i class='header-icon people'></i> #{button_spinner('Loading...')}", class: 'text-center ujs_link_modal', 'data-modal-title'=>'Requests' do
+                %i.header-icon.fa.fa-users
+                  - if qty_requests > 0
+                    %span.counter.badge{'data-qty' => qty_requests}
+                      = humanize_number qty_requests
+                Requests
+                
+            %li.dropdown
+              %a.text-center.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button", class: current_class_menu_item(controllers: 'dashboard/users', actions: ['profile', 'preferences'])}
+                %i.header-icon.fa.fa-user
+                = tv '.profile'
+                %span.caret
+
+              %ul.dropdown-menu
+                = content_tag :li, (link_to tv('.admin_panel'), admin_home_index_path) if can? :access, :admin_panel
+                %li= link_to tv('.profile'), dashboard_profile_path(current_user)
+                %li= link_to tv('.settings'), dashboard_preferences_path(current_user)
+                %li= link_to 'My Finances', dashboard_user_finances_path
+                %li= link_to "Credits #{number_to_currency current_user.credits}", dashboard_user_credits_path
+                %li= link_to tv('.logout'), destroy_user_session_path      
+        
+        = yield :custom_menus if content_for?(:custom_menus)
+            
+  .feed-updates

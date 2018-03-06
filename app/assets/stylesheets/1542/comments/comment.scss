@@ -1,0 +1,73 @@
+.comment-form{
+  position: relative;
+  .comment-author-image{
+    float: left;
+    width: 30px;
+  }
+  .comment_p{
+    position: relative;
+    margin: 0 0 0 33px;
+    textarea{
+      padding-right: 58px;
+      resize: none;
+    }
+  }
+  .btns{
+    position: absolute;
+    right: 0;
+    bottom: 0px;
+    z-index: 2;
+    button{
+      background: none !important;
+      border-color: transparent !important;
+      font-size: 21px;
+      padding: 5px;
+      &:first-child{
+        margin-left: -35px;
+        float: left;
+      }
+    }
+  }
+}
+.comment{
+  overflow: visible;
+  .comment-content{
+    overflow: visible;
+    .comment-like-action{
+      .icon{ color: #333; }
+      &.active .icon{ color: $LR-red; }
+    }
+  }
+  .comment-header {
+    .time {
+      margin-left: 10px;
+    }
+
+    .report, .time {
+      color: #777;
+      font-size: 12px;
+    }
+  }
+
+  .comment-body {
+    .comment-answer{
+      margin-bottom: 12px;
+      &:first-child{
+        margin-top: 12px;
+      }
+    }
+    .the_content{
+      font-size: 12px;
+      .summary, .full{
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+      }
+      img.stickerpipe-sticker{
+        max-width: 40%;
+      }
+    }
+  }
+  display: block;
+  content: ".";
+  clear: both;
+}

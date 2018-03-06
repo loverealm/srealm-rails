@@ -1,0 +1,29 @@
+= form_tag url_for(action: :make_payment), authenticity_token: true, remote: true, class: 'ujs_hide_modal hook_caller', 'data-callback' => 'UserGroupPage:payment_form' do
+  .list-group.payment_options.panel_form.panel.panel-default
+    .panel-heading What do you want to pay?
+    = content_tag :a, class: 'list-group-item', href: '#', title: 'One tenth of your annual produce or earnings. Given mainly for the support of the Church and clergy.' do 
+      Tithe
+      = radio_button_tag 'payment_kind', 'tithe', false, class: 'hidden required'
+    = content_tag :a, class: 'list-group-item', href: '#', title: 'A collection of alms from the congregation' do 
+      Offertory
+      = radio_button_tag 'payment_kind', 'offertory', false, class: 'hidden'
+    = content_tag :a, class: 'list-group-item', href: '#', title: 'A promise to make a future payment to support an organization/cause.' do 
+      Pledge
+      = radio_button_tag 'payment_kind', 'pledge', false, class: 'hidden'
+    = content_tag :a, class: 'list-group-item', href: '#', title: 'Special recurring monthly donation to support an organization/cause you care about' do 
+      Partner
+      = radio_button_tag 'payment_kind', 'partner', false, class: 'hidden'
+    = content_tag :a, class: 'list-group-item', href: '#', title: 'A (one time) gift given for charitable purposes and/or to benefit a cause' do 
+      Donation
+      = radio_button_tag 'payment_kind', 'donation', false, class: 'hidden'
+  
+  .hidden.payment_qty.panel_form.panel.panel-default
+    .panel-heading How much do you want to pay?
+    .panel-body
+      .form-group
+        .input-group.underline
+          = text_field_tag :amount, '', class: 'required number form-control', placeholder: 'Enter Amount', min: 10
+          %span.input-group-addon= I18n.translate('number.currency.format.unit')
+      -#.text-center.amount_next_btn
+      -#  = link_to 'Next', '#', class: 'next_btn btn btn-primary'
+      = render 'dashboard/payments/form', card_label: 'Complete Order'

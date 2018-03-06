@@ -1,0 +1,81 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  hello: "Hello world"
+  site_name: LoveRealm
+  dashboard:
+  breadcrumbs:
+    home: Home
+  flash:
+    warning:
+      confirm_email:
+        text: Your account is not confirmed. Please confirm your account by clicking on the confirmation email sent to you.
+        button: Resend confirmation mail.
+    success:
+      confirmation_sent: You will receive an email with instructions for how to confirm your email address in a few minutes.
+  views:
+    components:
+      header:
+        home: Home
+        messages: Messages
+        notifications: Notifications
+        invite: Invite a friend
+        admin_panel: My Admin
+        profile: Profile
+        settings: My Account
+        logout: Log Out
+    dashboard:
+      invites:
+        index:
+          heading: Invite a friend
+          verse:
+            text: Then the master told his servant, "Go out to the roads and country lanes and compel them to come in, so that my house will be full."
+            source: Luke 14:23
+        invitation_options:
+          invite_by_gmail_html: 'Invite by <strong>Gmail</strong>'
+          invite_by_facebook_html: 'Invite by <strong>Facebook</strong>'
+
+  unauthorized:
+    show:
+      user: "You can not see this user information"
+    post:
+      user_group: 'You are not authorized to post to this user group'
+    start_conversation:
+      user: "You can not start a conversation with this user."
+    friend_request:
+      user: "You can not send a friend request to this user."
+    follow:
+      user: "You can not follow to this user."
+    modify:
+      post: 'You are not authorized to edit this content'
+      conversation: "You don't have permissions to modify this group"
+      content: 'You are not able to modify this content'
+    accept:
+      appointment: "This appointment can not be accepted by you: a mentor can accept if appointment is pending to accept, mentee can accept for rescheduling"
+      
+      
+  activerecord:
+    models:
+    
+    attributes:
+      payment:
+        payment_in: 'Pledge date '

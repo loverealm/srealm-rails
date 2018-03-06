@@ -1,0 +1,32 @@
+= import_google_places_library
+- if @appointment.new_record?
+  %h4.modal-title= "Video Counseling"
+= form_for @appointment, url: url_for(action: (@appointment.new_record? ? :create : :update)), remote: true, html: {class: "hook_caller ujs_hide_modal #{@appointment.new_record? ? 'ujs_content_to' : 'ujs_modal_success_replace'}", 'data-closest-replace' => '.media', 'data-prepend-to' => '#leftbar .mentor_appointments .pending-list', 'data-callback' => 'Appointment:form', style: 'min-height: 420px;' } do |f|
+  = hidden_field_tag :counselor_id, @appointment.mentor_id
+  .form-group
+    = label_tag nil, 'Counselor', class: 'display-block'
+    = @appointment.mentor.full_name(false)
+  
+  .form-group.kinds
+    = f.label :kind, 'Kind'
+    .l
+      %label.radio-inline
+        = f.radio_button :kind, :video
+        Video
+      &nbsp;&nbsp;  
+      %label.radio-inline
+        = f.radio_button :kind, :walk_in
+        Walk In
+
+  .form-group.loc_field
+    = label_tag :location, 'Church Location'
+    = f.hidden_field :longitude, class: 'lng_field'
+    = f.hidden_field :latitude, class: 'lat_field'
+    .map_area{style: 'height: 300px; width: 100%;'}
+    
+  .form-group
+    = f.label :schedule_for, 'Schedule for'
+    = date_picker_input(time: true, time_settings: {stepping: 15, minDate: 'now', sideBySide: true}) do
+      = f.text_field :schedule_for, class: 'form-control required'
+  .form-group
+    = button_tag @appointment.new_record? ? 'Send Request' : 'Update Request', class: 'btn btn-primary', 'data-disable-with' => button_spinner

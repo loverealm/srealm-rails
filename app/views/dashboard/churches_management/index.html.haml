@@ -1,0 +1,229 @@
+= javascript_include_tag 'https://www.gstatic.com/charts/loader.js'
+#churches_management_dashboard.hook_caller{'data-callback' => 'ChurchManagement:dashboard'}
+  = render 'header'
+  .text-right.margin_bottom10
+    = link_to "Download Report", '#', class: "btn btn-default", onclick: 'window.print(); return false;'
+  .card
+    - unless @church.is_verified?
+      = content_tag :div, 'Your account has not been set up to receive payments. Verify your account now; to start receiving payments.', class: 'alert alert-danger skip_dismiss'
+    - else
+      .panel-title.bold Payments Data
+      .report.post_relative
+        .btn-top-right.w_report_periods
+          = link_to('Add financial data', url_for(action: :manual_payment), class: 'ujs_link_modal ignore_list btn btn-primary btn-sm', 'data-ujs-modal-callback' => "$this.closest('.w_report_periods').next().trigger('ujs_hook_recall')", 'data-modal-title' => 'Add manual payment', remote: true, 'data-disable-with' => button_spinner)
+          .inline= report_periods_dropdown
+        .hook_caller{'data-callback' => 'ChurchManagement:payment_graphic', 'data-url' => url_for(action: :payment_data), style: 'height: 350px'}
+    
+  %br
+  
+  .row
+    .col-md-6
+      .panel.panel-transparent.bordered
+        .panel-heading.post_relative
+          .panel-title Total Payments Received <b>#{number_to_currency @church.payments.sum(:amount)}</b>
+        .panel-body.post_relative
+          .btn-top-right.w_report_periods
+            = report_periods_dropdown
+          .hook_caller{'data-callback' => 'ChurchManagement:total_payments_graphic', style: 'height: 380px;', 'data-url' => url_for(action: :total_payments_data)}
+          
+    .col-md-6
+      .panel.panel-transparent.bordered
+        .panel-heading.post_relative
+          .panel-title Attendance
+          = link_to('Manually enter data', url_for(action: :new_manual_value, kind: 'attendance'), class: 'btn-top-right small underline ujs_link_modal', title: 'Manually enter data for attendance', remote: true, 'data-disable-with' => button_spinner)
+        .panel-body.post_relative
+          .btn-top-right.w_report_periods
+            = report_periods_dropdown
+          .hook_caller{'data-callback' => 'ChurchManagement:attendances_graphic', style: 'height: 380px;', 'data-url' => url_for(action: :attendances_data)}  
+  
+  %br  
+        
+  .row.group2
+    .col-md-6
+      .panel.panel-transparent.bordered
+        .panel-heading.post_relative
+          .panel-title New Members Data
+          .small.btn-top-right.text-right{style: 'top: 2px;'}
+            = link_to 'Add New Members', url_for(action: :new_members), class: ' ujs_link_modal underline', 'data-modal-title' => 'Add Members', remote: true, 'data-disable-with'=> button_spinner
+            %br
+            = link_to 'Manually Record New Member Attendance', url_for(action: :new_manual_value, kind: 'new_member'), class: 'underline ujs_link_modal', 'data-modal-title' => 'How many new people came to Church?', remote: true, 'data-disable-with' => button_spinner
+        .panel-body
+          .post_relative
+            .btn-top-right.w_report_periods
+              = report_periods_dropdown do
+                -#= content_tag :li, link_to('Manually enter data', url_for(action: :new_manual_value, kind: 'new_member'), class: 'ignore_list ujs_link_modal', title: 'Manually enter data for new members', remote: true, 'data-disable-with' => button_spinner)
+            .hook_caller{'data-callback' => 'ChurchManagement:new_members_graphic', style: 'height: 380px;', 'data-url' => url_for(action: :new_members_data)}
+          %hr.sm
+          .small
+            - church_members.reorder('user_relationships.created_at DESC').select('users.*, user_relationships.created_at as member_at').limit(3).decorate.each do |user|
+              = user.the_row(class: 'media_bordered', thumb_size: 35) do
+                .small.nowrap= l(user.member_at, format: :short)
+            = view_all_button(url_for(action: :members, newer: true), modal_title: 'Church Members', remote: false) if church_members.count > 3
+    .col-md-6
+      .panel.panel-transparent.bordered
+        .panel-heading.post_relative
+          .panel-title New Converts
+          = link_to 'Add New Converts', new_dashboard_user_group_convert_path(user_group_id: @church), class: 'btn-top-right small underline ujs_link_modal', 'data-modal-title' => 'Add Converts', remote: true, 'data-disable-with'=> button_spinner
+        .panel-body
+          .post_relative
+            .btn-top-right.w_report_periods
+              = report_periods_dropdown
+            .hook_caller{'data-callback' => 'ChurchManagement:converts_graphic', style: 'height: 380px;', 'data-url' => data_dashboard_user_group_converts_path(user_group_id: @church)}
+          %hr.sm
+          .small
+            .empty_msg_panel{'data-empty-msg'=>'No converted members'}<
+              - converts = @church.user_group_converts
+              - converts.newer.eager_load(:user).limit(3).each do |convert|
+                = raw convert.user.decorate.the_row(class: 'media_bordered', thumb_size: 35)
+              = view_all_button(dashboard_user_group_converts_path(user_group_id: @church), modal_title: 'Member Converts') if converts.count > 3
+            
+    
+  .row.hidden                                            
+    .col-md-12
+      .panel.bordered
+        .panel-body
+          .row.vertical-align
+            .col-md-6.text-center.border_left
+              .padding10
+                Average distance of member from church (TODO)
+                .bold.text-center= number_to_human(500000, units: :distance)
+        
+  %br
+  .card
+    .panel-title Top Countries
+    .graphic.hook_caller{'data-callback' => 'ChurchManagement:map_countries', 'data-url' => url_for(action: :countries_of_members_data), style: 'height: 475px;'}
+
+  %br
+  .container-fluid
+    .row
+      .col-sm-4.padding0
+        .panel.panel-transparent.bordered
+          .panel-heading 
+            .panel-title Members yet to pay tithe
+          .panel-body.empty_msg_panel{'data-empty-msg'=> 'No member with pending tithe yet'}<
+            - items = @church.members_not_paid_tithe
+            = render partial: 'dashboard/churches_management/pending_tithes', locals:{ users: items.limit(3) }
+            = view_all_button url_for(action: :pending_payments, kind: :tithe), modal_title: 'Pending Tithes' if items.count > 3
+              
+      .col-sm-4.padding0
+        .panel.panel-transparent.bordered{style: 'margin-left: 2px; margin-right: 2px;'}
+          .panel-heading
+            .panel-title Members yet to fulfill vows
+          .panel-body.empty_msg_panel{'data-empty-msg'=> 'No member with pending pledge yet'}<
+            - items = @church.payments.where(goal: 'pledge').pending
+            = render partial: 'dashboard/churches_management/pending_pledges', locals:{ payments: items.limit(3) }
+            = view_all_button url_for(action: :pending_payments, kind: :pledge), modal_title: 'Pending Pledges' if items.count > 3
+              
+      .col-sm-4.padding0
+        .panel.panel-transparent.bordered
+          .panel-heading
+            .panel-title Age range of members
+          .panel-body.hook_caller{'data-callback' => 'ChurchManagement:age_range_of_members', style: 'height: 220px;', 'data-url' => url_for(action: :age_of_members_data)}
+            
+        
+  - if ['church'].include?(@church.kind)
+    %br   
+    .card
+      .panel-title Commonest Struggles/Interests of Members
+      %br
+      .hook_caller{'data-callback' => 'ChurchManagement:commonest_graphic', style: 'height: 380px;', 'data-url' => url_for(action: :members_commonest_data)}
+
+  .panel.panel-transparent.card
+    .panel-heading.text-center
+      .panel-title Paying Members (last week)
+    .panel-body.overflow_auto{style: 'height: 235px;'}
+      - if @payments.any?
+        %table.table.table-striped.small
+          %tr
+            %th Date
+            %th User
+            %th Kind
+            %th Amount
+          - @payments.each do |payment|
+            %tr
+              %td= l(payment.created_at, format: :short)
+              %td= payment.user.try(:full_name, false)
+              %td= payment.the_goal
+              %td= number_to_currency(payment.amount)
+      - else
+        No payments found
+  
+  %br
+  .row
+    .col-md-6
+      .panel.panel-default
+        .panel-heading.text-center.transparent
+          .panel-title Reasons for not attending Church
+        .panel-body.overflow_auto{style: 'height: 380px;'}
+          - if @church.user_group_meeting_nonattendances.any?
+            %table.table.small
+              %tr
+                %th Meeting
+                %th Reason
+                %th Time
+              - @church.user_group_meeting_nonattendances.each do |non_attend|
+                %tr
+                  %td= non_attend.user_group_meeting.title
+                  %td= non_attend.reason
+                  %td= l(non_attend.created_at, format: :short)
+          - else
+            No items to list 
+    
+    .col-md-6
+      .panel.panel-default
+        .panel-heading.text-center.transparent.post_relative
+          .panel-title Baptism Data
+          = link_to 'Add new', url_for(action: :add_baptised_members), remote: true, class: 'ujs_link_modal btn-top-right small', 'data-modal-title' => 'Add new baptised members'
+        #baptism_data_graphic.panel-body.hook_caller{style: 'height: 380px;', 'data-url' => url_for(action: :baptised_members_data), 'data-callback' => 'ChurchManagement:baptised_members'}                      
+       
+    .col-md-6
+      .panel.panel-default
+        .panel-heading.text-center.transparent.post_relative
+          .panel-title Communion Data
+          = link_to 'Ask all members', url_for(action: :ask_communion), remote: true, class: 'btn-top-right small', 'data-confirm'=>'Are you sure you want to ask all members if they took communion?', title: 'Ask all members if they took communion?'
+        #communion_data_graphic.panel-body.hook_caller{style: 'height: 380px;', 'data-url' => url_for(action: :communion_members_data), 'data-callback' => 'ChurchManagement:communion_members'}                      
+
+    .col-md-6
+      .panel.panel-default
+        .panel-heading.text-center.transparent.post_relative
+          .panel-title Today Member Birthdays
+        .panel-body.overflow_auto.empty_msg_panel{'data-empty-msg'=>'No Birthdays Today', style: 'height: 380px;'}<
+          = render 'dashboard/churches_management/grow_church/member_birthdays', members: church_members.birthday_today.order_by_birthday.limit(2)
+          = view_all_button(url_for(action: :grow_church_data, kind: 'members_birthday'), {modal_title: 'Member Birthdays This Week'}) if church_members.birthday_today.count > 2
+
+    .col-md-6
+      .panel.panel-default
+        .panel-heading.text-center.transparent.post_relative
+          .panel-title Upcoming Events
+        .panel-body
+          .overflow_auto{style: 'height: 380px;'}
+            - events = @church.events.upcoming
+            - if events.any?
+              = render 'dashboard/churches_management/grow_church/events_list', events: events.limit(5)
+              = view_all_button(url_for(action: :grow_church_data, kind: 'upcoming_events'), {modal_title: 'Upcoming Events'}) if events.count > 5
+            - else
+              No items to list
+    .col-md-6
+      .panel.panel-default
+        .panel-heading.text-center.transparent.post_relative
+          .panel-title Event Tickets Sold
+        .panel-body
+          .post_relative
+            .btn-top-right.w_report_periods
+              = report_periods_dropdown
+            .hook_caller{'data-callback' => 'ChurchManagement:tickets_sold_graphic', style: 'height: 380px;', 'data-url' => url_for(action: :event_tickets_sold_data)}
+            
+    .col-md-6
+      .panel.panel-default.panel_broadcast_data
+        .panel-heading.text-center.transparent.post_relative.w_report_periods
+          .panel-title 
+            Broadcasts
+            .pull-right
+              = report_periods_dropdown
+        .panel-body.overflow_auto.hook_caller{style: 'height: 380px;', 'data-callback' => 'ChurchManagement:broadcast_data', 'data-url' => url_for(action: :broadcast_report_data)}
+
+    .col-md-6
+      .panel.panel-default.panel_broadcast_data
+        .panel-heading.text-center.transparent
+          .panel-title.text-center Gender of Members
+        .panel-body.overflow_auto.hook_caller{'data-callback' => 'ChurchManagement:members_sex_graphic', style: 'height: 380px;', 'data-url' => url_for(action: :members_sex_data)}
